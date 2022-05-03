@@ -1,0 +1,176 @@
+.navbar{
+    width:100%;
+    height: 90px;
+    position: fixed;
+    top: 0;
+    background-color:#fff;
+    display: flex;
+    align-items: center;
+    z-index: 100;
+}
+.logo{
+    width:70px;
+    margin-right:80px;
+    margin-left: 150px;
+    cursor: pointer;
+    transform: all 0.3s ease-in;
+}
+.logo:hover{
+    transform: scale(1.07);
+    transition: transform 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
+    backface-visibility: visible;
+}
+.arrow{
+    width: 11px;
+    position: relative;
+    top: 2px;
+    right: 2px;
+}
+.search_icon,
+.discount_icon,
+.help_icon,
+.user_icon,
+.cart_icon{
+    
+    width:20px;
+    position: relative;
+    top: 4px;
+    right: 4px;
+}
+.div1_nav
+{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 30px;
+    transition: all 0.1s ease-in;
+}
+.new{
+    color:#fc8019;
+    font-size: x-small;
+    font-weight: bold;
+    position: relative;
+    bottom: 5px;
+}
+.other{
+    padding-bottom: 5px;
+    border-bottom: 2px solid black;
+    font-weight: bold;
+    color:black;
+    font-size: 16px;
+}
+.location{
+    font-weight: 300;
+    font-size: 15px;
+    padding-left: 10px;
+    margin-bottom:10px ;
+    color: gray;
+}
+.fa-angle-down{
+    background-color:#fc8019;
+}
+
+.div2_nav{
+    margin-left: 230px;
+}
+.div3_nav,
+.div4_nav,
+.div5_nav,
+.div6_nav{
+    margin-left: 65px;
+}
+
+.div2_nav p,
+.div3_nav p,
+.div4_nav p,
+.div5_nav p,
+.div6_nav p{
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.1s ease-in;
+}
+.div2_nav p:hover,
+.div3_nav p:hover,
+.div4_nav p:hover,
+.div5_nav p:hover,
+.div6_nav p:hover{
+    color:#fc8019;
+}
+ .other + .location:hover{
+    color:#fc8019;
+}
+.left_div h2{
+    font-size: xx-large;
+    font-weight: 600;
+}
+.food_wrap{
+    width: 110px;
+    position: absolute;
+    top: 80px;
+    left: 300px;
+}
+.link_register{
+    position:relative;
+    bottom:23px;
+    font-size: small;
+    color: gray;
+}
+.link_register a{
+    text-decoration: none;
+    color: #fc8019;
+    font-weight: 600;
+    box-shadow: rgba(211, 211, 211, 0.945);
+}
+.hr_line_drawer_nav{
+    width: 35px;
+    height: 1px;
+    background-color: transparent;
+    border-radius: 5px;
+    border:1px solid black;
+    position: relative;
+    right: 175px;
+    bottom: 20px;
+}
+form{
+margin-top: 50px;
+}
+.Number_input{
+    width: 350px;
+    height: 20px;
+    font-size: 20px;
+    padding:20px ;
+    outline: none;
+    border: 1px solid lightgray;
+    margin-bottom: 20px;
+}
+.Number_input_1{
+    width: 350px;
+    height: 20px;
+    outline: none;
+    border: 1px solid lightgray;
+    font-size: 20px;
+    padding:20px;
+}
+.login_btn{
+    width: 395px;
+    height: 50px;
+    background-color: #fc8019;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: .9px;
+}
+.login_btn:hover{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.foot_text{
+width: 380px;
+font-weight: 400;
+color: black;
+font-size: small;
+}

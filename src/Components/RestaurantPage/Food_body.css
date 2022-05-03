@@ -1,0 +1,343 @@
+.container{
+    position: relative;
+}
+.container_card{
+    margin-top: 10px!important;
+    margin: auto;
+    max-width:1400px;
+    display: flex;
+    grid-gap: 9px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.food_card{
+max-width:300px;
+max-height:400px;
+padding: 10px 10px 20px 10px ;
+position: relative;
+cursor: pointer;
+transition:  box-shadow 0.2s ease-in;
+}
+.food_image{
+    width: 100%;
+    object-fit: cover;
+}
+.food_details{
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    font-size:12.5px;
+    position: relative;
+    bottom: 30px;
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: 15px;
+    transform: 0.1s;
+}
+.Header_card{
+    font-weight: 500;
+    position: relative;
+    bottom: 15px;
+    font-size: 18px;
+}
+.para_card{
+    font-weight: 400;
+    font-size: 14px;
+    position: relative;
+    bottom: 30px;
+    word-break: break-word;
+    line-height: 1.3rem;
+
+}
+.footer{
+    position: relative;
+    bottom: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(123, 58, 58);
+}
+.food_card:hover{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    border:1px solid lightgrey;
+   
+    backface-visibility: visible;
+}
+.discount_icon{
+    width:20px;
+    position: relative;
+    top: 4px;
+    right: 4px;
+}
+.food_details:hover{
+    color: #fc8019;
+}
+.rating{
+    padding: 3.5px;
+    border-radius: 2px;
+    color: white;
+    font-weight: 700;
+}
+.promoted{
+    background-color: rgb(58, 60, 65);
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+    border-radius: 3px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    position: absolute;
+    top: 11px;
+}
+.container_navbar{
+    max-width: 1300px;
+    margin: auto;
+    border-bottom: 1.5px solid lightgray;
+    margin-top: 15px;
+}
+.nav_food{
+    display: flex;
+    align-items: center;
+    gap: 400px;
+}
+.action_buttons{
+    display: flex;
+    align-items: center;
+    gap:35px;
+}
+.restaurantNum{
+    font-size: x-large;
+    font-weight: bold;
+}
+.link{
+    font-weight: 400; 
+    color: gray;
+    cursor: pointer;
+}
+.active_link{
+    padding: 2px;
+    border-bottom: 2px solid #fc8019;
+    color: #fc8019;
+}
+.link:hover{
+color:rgba(0, 0, 0, 0.842)
+}
+.filter_link{
+    font-weight: 600;
+    cursor: pointer;
+}
+.fa-filter{
+    color:#fc8019
+}
+.cuisines{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 50px;
+}
+.cuisine_1,
+.cuisine_2,
+.cuisine_3,
+.cuisine_4,
+.cuisine_5,
+.cuisine_6,
+.cuisine_7,
+.cuisine_8,
+.cuisine_9,
+.cuisine_10,
+.cuisine_11,
+.cuisine_12,
+.cuisine_13,
+.cuisine_14{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 40px;
+    color: gray;
+    transition: all 0.2s ease-in;
+}
+.h2{
+    position: relative;
+    font-weight: 600;
+    bottom: 5px;
+    font-size: large;
+    margin-left: 5px;
+}
+.cuisine_1:hover,
+.cuisine_2:hover,
+.cuisine_3:hover,
+.cuisine_4:hover,
+.cuisine_5:hover,
+.cuisine_6:hover,
+.cuisine_7:hover,
+.cuisine_8:hover,
+.cuisine_9:hover,
+.cuisine_10:hover,
+.cuisine_11:hover,
+.cuisine_12:hover,
+.cuisine_13:hover,
+.cuisine_14:hover{
+color: black;
+}
+.check_Box{
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: .5px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.control {
+    font-family: arial;
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 5px;
+    padding-top: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+    .control input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
+.control_indicator {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background: #e6e6e6;
+    border: 0px solid #000000;
+    border-radius: 0px;
+}
+.control:hover input ~ .control_indicator,
+.control input:focus ~ .control_indicator {
+    background: #cccccc;
+}
+
+.control input:checked ~ .control_indicator {
+    background:#fc8019;
+}
+.control:hover input:not([disabled]):checked ~ .control_indicator,
+.control input:checked:focus ~ .control_indicator {
+    background: #fc7f19b5;
+}
+.control input:disabled ~ .control_indicator {
+    background: #e6e6e6;
+    opacity: 0.6;
+    pointer-events: none;
+}
+.control_indicator:after {
+    box-sizing: unset;
+    content: '';
+    position: absolute;
+    display: none;
+}
+.control input:checked ~ .control_indicator:after {
+    display: block;
+}
+.control-checkbox .control_indicator:after {
+    left: 8px;
+    top: 4px;
+    width: 3px;
+    height: 8px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.control-checkbox input:disabled ~ .control_indicator:after {
+    border-color: #fc8019;
+}
+.control-checkbox .control_indicator::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-left: -1.3rem;
+    margin-top: -1.3rem;
+    background: #fc8019;
+    border-radius: 3rem;
+    opacity: 0.6;
+    z-index: 99999;
+    transform: scale(0);
+}
+@keyframes s-ripple {
+    0% {
+        transform: scale(0);
+    }
+    20% {
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+@keyframes s-ripple-dup {
+   0% {
+       transform: scale(0);
+    }
+   30% {
+        transform: scale(1);
+    }
+    60% {
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+.control-checkbox input + .control_indicator::before {
+    animation: s-ripple 250ms ease-out;
+}
+.control-checkbox input:checked + .control_indicator::before {
+    animation-name: s-ripple-dup;
+}
+.clear_btn {
+    -webkit-border-radius: 2;
+    -moz-border-radius: 2;
+    border-radius: 2px;
+    font-family: Arial;
+    color: #9c949c;
+    font-size: 15px;
+    background: #ffffff;
+    margin-top: 30px;
+    padding: 15px 25px;
+    border: solid #000000 1px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .clear_btn:hover {
+    text-decoration: none;
+  }
+  .show_food_btn {
+    -webkit-border-radius: 2;
+    -moz-border-radius: 2;
+    border-radius: 2px;
+    border: none;
+    font-family: Arial;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    background: #fc8019;
+    padding: 15px 50px 15px 50px;
+    text-decoration: none;
+    margin-top: 30px;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in; 
+  }
+  
+  .btn:hover {
+    text-decoration: none;
+  }
+  .show_food_btn:hover{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
