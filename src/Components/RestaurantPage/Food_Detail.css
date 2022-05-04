@@ -1,0 +1,251 @@
+body {
+  overflow-x: hidden;
+}
+.topbar {
+  width: 100%;
+  height: 280px;
+  background-color: #171a29;
+  color: #fff;
+  margin-top: 90px;
+}
+.topbar_content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 150px;
+}
+.food_overview {
+  display: flex;
+  align-items: center;
+  position: relative;
+  bottom: 15px;
+}
+.food_img_topbar img {
+  width: 280px;
+  border-radius: 2px;
+  object-fit: contain;
+  position: relative;
+  top: 20px;
+}
+.food_details_section {
+  position: relative;
+  right: 120px;
+  top: 35px;
+}
+.heading {
+  position: relative;
+  top: 6px;
+  font-size: 28px;
+  font-weight: 400;
+  color: white;
+}
+.cuisines,
+.hotel_location {
+  position: relative;
+  bottom: 36px;
+  font-size: 13px;
+  font-weight: 400;
+  color: gray;
+}
+.hotel_location {
+  bottom: 41px;
+}
+.offer_img {
+  width: 300px;
+  position: relative;
+  top: 80px;
+  right: 50px;
+}
+.food_overview p {
+  font-size: 12px;
+  line-height: 1.7em;
+  letter-spacing: 0.3px;
+}
+.food_rating {
+  border-right: 1px solid lightgray;
+  padding-right: 20px;
+}
+.food_timing {
+  border-right: 1px solid lightgray;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.food_pricing {
+  padding-left: 20px;
+}
+.food_products_card {
+  min-width:500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  bottom: 10px;
+  height: fit-content;
+  border-bottom: 1.5px solid lightgray;
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+.food_products {
+  max-width: fit-content;
+  margin: auto;
+  text-align: left;
+  padding-top: 25px;
+}
+.veg_logo img {
+  width: 24px;
+}
+.product_title {
+  letter-spacing: 0.3px;
+  font-weight: 500;
+  font-size: 15px;
+}
+.product_price {
+  font-size: 14px;
+}
+.title {
+  font-size: 18px;
+}
+.itemCount {
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  bottom: 15px;
+}
+.food_img img {
+  width: 140px;
+  height: 95px;
+  border-radius: 5px;
+}
+.add_cart {
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 2px;
+  font-family: Arial;
+  color: #1dcc2e;
+  font-size: 13px;
+  background: #ffffff;
+  padding: 7px 30px 7px 30px;
+  border: solid #ced9cf 1.4px;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  bottom: 15px;
+  left: 30px;
+}
+
+.add_cart:hover {
+  text-decoration: none;
+}
+.side_section {
+  position: absolute;
+  top: 410px;
+  left: 230px;
+  margin: 0;
+  text-align: left;
+  width: 200px;
+  word-wrap: break-word;
+  letter-spacing: .8px;
+  line-height: 1.5rem;
+  padding-right: 25px;
+  border-right:1px solid lightgray;
+  height: 100vh;
+}
+.side_section_filters {
+  margin-top: -8px;
+  cursor: pointer;
+  font-size: 14px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.side_section_filters_recommend {
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.cart_empty {
+  max-width: 270px;
+  text-align: left;
+  margin: 0;
+  position: absolute;
+  top: 388px;
+  right: 120px;
+}
+.empty_cart {
+  font-size: xx-large;
+  font-weight: bold;
+  color: gray;
+  padding-bottom: 15px;
+  letter-spacing: 0.2px;
+}
+.empty_cart_img {
+  width: 100%;
+  object-fit: contain;
+  padding-bottom: 20px;
+}
+.empty_cart_para {
+  font-size: 15px;
+  color: lightgray;
+  word-break: break-word;
+  letter-spacing: 0.5px;
+}
+.active_filter {
+  color: #fc8019;
+  border-right: 3px solid #fc8019;
+  font-weight: 600;
+  padding-right: 35px;
+}
+.modal_window{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  background-color: whitesmoke;
+}
+.food_img_modal img{
+  position: relative;
+  left: 50px;
+  width: 100px;
+  border-radius: 4px;
+}
+.fa-check{
+  color: #1dcc2e;
+}
+.modal_description{
+  color: grey;
+  position: relative;
+  right: 150px;
+}
+#transition-modal-title{
+  position: relative;
+  bottom: 20px;
+  word-wrap: break-word;
+  max-width:250px;
+  text-align: left;
+  letter-spacing: 0.7px;
+  line-height: 1.5rem;
+  font-size: 14px;
+  font-weight: 500;
+
+}
+
+.veg_logo{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 11px;
+
+  font-weight: bold;
+}
+.veg_logo .best_seller{
+  color: #fc8019;
+}
+.card_left_div{
+  width: 300px;
+  word-break: break-word;
+}
+.product_descrip{
+  font-size: 13px;
+  font-weight: 400;
+}

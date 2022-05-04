@@ -41,8 +41,9 @@ function LandingPage() {
     const [isLoading, setisLoading] = useState(false)
     const [query, setQuery] = useState('')
     const [location, setLocation] = useState('')
-    const[res,setRes]=useState([])
-    let API_KEY = '5bdc9bb5e105da7714d3b4fda20a88c6';
+  const [res, setRes] = useState([])
+  const [login,setLogin]=useState(true)
+    let  API_KEY = '5bdc9bb5e105da7714d3b4fda20a88c6';
     
 
 
@@ -110,36 +111,30 @@ function LandingPage() {
     localStorage.setItem('Location',JSON.stringify(query))
     return (
     <>
-    {/* Login Drawer */}
-    <Drawer anchor='right' open={isDraweropen} onclose={()=>{setisDraweropen(false)}}>
+    {/*  Drawer */}
+    <Drawer anchor='right' open={isDraweropen} onClose={()=>{setisDraweropen(false)}}>
     <Box role='presentation' p={4} width='550px'>
     <CloseIcon className='close_icon' onClick={()=>{setisDraweropen(false)}} style={{cursor:'pointer'}}/>
-    <div className='login_form'>
+    { login?<div className='login_form'>
     <div className="left_div">
     <h2>Login</h2> 
-    <p className="link_register">or <a href="">create an account</a></p>   
+    <p className="link_register">or <a href="" onClick={()=>setLogin(false)}>create an account</a></p>   
     </div>
     <hr className="hr_line_drawer"/>
     <div className="right_div">
     <img src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r" alt="" className="food_wrap" />
     </div>
     <form>
-    <input type="number" name="Number" placeholder='Phone Number' className='Number_input' /><br />
-                            
+    <input type="number" name="Number" placeholder='Phone Number' className='Number_input' /><br />                   
     <input type="submit" value="LOGIN" className='login_btn' autoFocus={ true } spellCheck="false"/>
     </form>
     <div className="foot_text"><p>By clicking on Login, I accept the terms & Conditions & Privacy Policy</p></div>
     </div>
-    </Box>
-    </Drawer>
-    {/* Register Drawer */}
-    <Drawer anchor='right' open={isDrawerRegisterOpen} onclose={()=>{setisDrawerRegisterOpen(false)}}>
-    <Box role='presentation' p={4} width='550px'>
-    <CloseIcon className='close_icon' onClick={() => { setisDrawerRegisterOpen(false) }} style={{cursor:'pointer'}}/>
+            :
     <div className='login_form'>
     <div className="left_div">
     <h2>Sign up</h2> 
-    <p className="link_register">or <a href="">login to your account</a></p>   
+    <p className="link_register">or <a href="" onClick={()=>setLogin(true)}>login to your account</a></p>   
     </div>
     <hr className="hr_line_drawer"/>
     <div className="right_div">
@@ -154,9 +149,10 @@ function LandingPage() {
     <input type="submit" value="CONTINUE" className='login_btn' autoFocus={ true } spellCheck="false"/>
     </form>
     <div className="foot_text"><p>By clicking on Login, I accept the terms & Conditions & Privacy Policy</p></div>
-    </div>
+    </div>}
     </Box>
     </Drawer>
+   
 
 
     <div className="split">
@@ -166,7 +162,7 @@ function LandingPage() {
                 
      <div className="hing">
          <div><button id="login" onClick={()=>{setisDraweropen(true)}}>Login</button></div>
-         <div><button id="signup" onClick={()=>{setisDrawerRegisterOpen(true)}}>Sign up</button></div>
+         <div><button id="signup" onClick={()=>{setisDraweropen(true)}}>Sign up</button></div>
      </div>
      </div>
       <Animation/>

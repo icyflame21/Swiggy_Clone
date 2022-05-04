@@ -8,7 +8,7 @@ import Help from '../Assets/help.svg'
 import User from '../Assets/user.png'
 import CloseIcon from '@mui/icons-material/Close';
 import { Drawer, Box } from '@mui/material'
-import {Food_body} from './Food_body'
+
 import './navbar.css'
 function Navbar() {
     const [isDraweropen, setisDraweropen] = useState(false)
@@ -86,7 +86,6 @@ function Navbar() {
               <p className="cart"><img src={Cart} alt="" className='cart_icon'/>Cart</p> 
           </div>
             </nav>
-            <Food_body/>
     </>
   )
 }
