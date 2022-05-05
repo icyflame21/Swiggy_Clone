@@ -118,7 +118,7 @@ function LandingPage() {
     { login?<div className='login_form'>
     <div className="left_div">
     <h2>Login</h2> 
-    <p className="link_register">or <a href="" onClick={()=>setLogin(false)}>create an account</a></p>   
+    <p className="link_register">or <a onClick={()=>setLogin(false)} style={{cursor:"pointer"}}>create an account</a></p>   
     </div>
     <hr className="hr_line_drawer"/>
     <div className="right_div">
@@ -134,7 +134,7 @@ function LandingPage() {
     <div className='login_form'>
     <div className="left_div">
     <h2>Sign up</h2> 
-    <p className="link_register">or <a href="" onClick={()=>setLogin(true)}>login to your account</a></p>   
+                  <p className="link_register">or <a style={{cursor:"pointer"}}onClick={()=>setLogin(true)}>login to your account</a></p>   
     </div>
     <hr className="hr_line_drawer"/>
     <div className="right_div">
@@ -161,8 +161,14 @@ function LandingPage() {
      <div><img src="https://d1ye2ocuext585.cloudfront.net/images/s/Swiggy_Logo_9.png"/></div>
                 
      <div className="hing">
-         <div><button id="login" onClick={()=>{setisDraweropen(true)}}>Login</button></div>
-         <div><button id="signup" onClick={()=>{setisDraweropen(true)}}>Sign up</button></div>
+                <div><button id="login" onClick={() => {
+                  setLogin(true)
+                  setisDraweropen(true)
+                }}>Login</button></div>
+                <div><button id="signup" onClick={() => {
+                  setLogin(false)
+                  setisDraweropen(true)
+                }}>Sign up</button></div>
      </div>
      </div>
       <Animation/>

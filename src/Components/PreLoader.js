@@ -1,10 +1,10 @@
 import React from "react";
-import "./PreLoader.css";
+import styles from "./PreLoader.module.css";
 export const PreLoader = () => {
   return (
-    <div class="center">
-      <div class="ring"></div>
-      <span>loading...</span>
+    <div className={styles.center}>
+      <div className={styles.ring}></div>
+      <span className="isLoading">loading...</span>
     </div>
   );
 };

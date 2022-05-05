@@ -131,7 +131,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 18px;
-  margin-top: 50px;
+  margin-top: 70px;
 }
 .cuisine_1,
 .cuisine_2,
@@ -149,7 +149,7 @@
 .cuisine_14 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
+  gap: 30px;
   color: gray;
   transition: all 0.2s ease-in;
 }

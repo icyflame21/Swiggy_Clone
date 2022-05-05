@@ -9,6 +9,8 @@ import Discount from "../Assets/discount.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import { Drawer, Box } from "@mui/material";
 import { Navbar } from "./navbar";
+import ScrollToTop from "react-scroll-to-top";
+import { useWindowScroll } from "react-use";
 import { PreLoader } from "../PreLoader";
 const Img = styled.img`
   cursor: pointer;
@@ -44,6 +46,16 @@ function Food_Main() {
   useEffect(() => {
     setfoodItems(data);
   }, []);
+
+  const { x, y } = useWindowScroll();
+  const [scrolled, setScrolled] = useState(0);
+
+  useEffect(() => {
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    setScrolled((y / height) * 100);
+  }, [y]);
 
   const sortingLinks = (e) => {
     let btns = e.currentTarget.querySelectorAll("p");
@@ -104,6 +116,10 @@ function Food_Main() {
   };
   return (
     <>
+        <div className="scroll-container">
+        <div className="indicator" style={{ width: `${scrolled}%` }}></div>
+      </div>{" "}
+      <ScrollToTop smooth color="#fc8019" />
       <Navbar />
       <Drawer
         anchor="right"

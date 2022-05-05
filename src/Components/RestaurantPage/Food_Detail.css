@@ -53,7 +53,7 @@ body {
 .offer_img {
   width: 300px;
   position: relative;
-  top: 80px;
+  top: 74px;
   right: 50px;
 }
 .food_overview p {
@@ -70,11 +70,15 @@ body {
   padding-right: 20px;
   padding-left: 20px;
 }
+.food_timing p
+{
+  letter-spacing: 1px;
+}
 .food_pricing {
   padding-left: 20px;
 }
 .food_products_card {
-  min-width:500px;
+  min-width:550px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -100,7 +104,11 @@ body {
   font-size: 15px;
 }
 .product_price {
-  font-size: 14px;
+  font-size: 13px;
+  position: relative;
+  bottom: 10px;
+  font-weight: 500;
+  letter-spacing: .5px;
 }
 .title {
   font-size: 18px;
@@ -139,14 +147,13 @@ body {
 .side_section {
   position: absolute;
   top: 410px;
-  left: 230px;
+  left: 200px;
   margin: 0;
   text-align: left;
-  width: 200px;
+  width: 230px;
   word-wrap: break-word;
   letter-spacing: .8px;
   line-height: 1.5rem;
-  padding-right: 25px;
   border-right:1px solid lightgray;
   height: 100vh;
 }
@@ -194,39 +201,33 @@ body {
   border-right: 3px solid #fc8019;
   font-weight: 600;
   padding-right: 35px;
+
 }
 .modal_window{
   display: flex;
-  align-items: center;
+  align-items:center;
   justify-content: space-between;
+  border-radius: 8px;
   gap: 30px;
   background-color: whitesmoke;
 }
 .food_img_modal img{
-  position: relative;
-  left: 50px;
-  width: 100px;
-  border-radius: 4px;
+  width: 300px;
+  border-radius: 8px;
 }
 .fa-check{
   color: #1dcc2e;
 }
 .modal_description{
   color: grey;
-  position: relative;
-  right: 150px;
+  text-align: left;
 }
 #transition-modal-title{
-  position: relative;
-  bottom: 20px;
   word-wrap: break-word;
-  max-width:250px;
+  width:max-content;
   text-align: left;
-  letter-spacing: 0.7px;
-  line-height: 1.5rem;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
-
 }
 
 .veg_logo{
@@ -246,6 +247,144 @@ body {
   word-break: break-word;
 }
 .product_descrip{
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 400;
+  color: gray;
+}
+
+
+.item_added{
+  width: 300px;
+  border-radius: 4px;
+  position: absolute;
+  top: 400px;
+  right: 90px;
+  padding: 0 25px 15px 25px;
+}
+.items_div_parent{
+  max-height: 200px;
+  overflow-y: auto;
+  padding-top: 10px;
+}
+.items_div_parent::-webkit-scrollbar {
+  width: 0;
+}
+.header{
+  font-size: xx-large;
+  font-weight: 600;
+}
+.no_items{
+  font-size:13px ;
+  font-weight: 600;
+  color: gray;
+  position: relative;
+  bottom: 20px;
+  left: 5px;
+  letter-spacing: .3px;
+}
+.items_div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  bottom: 18px;
+}
+.logo_veg_nonVeg{
+  width: 24px;
+}
+.product{
+  font-size: 14px;
+  position: relative;
+  right: 9px;
+}
+
+.decrease{
+border: none;
+padding: 4px 13px;
+font-size: 17px;
+cursor: pointer;
+border-left: 1px solid #1dcc2e;
+border-top: 1px solid #1dcc2e;
+border-bottom: 1px solid #1dcc2e;
+position: relative;
+left:18px
+
+}
+.increase{
+border: none;
+padding: 4px 13px;
+font-size: 17px;
+cursor: pointer;
+border-top: 1px solid #1dcc2e;
+border-right:1px solid #1dcc2e;
+border-bottom: 1px solid #1dcc2e;
+position: relative;
+right:18px
+}
+.value{
+  min-width: max-content;
+  border-top: 1px solid #1dcc2e;
+  border-bottom: 1px solid #1dcc2e;
+  padding: 3px 8px 3.3px 8px  ;
+}
+.price{
+  font-size: 15px;
+  font-weight: 500;
+}
+.sub_total{
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.header_1{
+  font-size: 14px;
+}
+.header_1 h2{
+  font-weight: 500;
+}
+.header_1 p{
+  font-weight: 300;
+  font-size:12px;
+  position: relative;
+  bottom:10px
+}
+.total_price_1{
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: .6px;
+}
+.checkout {
+  text-shadow: 3px 3px 8px #666666;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 17px;
+  background: #60b246;
+  padding: 18px 80px 18px 80px;
+  text-decoration: none;
+  border: none;
+  text-align: center;
+  position: relative;
+  left: 10px;
+  top: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+
+.checkout:hover {
+  text-decoration: none;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+
+.scroll-container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 5px;
+  }
+.scroll-container .indicator{
+height: 100%;
+background: #fc8019;
 }

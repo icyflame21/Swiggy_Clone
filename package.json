@@ -10,12 +10,16 @@
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-map-gl": "^7.0.11",
     "react-scripts": "5.0.1",
+    "react-scroll-to-top": "^1.0.8",
     "react-slick": "^0.29.0",
+    "react-use": "^17.3.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.2",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
   "resolutions": {
