@@ -1,6 +1,5 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import Logo from "../Assets/swiggy.svg";
 import { useNavigate } from "react-router-dom";
 import "./Modal.css";
 
@@ -21,20 +20,30 @@ export function BasicModal() {
 
   const handleClose = () => {
     window.scrollTo(0, 0);
-    localStorage.setItem("Cart",JSON.stringify([]))
+    localStorage.setItem("Cart", JSON.stringify([]));
     navigate("/restaurants");
   };
   window.scrollTo(0, 0);
   return (
-    <div id="modal-box" onClick={handleClose}>
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Order Placed
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Thank you for ordering from Swiggy
-        </Typography>
-      </Box>
+    <div class="content">
+      <div class="wrapper-1">
+        <div class="wrapper-2">
+          <img src={Logo} alt="" className="modal_image" />
+          <h1 className="modal_h1">Thank you</h1>
+          <p>
+            Thanks for ordering from Swiggy <br />
+            We hope you enjoy your Order!
+          </p>
+
+          <button class="go-home" onClick={handleClose}>
+            <a>go home</a>
+          </button>
+        </div>
+        <div class="pyro">
+          <div class="before"></div>
+          <div class="after"></div>
+        </div>
+      </div>
     </div>
   );
 }
