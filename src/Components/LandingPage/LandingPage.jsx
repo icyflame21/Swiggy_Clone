@@ -123,28 +123,32 @@ function LandingPage() {
       }
     }, 2000);
   }
-  localStorage.setItem("Location", JSON.stringify(query));
+  
   localStorage.setItem("user_details",null)
+  localStorage.setItem("Location", JSON.stringify(query));
 
   function handleSubmit(e) {
     e.preventDefault();
     let user = JSON.parse(localStorage.getItem("user_details"))
-    if (user.number === null || user === null) {
+    if (user === null) {
       alert('No user found in Data Base ! Sign in to get Started')
     }
     setLogin(false)
-}
-  function handleSignin(e) {
-    e.preventDefault()
+  }
+  useEffect(() => {
     let temp = {
       name:name,
       email: email,
       number:number,
     }
     localStorage.setItem("user_details", JSON.stringify(temp))
+  }, [name, email, password])
+  
+  function handleSignin(e) {
+    e.preventDefault()
     let user = JSON.parse(localStorage.getItem("user_details"))
-    if (user.name == null || user ===null) {
-      alert("For Placing an order , you have to sign in ")
+    if (user ===null) {
+      alert("For Placing an order , you have to sign in but you can visit the resturants page")
     }
     else {
       alert("Account Created successfully")

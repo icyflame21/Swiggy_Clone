@@ -16,22 +16,23 @@ function Navbar() {
   const [user_signin, setUser_signin] = useState(false);
   const [user_details, setUser_details] = useState(null);
   const [login, setLogin] = useState(true);
-  const [signIn, setsignIn] = useState(true);
+  const [signIn, setsignIn] = useState(false);
   const [number, setNumber] = useState(null);
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [len, setLen] = useState(0);
   const location = JSON.parse(localStorage.getItem("Location"));
-  let user = JSON.parse(localStorage.getItem("user_details"));
   let cart = JSON.parse(localStorage.getItem("Cart")) || [];
   const navigate =useNavigate()
   useEffect(() => {
-    if (user !== null || user.name !==null) {
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (user !== null ) {
       setUser_details(user);
       setUser_signin(true);
-      setsignIn(false);
+      setsignIn(true);
     }    
+    console.log(signIn)
   }, []);
 
 
@@ -45,7 +46,7 @@ function Navbar() {
   function handleSubmit(e) {
     e.preventDefault();
     let user = JSON.parse(localStorage.getItem("user_details"));
-    if (user.number === null || user ===null) {
+    if (user ===null) {
       alert("No user found in Data Base ! Sign in to get Started");
     }
     setLogin(false);
@@ -62,15 +63,10 @@ function Navbar() {
     setisDraweropen(false);
     window.location.reload(true);
   }
-  useEffect(() => {
-    if (window.history.back()) {
-      navigate("/restaurants");
-    }
-  },[])
   let cart_length = JSON.parse(localStorage.getItem("Cart")) || [];
   return (
     <>
-      {user_signin||signIn ? (
+      {signIn ? "" : (
         <Drawer
           anchor="right"
           open={isDraweropen}
@@ -224,8 +220,8 @@ function Navbar() {
             )}
           </Box>
         </Drawer>
-      ) : 
-        ""
+      )
+        
       }
       <nav className="navbar">
         <img src={Logo} alt="" className="logo" />
