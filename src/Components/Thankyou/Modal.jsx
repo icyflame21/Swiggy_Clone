@@ -2,7 +2,7 @@ import * as React from "react";
 import Logo from "../Assets/swiggy.svg";
 import { useNavigate } from "react-router-dom";
 import "./Modal.css";
-
+import { v4 as uuidv1 } from 'uuid';
 const style = {
   position: "absolute",
   top: "53%",
@@ -16,6 +16,13 @@ const style = {
 };
 
 export function BasicModal() {
+  const v1options = {
+    node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+    clockseq: 0x1234,
+    msecs: new Date('2011-11-01').getTime(),
+    nsecs: 5678,
+  };
+  const id=uuidv1(v1options);
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -29,12 +36,13 @@ export function BasicModal() {
       <div class="wrapper-1">
         <div class="wrapper-2">
           <img src={Logo} alt="" className="modal_image" />
-          <h1 className="modal_h1">Thank you</h1>
+          <h1 className="modal_h1">Thankyou</h1>
           <p>
-            Thanks for ordering from Swiggy <br />
-            We hope you enjoy your Order!
+            Order Id
           </p>
-
+          <p>
+          {id}
+          </p>
           <button class="go-home" onClick={handleClose}>
             <a>go home</a>
           </button>
