@@ -32,7 +32,6 @@ function Navbar() {
       setUser_signin(true);
       setsignIn(true);
     }    
-    console.log(signIn)
   }, []);
 
 

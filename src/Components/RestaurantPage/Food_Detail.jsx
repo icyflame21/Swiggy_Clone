@@ -34,7 +34,7 @@ export const Food_Detail = () => {
   const [query, setQuery] = useState("");
   const [cart, setCart] = useState([]);
   const [Value, isValue] = useState("");
-
+  const [cart_items, setCart_items] = useState(false);
   let selectedFood = JSON.parse(localStorage.getItem("foodId"));
   const { x, y } = useWindowScroll();
   const [scrolled, setScrolled] = useState(0);
@@ -70,15 +70,19 @@ export const Food_Detail = () => {
     setScrolled((y / height) * 100);
   }, [y]);
 
-
   useEffect(() => {
     setData(selectedFood);
     setShowData(selectedFood.items);
+    let cart_value = JSON.parse(localStorage.getItem("Cart"))
+    if (cart_value.length != 0) {
+      setCart_items(true)
+    }
+    setCart([...cart_value]);
   }, []);
 
   let cart_selected = [];
-  let array = JSON.parse(localStorage.getItem('Cart')) || []
-  
+  let array = JSON.parse(localStorage.getItem("Cart")) || [];
+
   const handleOpen = (data) => {
     setMdata(data);
     cart_selected.push(data);
@@ -94,7 +98,7 @@ export const Food_Detail = () => {
     //   .toFixed(2);
     //   localStorage.setItem('"total"',JSON.stringify(total_amt));
   };
-  
+
   const veg = () => {
     let veg_only = [];
     showData.forEach((e) => {
@@ -251,7 +255,7 @@ export const Food_Detail = () => {
             ))
           : ""}
 
-        {isCart ? (
+        { isCart|| cart_items ? (
           <div className="item_added">
             <h2 className="header">Cart</h2>
             <p className="no_items">{cart.length}&nbsp;Items</p>
