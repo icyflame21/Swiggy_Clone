@@ -1,208 +1,92 @@
+.cart_body{
+    width: 350px;
+    height: max-content;
+    padding:20px 10px 15px 20px ;
+    margin:10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    position: absolute;
+    right: 150px;
+    top: 20%;
+}
 
-.cart_body
-{
-  width: 30vw;
-  height: fit-content;
-  background-color: #ffffff;
-  border: 0.1vh solid white;
-  box-shadow: 0px 0px 1px 1px rgb(157, 36, 36);
-  margin: auto;
-  position: relative;
-  top: 2vw;
+.image_box img{
+width: 90px;
 }
-.cart_title
-{
-  width: 30vw;
-  height: 14vh;
-  margin-top: 20px;
-  display: flex;
-  margin-left: 20px;
+.cart_title{
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
-.image_box img
-{
-  width: 70px;
+.image_titlename{
+    font-size:17px ;
+    font-weight: 600;
+    letter-spacing: .3px;
 }
-.image_title{
+.address{
+    font-size: small;
+    color: gray;
     position: relative;
-    bottom: 17px;
+    bottom: 15px;
 }
-.image_titlename
-{
-  font-size: 16px;
-  font-weight: 600;
-  margin-left:14px;
+.applynow {
+    padding: 13px;
+    outline:none;
+    border:none;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    margin-left: 90px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: 4px dashed #fc8019;
+    color: #fc8019;
+    background-color: rgba(211, 211, 211, 0.292);
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
 }
-.address
-{
-  color: #a1acb1;
-  font-size: 14px;
-  font-weight: 400;
-  margin-left: 14px;
-  position: relative;
-  bottom: 8px;
+.applynow:hover{
+    border: 4px dashed #fc8019;
+    color: whitesmoke;
+    background-color: #fc8019;
 }
-.borderx
-{
-  width: 3.5vw;
-  height: 3.5px;
-  border-radius: 5px;
-  margin-left: 14px;
-  position: relative;
-  bottom: 10px;
-  background-color: black;
+.billdetails{
+    font-size: small;
+    font-weight: 600;
 }
-.item_count
-{
-    margin-top: 10px;
-  width: 30vw;
-  height: 10vh;
-  border: 0.1vh solid transparent;
-
-  display: flex;
+.itemdetails{
+    font-size: 13px;
+    color: gray;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-.item_name
-{
-  font-size: 1.4vw;
-  font-weight: 470;
-  margin-top: 0.3vh;
-  margin-left: 1.2vw;
-
-}
-.Customize
-{
-  color: #a1acb1;
-  font-size: 1.2vw;
-  font-weight: 450;
-  margin-left: 1.2vw;
+.total_pay_for_user{
+    font-size: 14px;
+    color: black;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 3px solid black;
+    padding-top: 10px;
 
 }
-.button_count
-{
-  width: 7.5vw;
-  height: 6.5vh;
-  border: 0.3vh solid #a1acb1 ;
-  margin-top: 1.7vh;
-  margin-left: 4.6vw;
-  display: flex;
+.amount{
+    color: #60b246;
+    font-weight: 500;
 }
-.subtract
-{
-  width: 3vw;
-  height: 6vh;
-  font-size: 4vw;
-  font-weight: 200;
-  cursor: pointer;
-  
-
-  color: 
-  #a1acb1;
-  background-color: transparent;
-  border: none;
-  margin-top: -3.7vh;
- 
-  
+.coupon_img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 50px;
+    border-radius: 5px;
 }
-.add
-{
-  width: 3vw;
-  height: 6vh;
-  font-size: 3vw;
-  font-weight: 200;
-  cursor: pointer;
-
-  color: 
-  #77bd60;
-  background-color: transparent;
-  border: none;
-  margin-top: -2.2vh;
-  margin-left: 0.8vw;
- 
-  
-}
-.count
-{
-  font-size: 1.4vw;
-  font-weight: 550;
-  color: black;
-  margin-top: 0.6vh;
-  margin-left: 0.8vw;
-}
-.rupee
-{
-  font-size: 1.3vw;
-  font-weight: 400;
-  margin-top:2.8vh;
-  margin-left: 2.2vw;
-  
-}
- .applynow
- {
-   width: 28vw;
-   height: 11vh;
-   border: none;
-   border: 0.1vh solid #a1acb1;
-   font-size: 1.4vw;
-   font-weight: 500;
-   text-align: left;
-   background-color: transparent;
-   margin-top: 1.7vw;
-   margin-left: 3vw;
-   cursor: pointer;
-
- }
- .billdetails
- {
-   font-size: 1.3vw;
-   font-weight: 600;
-   color: black;
-   margin-top: 1.5vw;
-   margin-left: 3vw;
- }
- .itemdetails
- {
-  font-size: 1.3vw;
-  font-weight: 400;
-  color: #a1acb1;
-  margin-top: 1vw;
-  margin-left: 3vw;
- }
-.spams
-{
-  margin-left: 19vw;
-}
-.spames
-{
-  margin-left: 14vw;
-}
-.spamess
-{
-  margin-left: 14.5vw;
-}
-.bordertotal
-{
-  width: 29vw;
-  height: 0.1vh;
-  background-color: #a1acb1;
-  margin-top: 1.2vw;
-  margin-left: 3vw;
-}
-.bordertotals
-{
-  width: 29vw;
-  height: 0.2vh;
-  background-color: black;
-  margin-top: 2vw;
-  margin-left: 3vw;
-}
-.itemdetailes
-{
-  font-size: 1.3vw;
-  font-weight:600;
-  color: black;
-  margin-top: 1.5vw;
-  margin-left: 3vw;
-}
-.spamesss
-{
-  margin-left: 20.5vw;
+.coupon_img img{
+    width: 300px;
+    object-fit: contain;
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }

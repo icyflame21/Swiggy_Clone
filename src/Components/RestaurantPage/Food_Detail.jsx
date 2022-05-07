@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import DummyImg from "../Assets/1.jfif";
 import OfferImg from "../Assets/offerImg.jpg";
 import Veg from "../Assets/veg.jpg";
 import NonVegan from "../Assets/NonVeg.jpg";
 import "./Food_Detail.css";
-import { Navbar } from "./navbar";
+import { Navbar } from "./Navbar";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -12,6 +11,8 @@ import Fade from "@mui/material/Fade";
 import ScrollToTop from "react-scroll-to-top";
 import { useWindowScroll } from "react-use";
 import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
+import { PreLoader } from "../PreLoader";
 const style = {
   position: "absolute",
   top: "50%",
@@ -30,12 +31,37 @@ export const Food_Detail = () => {
   const [mdata, setMdata] = useState([]);
   const [isClick, setisClick] = useState(false);
   const [isCart, setisCart] = useState(false);
+  const [query, setQuery] = useState("");
+  const [cart, setCart] = useState([]);
   const [Value, isValue] = useState("");
 
   let selectedFood = JSON.parse(localStorage.getItem("foodId"));
-
   const { x, y } = useWindowScroll();
   const [scrolled, setScrolled] = useState(0);
+
+  const [loading, isLoading] = useState(false);
+  useEffect(() => {
+    isLoading(true);
+    fakePromise(3000).then(() => isLoading(false));
+  }, []);
+
+  function fakePromise(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  const handlechange = (e) => {
+    setQuery(e.target.value);
+    let temp = [];
+    data.items.forEach((o) => {
+      if (o.name.toLowerCase().includes(query.toLowerCase())) {
+        temp.push(o);
+      }
+    });
+    setShowData(temp);
+    if (showData.length === 0) {
+      setShowData(temp);
+    }
+  };
 
   useEffect(() => {
     const height =
@@ -45,14 +71,39 @@ export const Food_Detail = () => {
   }, [y]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     setData(selectedFood);
     setShowData(selectedFood.items);
   }, []);
 
+  let cart_selected = [];
   const handleOpen = (data) => {
     setMdata(data);
+    cart_selected.push(data);
+    setCart([...cart, ...cart_selected]);
     setOpen(true);
     setisCart(true);
+  };
+  localStorage.setItem("Cart", JSON.stringify(cart));
+  let total_amt = cart
+    .map((e) => (e = e.price))
+    .reduce((a, b) => a + b, 0)
+    .toFixed(2);
+  
+  localStorage.setItem('"total"',JSON.stringify(total_amt));
+
+  
+  const veg = () => {
+    let veg_only = [];
+    showData.forEach((e) => {
+      if (e.veg) {
+        veg_only.push(e);
+      }
+    });
+    setShowData(veg_only);
   };
   const handleClose = () => setOpen(false);
 
@@ -71,7 +122,9 @@ export const Food_Detail = () => {
     setisClick(true);
   };
 
-  return (
+  return loading ? (
+    <PreLoader />
+  ) : (
     <>
       <div className="scroll-container">
         <div className="indicator" style={{ width: `${scrolled}%` }}></div>
@@ -136,6 +189,22 @@ export const Food_Detail = () => {
                 Cost for two
               </p>
             </div>
+            <div className="querySearch_user">
+              <div className="input_div">
+                <input
+                  type="text"
+                  className="search_query"
+                  placeholder="Search for dishes..."
+                  autoFocus={true}
+                  spellCheck="false"
+                  value={query}
+                  onChange={(e) => handlechange(e)}
+                />
+              </div>
+              <div className="veg_only">
+                <button onClick={veg}>Veg Only</button>
+              </div>
+            </div>
           </div>
           <div className="offer-section">
             <img src={OfferImg} alt="" className="offer_img" />
@@ -145,11 +214,7 @@ export const Food_Detail = () => {
       <div className="food_products">
         <h4 className="title">{isClick ? Value : "All Food Items"}</h4>
         <p className="itemCount">
-          {isClick
-            ? Math.round(showData.length * 2.3)
-            : data
-            ? Math.round(data.items.length * 2.3)
-            : ""}
+          {showData.length}
           &nbsp;ITEMS
         </p>
 
@@ -190,17 +255,28 @@ export const Food_Detail = () => {
         {isCart ? (
           <div className="item_added">
             <h2 className="header">Cart</h2>
-            <p className="no_items">1 ITEM</p>
+            <p className="no_items">{cart.length}&nbsp;Items</p>
             <div className="items_div_parent">
-            <div className="items_div">
-              <img src={Veg} alt="" className="logo_veg_nonVeg" />
-              <p className="product">Chenna Poda</p>
-              <button className="decrease">-</button>
-              <p className="value">1</p>
-              <button className="increase">+</button>
-              <p className="price">&#8377;120</p>
-            </div>
-            
+              {cart
+                ? cart.map((e) => (
+                    <div className="items_div">
+                      {e.veg ? (
+                        <img src={Veg} alt="" className="logo_veg_nonVeg" />
+                      ) : (
+                        <img
+                          src={NonVegan}
+                          alt=""
+                          className="logo_veg_nonVeg"
+                        />
+                      )}
+                      <p className="product">{e.name}</p>
+                      <button className="decrease">-</button>
+                      <p className="value">1</p>
+                      <button className="increase">+</button>
+                      <p className="price">&#8377;{e.price}</p>
+                    </div>
+                  ))
+                : ""}
             </div>
             <div className="sub_total">
               <div className="header_1">
@@ -209,11 +285,19 @@ export const Food_Detail = () => {
                   <p>Extra charges may apply</p>
                 </h2>
               </div>
-              <div className="total_price_1">&#8377;120</div>
+              <div className="total_price_1">
+                &#8377;
+                {cart
+                  .map((e) => (e = e.price))
+                  .reduce((a, b) => a + b, 0)
+                  .toFixed(2)}
+              </div>
             </div>
-            <button className="checkout">
-              CHECKOUT&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-right"></i>
-            </button>
+            <Link className="link" to="/payment">
+              <button className="checkout">
+                CHECKOUT&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-right"></i>
+              </button>
+            </Link>
           </div>
         ) : (
           <div className="cart_empty">
