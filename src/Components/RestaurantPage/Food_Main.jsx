@@ -558,7 +558,7 @@ function Food_Main() {
     </Wrapper>
     <div className="container_navbar">
       <div className="nav_food">
-        <h2 className="restaurantNum">{foodItems.length * 3} restaurants</h2>
+        <h2 className="restaurantNum">{foodItems.length} restaurants</h2>
         <div className="action_buttons" onClick={sortingLinks}>
           <p className="link">Relevance</p>
           <p className="link">Delivery Time</p>
