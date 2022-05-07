@@ -174,3 +174,17 @@ font-weight: 400;
 color: black;
 font-size: small;
 }
+.cart_num{
+    font-size: 14px;
+    z-index: 100;
+    font-weight: 700;
+    padding:1px;
+    color: #fc8019;
+    position: relative;
+    top: 2px;
+}
+.div6_nav{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}

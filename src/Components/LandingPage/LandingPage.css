@@ -110,7 +110,7 @@ input:focus{
     width: 550px;
 }
 .right{
-width: 700px;
+width: 750px;
 height: 100%;
 position: absolute;
 right: 0;
@@ -298,7 +298,7 @@ footer .icons img:hover{
     border-radius: 5px;
     border:1px solid black;
     position: relative;
-    right: 254px;
+    right: 230px;
     bottom: 20px;
 }
 form{

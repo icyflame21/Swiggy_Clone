@@ -1,0 +1,203 @@
+.main_div_user{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 30%;
+    left: 5%;
+    gap: 30px;
+}
+.address_div{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 600px;
+    height: fit-content;
+    border-radius:5px;
+    padding: 20px;
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.payment_div{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 600px;
+    height: fit-content;
+    border-radius:5px;
+    padding: 20px;
+    font-size: x-large;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+.login_div{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 600px;
+  height: fit-content;
+  border-radius:5px;
+  padding: 20px;
+  font-size: x-large;
+  font-weight: 600;
+}
+
+
+
+
+.btn_address{
+    background-color:#fc8019!important;
+    font-weight: 500!important;
+    margin-top: 20px!important;
+    width:200px!important;
+    height: 42px!important;
+    margin-right: 20px!important;
+}
+
+.btn_address_new{
+  background-color:#1dcc2e!important;
+  font-weight: 500!important;
+  margin-top: 20px!important;
+  width:200px!important;
+  height: 42px!important;
+  margin-right: 20px!important;
+}
+
+.div_checkbox_address{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 78px;
+    padding: 20px;
+}
+.button_save
+,.input_address{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add_address{
+    width: 390px;
+    height: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid lightgray;
+    text-transform: capitalize;
+    border-radius: 5px;
+    font-size: 17px;
+}
+.user_address{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 500px;
+    letter-spacing: .7px;
+    word-break: break-word;
+    padding: 10px;
+    margin-top: 10px;
+}
+.user_address h2{
+ font-size: 18px;
+ text-transform: capitalize;
+}
+.user_address p{
+    font-size: 14px;
+    color: gray;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.wrapper{
+  width: 600px;
+  height: 350px;
+  margin-top: 20px;
+}
+
+.checkout_wrapper{
+  width: 500px;
+  height: 350px;
+  display: flex;
+}
+
+.checkout_wrapper .product_info{
+  width: 45%;
+  background: #e85c4d;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  position: relative;
+}
+
+.checkout_wrapper .product_info img{
+  width: 240px;
+  margin-top: 30px;
+  margin-left: 5px;
+}
+
+.checkout_wrapper .checkout_form{
+  width: 55%;
+  background: #fff;
+  padding: 50px 30px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.checkout_wrapper .product_info .content{
+  text-align: center;
+  margin-top: 25px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.checkout_wrapper .product_info .content h3{
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 3px;
+}
+
+.checkout_wrapper .product_info .content p{
+  margin-top: 10px;
+  font-size:14px;
+}
+
+.checkout_form p{
+  margin-bottom: 25px;
+  font-size: 20px;
+  text-transform: capitalize;
+}
+
+.checkout_form .details .section{
+  margin-bottom: 15px;
+}
+
+.checkout_form .details .section input[type="text"]{
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #dddddd;
+}
+
+.checkout_form .details .section input[type="text"]:focus{
+  border: 2px solid #e85c4d;
+}
+
+.checkout_form .details .section.last_section{
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkout_form .details .section.last_section .item{
+  width: 48%;
+}
+
+.checkout_form .details .btn{
+  background: #e85c4d;
+  padding: 10px 7px;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 20px;
+  transition: all .3s ease-in-out;
+}
+
+.checkout_form .details .btn a{
+  color: #fff;
+  letter-spacing: 5px;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+}
+.checkout_form .details .btn:hover{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}

@@ -1,0 +1,10 @@
+#modal-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+    background: url("https://acegif.com/wp-content/gif/confetti-44.gif");
+    background-color: rgba(0, 0, 0, 0.2);
+  }

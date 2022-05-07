@@ -1,34 +1,296 @@
 import React, { useState, useEffect } from "react";
-import ReactMapGL, { Marker } from "react-map-gl";
 import CloseIcon from "@mui/icons-material/Close";
 import { Drawer, Box } from "@mui/material";
 import Button from "@mui/material/Button";
-import MarkerIcon from "../Assets/marker.png";
-import style from "./Address.module.css";
-import { v4 as uuidv4 } from "uuid";
-import 'mapbox-gl/dist/mapbox-gl.css'
-import styled from 'styled-components';
+import "./Address.css";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { useNavigate } from "react-router-dom";
+import Logo from '../Assets/swiggy.svg'
+let data = ["1234 5678 1764 5678", "Biswaranjan Subudhi", "10/25", "123"];
 
-export const Address=()=>{
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
 
+export const Address = () => {
   const [isDraweropen, setisDraweropen] = useState(false);
+  const [address_add, setAddress_add] = useState(false);
   const [location, setLocation] = useState({});
+  const [address, setAddress] = useState("");
+  const [check, setCheck] = useState(false);
+  const [payment, setPayment] = useState(false);
+  const [time, isTime] = useState("");
+  const [check_value, setCheck_value] = useState("");
+  let [inp, setInp] = useState(data);
+  const navigate = useNavigate();
+  const [isLogin_user, setIsLogin_user] = useState(false)
+  const [login, setLogin] = useState(true);
+  const [number, setNumber] = useState(null)
+  const [name, setName] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [isDraweropen_login, setisDraweropen_login] = useState(false); 
+  
+  function handleSubmit(e) {
+    e.preventDefault();
+    let user = JSON.parse(localStorage.getItem("user_details"))
+    if (user === null) {
+      alert('No user found in Data Base ! Sign in to get Started')
+    }
+    setLogin(false)
+}
+  function handleSignin(e) {
+    e.preventDefault()
+    let temp = {
+      name:name,
+      email: email,
+      number:number,
+    }
+    localStorage.setItem("user_details", JSON.stringify(temp))
+    alert("Account Created successfully")
+    setisDraweropen(false);
+    window.location.reload(true)
+  }
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    const data = await fetch("https://meeshodb.herokuapp.com/razorpay", {
+      method: "POST",
+      body: JSON.stringify({
+        amount: localStorage.getItem("total") || 100,
+      }),
+    }).then((t) => t.json());
+    let t = JSON.stringify(localStorage.getItem("total")) || 100;
+    const options = {
+      key: "rzp_test_OnubQmqY8GahSs",
+      currency: data.currency,
+      amount: t * 100,
+      order_id: data.id,
+      name: "Swiggy",
+      description: "Thank you for Ordering",
+      image:"https://images2.imgbox.com/45/f9/i5AetHvK_o.jpg",
+      handler: function (response) {
+        alert("Payment request was successfull !!");
+      },
+      prefill: {
+        name: "Biswaranjan Subudhi",
+        email: "biswaranjan.cuh@gmail.com",
+        phone_number: "9090538595",
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+    navigate('/thankyou')
+  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((success) => {
       setLocation(success.coords);
     });
+    const userCheck = JSON.parse(localStorage.getItem('user_details'))
+    if (userCheck.name === null) {
+      setIsLogin_user(true)  
+    }
   }, []);
 
-const [viewport, setViewport] = useState({
-    latitude: 22.2604,
-    longitude: 84.8536,
-    width: "100%",
-    height: "100%",
-    zoom: 8,
-    pitch:50
-})
+  const handleSaveAddress = () => {
+    localStorage.setItem("Address", JSON.stringify(address));
+    if (check) {
+      localStorage.setItem("Address_Type", JSON.stringify(check_value));
+    }
+    isTime(JSON.parse(localStorage.getItem("foodId")));
+    setAddress_add(true);
+  };
+  const handlePayment = () => {
+    let div_1 = document.querySelector("#add_address_user_section");
+    let div = document.querySelector("#save_address");
+    div_1.style.display = "none";
+    div.classList.add("btn_address_new");
+    div.innerText = "SAVED";
+    setPayment(true);
+  };
+
+
+  const changeHandler = (e) => {
+    let newInp = [...inp];
+    let { id, value } = e.target;
+    newInp[+id] = value;
+    setInp(newInp);
+  };
   return (
     <>
+      <Drawer
+        anchor="right"
+        open={isDraweropen_login}
+        onClose={() => {
+          setisDraweropen_login(false);
+        }}
+      >
+        <Box role="presentation" p={4} width="550px">
+          <CloseIcon
+            className="close_icon"
+            onClick={() => {
+              setisDraweropen_login(false);
+            }}
+            style={{ cursor: "pointer" }}
+          />
+          {login ? (
+            <div className="login_form">
+              <div className="left_div">
+                <h2>Login</h2>
+                <p className="link_register">
+                  or{" "}
+                  <a
+                    onClick={() => setLogin(false)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    create an account
+                  </a>
+                </p>
+              </div>
+              <hr className="hr_line_drawer" />
+              <div className="right_div">
+                <img
+                  src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
+                  alt=""
+                  className="food_wrap"
+                />
+              </div>
+              <form>
+                <input
+                  type="number"
+                  name="Number"
+                  placeholder="Phone Number"
+                  className="Number_input"
+                  autoFocus={true}
+                  spellCheck="false"
+                  value={number}
+                  onChange={(e)=>{setNumber(e.target.value)}}
+                />
+                <br />
+                <input type="submit" value="SUBMIT" className="login_btn" onClick={handleSubmit }/>
+              </form>
+              <div className="foot_text">
+                <p>
+                  By clicking on Login, I accept the terms & Conditions &
+                  Privacy Policy
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="login_form">
+              <div className="left_div">
+                <h2>Sign up</h2>
+                <p className="link_register">
+                  or{" "}
+                  <a
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setLogin(true)}
+                  >
+                    login to your account
+                  </a>
+                </p>
+              </div>
+              <hr className="hr_line_drawer" />
+              <div className="right_div">
+                <img
+                  src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
+                  alt=""
+                  className="food_wrap"
+                />
+              </div>
+              <form>
+                <input
+                  type="number"
+                  name="Number"
+                  placeholder="Phone Number"
+                  className="Number_input_1"
+                  autoFocus={true}
+                  spellCheck="false"
+                    value={number}
+                    onChange={(e)=>{setNumber(e.target.value)}}
+                />
+                <br />
+                <input
+                  type="text"
+                  name="user_name"
+                  placeholder="Name"
+                  className="Number_input_1"
+                    value={name}
+                    onChange={(e)=>{setName(e.target.value)}}
+                />
+                <br />
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  className="Number_input_1"
+                    value={email}
+                    onChange={(e)=>{setEmail(e.target.value)}}
+                />
+                <br />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  className="Number_input"
+                    value={password}
+                    onChange={(e)=>{setPassword(e.target.value)}}
+                />
+                <br />
+                
+                  <input type="submit" value="CONTINUE" className="login_btn" onClick={handleSignin}/>
+          
+              </form>
+              
+              <div className="foot_text">
+                <p>
+                  By clicking on Login, I accept the terms & Conditions &
+                  Privacy Policy
+                </p>
+              </div>
+            </div>
+          )}
+        </Box>
+      </Drawer>
+
+
+      <div className="main_div_user">
+          
+         <div className="login_div">
+        Login / Register <br />
+        {isLogin_user ?<Button
+            className="btn_address"
+            variant="contained"
+            onClick={() => {
+              setLogin(true);
+              setisDraweropen_login(true)
+            }}
+          >
+            LOGIN / REGISTER
+          </Button>:""}
+        </div>
       <Drawer
         anchor="left"
         open={isDraweropen}
@@ -36,42 +298,201 @@ const [viewport, setViewport] = useState({
           setisDraweropen(false);
         }}
       >
-        <Box role="presentation" p={6} width="400px">
+        <Box role="presentation" p={4} width="400px" className="address_box">
           <CloseIcon
             onClick={() => {
               setisDraweropen(false);
             }}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", position: "absolute", right: "30px" }}
+            className="close_address"
           />
+          <iframe
+            width="400px"
+            height="400px"
+            src={`https://api.mapbox.com/styles/v1/nifty658/cl2tg7el3002l14pelopffxie.html?title=false&access_token=pk.eyJ1IjoibmlmdHk2NTgiLCJhIjoiY2wydDB2eW8wMDQ2bTNrazQybHdpaGd1MyJ9.Zu_154GZs6sdRHr1Og6V8g&zoomwheel=true#10/${location.latitude}/${location.longitude}`}
+            title="Streets"
+            style={{ border: "none", marginTop: "50px", borderRadius: "7px" }}
+          ></iframe>
+
+          <div className="input_address">
+            <input
+              type="text"
+              className="add_address"
+              value={address}
+              placeholder="Add Address"
+              autoFocus={true}
+              spellCheck="false"
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
+            />
+          </div>
+
+          <div className="div_checkbox_address">
+            <label class="control control-checkbox">
+              <input
+                type="checkbox"
+                id="Home"
+                value="Home"
+                className="check"
+                onChange={(e) => {
+                  setCheck(e.target.checked);
+                  setCheck_value(e.target.value);
+                }}
+              />
+              <span className="check_Box">&nbsp;Home</span>
+              <div class="control_indicator"></div>
+            </label>
+            <label class="control control-checkbox">
+              <input
+                type="checkbox"
+                id="Default"
+                value="Default"
+                className="check"
+                onChange={(e) => {
+                  setCheck(e.target.checked);
+                  setCheck_value(e.target.value);
+                }}
+              />
+              <span className="check_Box">&nbsp;Default</span>
+              <div class="control_indicator"></div>
+            </label>
+            <label class="control control-checkbox">
+              <input
+                type="checkbox"
+                id="Office"
+                value="Office"
+                className="check"
+                onChange={(e) => {
+                  setCheck(e.target.checked);
+                  setCheck_value(e.target.value);
+                }}
+              />
+              <span className="check_Box">&nbsp;Office</span>
+              <div class="control_indicator"></div>
+            </label>
+          </div>
+          <div className="button_save">
+            {" "}
+            <Button
+              className="btn_address"
+              variant="contained"
+              onMouseLeave={() => {
+                setisDraweropen(false);
+              }}
+              onClick={handleSaveAddress}
+            >
+              Save Address
+            </Button>
+          </div>
         </Box>
-       
       </Drawer>
-      <Button
-        variant="contained"
-        onClick={() => {
-          setisDraweropen(true);
-        }}
-      >
-        Add New Address
-          </Button>
-          <ReactMapGL
-          {...viewport}
-          mapboxApiAccessToken={"pk.eyJ1IjoibmlmdHk2NTgiLCJhIjoiY2wyc21lNW4xMDA2NDNrazRwNWw2d2F6NiJ9.i5AVEPPUMJMIALcaxfJwWw"}
-          onViewportChange={(newview) => {
-            setViewport(newview);
-                  }}
-                  mapStyle="mapbox://styles/mapbox/dark-v10"
-        >
-          {/* <Marker
-            key={location.latitude}
-            latitude={location.longitude}
-            longitude={location.longitude}
+      
+        <div className="address_div">
+          Address <br />
+          {address_add ? (
+            <div className="user_address">
+              <h2>{JSON.parse(localStorage.getItem("Address_Type"))}</h2>
+              <p>{JSON.parse(localStorage.getItem("Address"))}</p>
+              <p style={{ fontWeight: "600" }}> {time.average_time} MINS</p>
+            </div>
+          ) : (
+            ""
+          )}
+          <Button
+            id="add_address_user_section"
+            className="btn_address"
+            variant="contained"
+            onClick={() => {
+              setisDraweropen(true);
+            }}
           >
-                      <img src={MarkerIcon} alt="" className={style.marker_icon} />
-                      
-                  </Marker> */}
-                 
-        </ReactMapGL>
+            {!address_add ? "Add New Address" : "Edit Address"}
+          </Button>
+          {address_add ? (
+            <Button
+              className="btn_address"
+              id="save_address"
+              variant="contained"
+              onClick={handlePayment}
+            >
+              Save
+            </Button>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="payment_div">
+          Payment <br />
+          {payment ? (
+            <div class="wrapper">
+              <div class="checkout_wrapper">
+                <div class="product_info">
+                  <img
+                    src={Logo}
+                    alt="product"
+                  />
+                  <div class="content">
+                    <h3>
+                      Enjoy your <br />
+                      &nbsp;&nbsp;Food
+                    </h3>
+                  </div>
+                </div>
+                <div class="checkout_form">
+                  <p>Enter Your Card Details</p>
+                  <div class="details">
+                    <div class="section">
+                      <input
+                        type="text"
+                        id="0"
+                        placeholder="Card Number"
+                        value={inp[0]}
+                        onChange={changeHandler}
+                      />
+                    </div>
+                    <div class="section">
+                      <input
+                        type="text"
+                        id="1"
+                        placeholder="Cardholder Name"
+                        value={inp[1]}
+                        onChange={changeHandler}
+                      />
+                    </div>
+                    <div class="section last_section">
+                      <div class="item">
+                        <input
+                          type="text"
+                          id="2"
+                          placeholder="Expiry Date"
+                          value={inp[2]}
+                          onChange={changeHandler}
+                        />
+                      </div>
+                      <div class="item">
+                        <input
+                          type="text"
+                          id="3"
+                          placeholder="CVV"
+                          value={inp[3]}
+                          onChange={changeHandler}
+                        />
+                      </div>
+                    </div>
+
+                    <div class="btn">
+                      <a onClick={handleClick}>Pay Now</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
     </>
   );
 };

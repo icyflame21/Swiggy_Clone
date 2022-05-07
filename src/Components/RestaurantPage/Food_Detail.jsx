@@ -70,9 +70,6 @@ export const Food_Detail = () => {
     setScrolled((y / height) * 100);
   }, [y]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   useEffect(() => {
     setData(selectedFood);
@@ -80,21 +77,23 @@ export const Food_Detail = () => {
   }, []);
 
   let cart_selected = [];
+  let array = JSON.parse(localStorage.getItem('Cart')) || []
+  
   const handleOpen = (data) => {
     setMdata(data);
     cart_selected.push(data);
     setCart([...cart, ...cart_selected]);
     setOpen(true);
     setisCart(true);
-  };
-  localStorage.setItem("Cart", JSON.stringify(cart));
-  let total_amt = cart
-    .map((e) => (e = e.price))
-    .reduce((a, b) => a + b, 0)
-    .toFixed(2);
-  
-  localStorage.setItem('"total"',JSON.stringify(total_amt));
+    array.push(data);
+    localStorage.setItem("Cart", JSON.stringify(array));
 
+    // let total_amt = cart
+    // .map((e) => (e = e.price))
+    // .reduce((a, b) => a + b, 0)
+    //   .toFixed(2);
+    //   localStorage.setItem('"total"',JSON.stringify(total_amt));
+  };
   
   const veg = () => {
     let veg_only = [];

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../Assets/swiggy.svg";
 import Arrow from "../Assets/arrow.svg";
 import Cart from "../Assets/cart.png";
@@ -8,155 +8,231 @@ import Help from "../Assets/help.svg";
 import User from "../Assets/user.png";
 import CloseIcon from "@mui/icons-material/Close";
 import { Drawer, Box } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
-
-import "./navbar.css";
 function Navbar() {
   const [isDraweropen, setisDraweropen] = useState(false);
-  const [isDrawerRegisterOpen, setisDrawerRegisterOpen] = useState(false);
+  const [user_signin, setUser_signin] = useState(false);
+  const [user_details, setUser_details] = useState(null);
+  const [login, setLogin] = useState(true);
+  const [signIn, setsignIn] = useState(true);
+  const [number, setNumber] = useState(null);
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [len, setLen] = useState(0);
+  const location = JSON.parse(localStorage.getItem("Location"));
+  let user = JSON.parse(localStorage.getItem("user_details"));
+  let cart = JSON.parse(localStorage.getItem("Cart")) || [];
+  const navigate =useNavigate()
+  useEffect(() => {
+    if (user !== null || user.name !==null) {
+      setUser_details(user);
+      setUser_signin(true);
+      setsignIn(false);
+    }    
+  }, []);
+
+
+  useEffect(() => {
+    setLen(cart.length);
+  }, [cart]);
+
+
+  
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (user.number === null || user ===null) {
+      alert("No user found in Data Base ! Sign in to get Started");
+    }
+    setLogin(false);
+  }
+  function handleSignin(e) {
+    e.preventDefault();
+    let temp = {
+      name: name,
+      email: email,
+      number: number,
+    };
+    localStorage.setItem("user_details", JSON.stringify(temp));
+    alert("Account Created successfully");
+    setisDraweropen(false);
+    window.location.reload(true);
+  }
+  useEffect(() => {
+    if (window.history.back()) {
+      navigate("/restaurants");
+    }
+  },[])
+  let cart_length = JSON.parse(localStorage.getItem("Cart")) || [];
   return (
     <>
-      <Drawer
-        anchor="right"
-        open={isDraweropen}
-        onclose={() => {
-          setisDraweropen(false);
-        }}
-      >
-        <Box role="presentation" p={4} width="550px">
-          <CloseIcon
-            className="close_icon"
-            onClick={() => {
-              setisDraweropen(false);
-            }}
-            style={{ cursor: "pointer" }}
-          />
-          <div className="login_form">
-            <div className="left_div">
-              <h2>Login</h2>
-              <p className="link_register">
-                or <a href="">create an account</a>
-              </p>
-            </div>
-            <hr className="hr_line_drawer_nav" />
-            <div className="right_div">
-              <img
-                src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
-                alt=""
-                className="food_wrap"
-              />
-            </div>
-            <form>
-              <input
-                type="number"
-                name="Number"
-                placeholder="Phone Number"
-                className="Number_input"
-              />
-              <br />
+      {user_signin||signIn ? (
+        <Drawer
+          anchor="right"
+          open={isDraweropen}
+          onClose={() => {
+            setisDraweropen(false);
+          }}
+        >
+          <Box role="presentation" p={4} width="500px">
+            <CloseIcon
+              className="close_icon"
+              onClick={() => {
+                setisDraweropen(false);
+              }}
+              style={{ cursor: "pointer" }}
+            />
+            {login ? (
+              <div className="login_form">
+                <div className="left_div">
+                  <h2>Login</h2>
+                  <p className="link_register">
+                    or{" "}
+                    <a
+                      onClick={() => setLogin(false)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      create an account
+                    </a>
+                  </p>
+                </div>
+                <hr className="hr_line_drawer" />
+                <div className="right_div">
+                  <img
+                    src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
+                    alt=""
+                    className="food_wrap"
+                  />
+                </div>
+                <form>
+                  <input
+                    type="number"
+                    name="Number"
+                    placeholder="Phone Number"
+                    className="Number_input"
+                    autoFocus={true}
+                    spellCheck="false"
+                    value={number}
+                    onChange={(e) => {
+                      setNumber(e.target.value);
+                    }}
+                  />
+                  <br />
+                  <input
+                    type="submit"
+                    value="SUBMIT"
+                    className="login_btn"
+                    onClick={handleSubmit}
+                  />
+                </form>
+                <div className="foot_text">
+                  <p>
+                    By clicking on Login, I accept the terms & Conditions &
+                    Privacy Policy
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="login_form">
+                <div className="left_div">
+                  <h2>Sign up</h2>
+                  <p className="link_register">
+                    or{" "}
+                    <a
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setLogin(true)}
+                    >
+                      login to your account
+                    </a>
+                  </p>
+                </div>
+                <hr className="hr_line_drawer" />
+                <div className="right_div">
+                  <img
+                    src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
+                    alt=""
+                    className="food_wrap"
+                  />
+                </div>
+                <form>
+                  <input
+                    type="number"
+                    name="Number"
+                    placeholder="Phone Number"
+                    className="Number_input_1"
+                    autoFocus={true}
+                    spellCheck="false"
+                    value={number}
+                    onChange={(e) => {
+                      setNumber(e.target.value);
+                    }}
+                  />
+                  <br />
+                  <input
+                    type="text"
+                    name="user_name"
+                    placeholder="Name"
+                    className="Number_input_1"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                  <br />
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    className="Number_input_1"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                  />
+                  <br />
+                  <input
+                    type="password"
+                      name="password"
+                    placeholder="Password"
+                    className="Number_input"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                  />
+                  <br />
 
-              <input
-                type="submit"
-                value="LOGIN"
-                className="login_btn"
-                autoFocus={true}
-                spellCheck="false"
-              />
-            </form>
-            <div className="foot_text">
-              <p>
-                By clicking on Login, I accept the terms & Conditions & Privacy
-                Policy
-              </p>
-            </div>
-          </div>
-        </Box>
-      </Drawer>
+                  <input
+                    type="submit"
+                    value="CONTINUE"
+                    className="login_btn"
+                    onClick={handleSignin}
+                  />
+                </form>
 
-      <Drawer
-        anchor="right"
-        open={isDrawerRegisterOpen}
-        onclose={() => {
-          setisDrawerRegisterOpen(false);
-        }}
-      >
-        <Box role="presentation" p={6} width="400px">
-          <CloseIcon
-            className="close_icon"
-            onClick={() => {
-              setisDrawerRegisterOpen(false);
-            }}
-            style={{ cursor: "pointer" }}
-          />
-          <div className="login_form">
-            <div className="left_div">
-              <h2>Sign up</h2>
-              <p className="link_register">
-                or <a href="">login to your account</a>
-              </p>
-            </div>
-            <hr className="hr_line_drawer_nav" />
-            <div className="right_div">
-              <img
-                src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
-                alt=""
-                className="food_wrap"
-              />
-            </div>
-            <form>
-              <input
-                type="number"
-                name="Number"
-                placeholder="Phone Number"
-                className="Number_input_1"
-              />
-              <br />
-              <input
-                type="text"
-                name="user_name"
-                placeholder="Name"
-                className="Number_input_1"
-              />
-              <br />
-              <input
-                type="text"
-                name="email"
-                placeholder="Email"
-                className="Number_input_1"
-              />
-              <br />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="Number_input"
-              />
-              <br />
-
-              <input
-                type="submit"
-                value="CONTINUE"
-                className="login_btn"
-                autoFocus={true}
-                spellCheck="false"
-              />
-            </form>
-            <div className="foot_text">
-              <p>
-                By clicking on Login, I accept the terms & Conditions & Privacy
-                Policy
-              </p>
-            </div>
-          </div>
-        </Box>
-      </Drawer>
-
+                <div className="foot_text">
+                  <p>
+                    By clicking on Login, I accept the terms & Conditions &
+                    Privacy Policy
+                  </p>
+                </div>
+              </div>
+            )}
+          </Box>
+        </Drawer>
+      ) : 
+        ""
+      }
       <nav className="navbar">
         <img src={Logo} alt="" className="logo" />
         <div className="div1_nav">
           <p className="other">Other</p>
           <div className="location">
-            Bhubaneswar, Odisha, India &nbsp;
+            {location} &nbsp;
             <img src={Arrow} alt="" className="arrow" />
           </div>
         </div>
@@ -182,18 +258,28 @@ function Navbar() {
           <p
             className="sign_in"
             onClick={() => {
-              setisDrawerRegisterOpen(true);
+              setisDraweropen(true);
             }}
           >
             <img src={User} alt="" className="user_icon" />
-            Sign In
+            {user_signin && user_details.name ? user_details.name : "Sign In"}
           </p>
         </div>
         <div className="div6_nav">
-          <p className="cart">
-            <img src={Cart} alt="" className="cart_icon" />
-            Cart
-          </p>
+          { len!==0? (
+            <Link to="/payment" style={{ textDecoration: "none" }}>
+              <p className="cart">
+                <img src={Cart} alt="" className="cart_icon" />
+                Cart
+              </p>
+            </Link>
+          ) : (
+            <p className="cart">
+              <img src={Cart} alt="" className="cart_icon" />
+              Cart
+            </p>
+          )}
+          <span className="cart_num">{ len}</span>
         </div>
       </nav>
     </>

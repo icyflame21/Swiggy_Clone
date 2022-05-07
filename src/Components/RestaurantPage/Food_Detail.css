@@ -1,6 +1,4 @@
-body {
-  overflow-x: hidden;
-}
+
 .topbar {
   width: 100%;
   height: 280px;
@@ -18,14 +16,12 @@ body {
   display: flex;
   align-items: center;
   position: relative;
-  bottom: 15px;
+  bottom: 35px;
 }
 .food_img_topbar img {
   width: 280px;
   border-radius: 2px;
   object-fit: contain;
-  position: relative;
-  top: 20px;
 }
 .food_details_section {
   position: relative;
@@ -53,8 +49,7 @@ body {
 .offer_img {
   width: 300px;
   position: relative;
-  top: 74px;
-  right: 50px;
+  top: 55px;
 }
 .food_overview p {
   font-size: 12px;
@@ -254,7 +249,7 @@ body {
 
 
 .item_added{
-  width: 300px;
+  width: 320px;
   border-radius: 4px;
   position: absolute;
   top: 400px;
@@ -262,9 +257,12 @@ body {
   padding: 0 25px 15px 25px;
 }
 .items_div_parent{
+  
+  width: 350px;
   max-height: 200px;
   overflow-y: auto;
-  padding-top: 10px;
+  padding: 5px;
+  position: relative;
 }
 .items_div_parent::-webkit-scrollbar {
   width: 0;
@@ -284,18 +282,18 @@ body {
 }
 .items_div{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  position: relative;
-  bottom: 18px;
+  height: 70px;
 }
 .logo_veg_nonVeg{
   width: 24px;
 }
 .product{
   font-size: 14px;
-  position: relative;
-  right: 9px;
+  width: 100px;
+  word-break: break-word;
+
 }
 
 .decrease{
@@ -306,8 +304,7 @@ cursor: pointer;
 border-left: 1px solid #1dcc2e;
 border-top: 1px solid #1dcc2e;
 border-bottom: 1px solid #1dcc2e;
-position: relative;
-left:18px
+
 
 }
 .increase{
@@ -318,20 +315,18 @@ cursor: pointer;
 border-top: 1px solid #1dcc2e;
 border-right:1px solid #1dcc2e;
 border-bottom: 1px solid #1dcc2e;
-position: relative;
-right:18px
+
 }
 .value{
   min-width: max-content;
-  border-top: 1px solid #1dcc2e;
-  border-bottom: 1px solid #1dcc2e;
-  padding: 3px 8px 3.3px 8px  ;
+  padding: 3px 0  3.3px 0  ;
 }
 .price{
   font-size: 15px;
   font-weight: 500;
 }
 .sub_total{
+  width: 350px;
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -364,7 +359,7 @@ justify-content: space-between;
   border: none;
   text-align: center;
   position: relative;
-  left: 10px;
+  left: 40px;
   top: 5px;
   cursor: pointer;
   transition: all 0.3s ease-in;
@@ -387,4 +382,38 @@ justify-content: space-between;
 .scroll-container .indicator{
 height: 100%;
 background: #fc8019;
+}
+.querySearch_user{
+  display: flex;
+  align-items: center;
+  position: relative;
+  bottom: 27px;
+  gap: 30px;
+}
+.input_div input{
+  width: 230px;
+  padding:7px;
+  border-radius: 2px;
+  outline: none;
+  border: 1px solid lightgray;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.veg_only button{
+  padding:  7px;
+  border-radius: 2px;
+  outline: none;
+  font-weight: 700;
+  color: #fff;
+  background-color: #1dcc2e;
+  border: 1px solid #1dcc2e;
+  cursor: pointer;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transition: all 0.2s ease-in-out;
+}
+.veg_only button:hover{
+  color: #1dcc2e;
+  font-weight: 600;
+  background-color: #fff;
+  border: 1px solid #fff;
 }
