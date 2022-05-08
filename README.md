@@ -5,7 +5,7 @@ Swiggy is an Indian online food ordering and delivery platform. Founded in July 
 Solo construct week Project executed in 7 days.
 
 
-![Logo](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHcAAAAkCAMAAACE/VXhAAAAclBMVEX////8gBn8ewD8dwD8eQD8dAD8fxT8cgD8fQz9nV/9t43/+vf8hy3+zLH//fv+yq7+1b/+6Nz9pnH+49T9sIP9upP/9vH+3s3/7uX9omr9w6T9qXf/8uv9mVn9rHz8giL8jkH9lVH9v5z8ijf8kkn8aAD5UWhEAAADeUlEQVRYhb1X65qiMAylTW8oCMhNUQfR2fd/xU16gTozu+58O3L+MIaUkyYnaSdJArZ1WfbnZGWUEwAIkFnbrchaZWCYhRLythptrhVbAJe1aCV7gJhWoa00+wDRrMGbLUkOVdbV62lLWGirycVgVijxZGZemez9D3h5I2+X7Ua8ong1b/0lL9/Hoe3+/XPb7TODRyli3iMIBGhWzg7tyM3lQH8NTWNnSne0L5rmjeR3HMfWu3ZNZviY1vPaw9vI+bi3Kn0bs8zG0LNMdR94D8Uw5GUdzcoUlFLGCjyXXNKbVve0XHNhHbjYONdcc5QlOoc2HIKBwu20co53Q88+yjMcOkKcmVoyBaCk3aJ0deeGBsuJc/v91HDHW+IcEFqDEr4bClpLBrBV2whGYWP/ADKc42EFHu994B2EuuJkcTLbG/OOn8P1mEpcXse8O9wbz3dJP6Y+60hL9eq9WHZG8RONC2GrNcaz2cNA2DOSsDrxwsLc6DMtMCmGrcYk5i2ASVvIUKSbwATGBvI44Dqzc5v4zMtE8KUhumyfKT7YOaO7o+HtA+/RfJg2kzH7BwNGzJurEoMrC3ymVffZdyNxe3Jy+2+4uqYGE2ROyH144J3ss2BZlo0nMijLcBvJsAlUXCnmv/wFL48OhkIAFs4FUgGqkxnMt2FY9694Sf786JJDvK1AQzho3jG3kPsPN/wTL/RJhDwzDFxD0xmCn7/iw6dr5j1ximTQwJmxvBeDMkg2ZAj7wCG1pPIsP9LOqSBSEt/da5C0wuTW1iaM8MBL/ZEn23OXC8c7CIofDTc+5++q+HKdabXw8NIOW8GYrgC3rh6D6axd7Jky4XIw9y/qHJrqXG2446XGghYNJzPzYjGia1RZFLmF6ynF54G844YJCbOIcKGkfRZChDLNvBUqkIOktLoO7rUzGPYH3hkX21MienUwwtCcDCM4l1arCegQ20WAn5MV3htoqIIXA04Ma+DAg14mDjFveZVa69Sdxco8xDJMWXacdbb95TbepsHSpJe5LOU+y+77fFmcH9FwWg6Zt/QSvXU3O1ST5ZVl8hd4Ne3+cLx9E3c6N0ab5zXuODN6ulOqiujlqv+rnGh44GBiMDx3/kHsmOtdnj73/VHYTKOWf0Yv30BDFx5ZP3f8aaCoVi6uw0GL/XOvFyC/P/d5Cb5xP/9f/AbjJyzXNKxSUQAAAABJRU5ErkJggg==)
+![Logo](https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Swiggy_logo.svg/1200px-Swiggy_logo.svg.png)
 
 
 ## Demo 🎥
@@ -57,7 +57,7 @@ download the .zip file.  Extract the contents of the zip file, then open your te
 - All the movie results and its details are fetched in real time using TMDB API.
 - Fetches trending movie as per day selection from TMDB API, having json data of total 100 movies that are arranged in 20 movies in each category.
 - Judicious use of React-YouTube & movie-trailer npm package to fetch its relevant trailer from Youtube using movie ID fetched from TMDB API.
-- MUI icons with animation effects from BootStrap 5 hass been precisely used.
+- MUI icons with animation effects from BootStrap 5 has been precisely used.
 
 ## Responsibilities 💪
 
@@ -102,13 +102,13 @@ download the .zip file.  Extract the contents of the zip file, then open your te
 * Components are used from  material UI  
     https://mui.com/components/
 
-* Current Location status are fetched using OpenWeatherMap Api
+* Current Location status are fetched using OpenWeatherMap API
     https://openweathermap.org/api
 
 * To have interactive and customised maps along with searching ability  
     https://github.com/visgl/react-map-Gl
 
-    
+
 ## Creator  😇
 
 - 👤 [Biswaranjan](https://www.github.com/icyflame21)
