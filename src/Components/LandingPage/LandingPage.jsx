@@ -45,7 +45,8 @@ function LandingPage() {
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState(false);
   const [user_details_array, setUserDetails_array] = useState([]);
-  // const [invalidate, setinValidate] = useState(false)
+  const [verificationId, setVerificationId] = useState("");
+
   let navigate = useNavigate();
   let API_KEY = "5bdc9bb5e105da7714d3b4fda20a88c6";
 
@@ -131,23 +132,6 @@ function LandingPage() {
   }
 
   localStorage.setItem("Location", JSON.stringify(query));
-
-  function handleSubmit_Otp(e) {
-    e.preventDefault();
-    const code = otp_valid
-    window.confirmationResult.confirm(code).then((result) => {
-      const user = result.user;
-      console.log(JSON.stringify(user))
-      alert("Account created successfully")
-    }).catch((error) => {
-      alert(error.message)
-    });
-    setOtp(false);
-    setisDraweropen(false);
-    localStorage.setItem("user_details", JSON.stringify(user_details_array));
-    // setLogin(false);
-    // navigate("/restaurants");
-  }
   useEffect(() => {
     let temp = {
       name: name,
@@ -157,8 +141,68 @@ function LandingPage() {
     setUserDetails_array(temp);
   }, [name, email, number]);
 
-  // Firebase OTP Authentication
-  const configureCaptcha = () => {
+  useEffect(() => {
+  setOtp_valid(otp_valid)
+},[otp_valid])
+
+ // Firebase OTP Authentication
+  function handleSubmit_Otp_sigin(e) {
+    e.preventDefault();
+    const code = otp_valid;
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        const user = result.user;
+        console.log(JSON.stringify(user));
+        setVerificationId(user.uid);
+        alert("Account created successfully");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+    setOtp(false);
+    setisDraweropen(false);
+    localStorage.setItem("user_details", JSON.stringify(user_details_array));
+  }
+
+  function handleSubmit_Otp_login(e) {
+    e.preventDefault();
+    const code = otp_valid;
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        const user = result.user;
+        console.log(JSON.stringify(user));
+        if (verificationId !== user.uid) {
+          alert("Verification failed ! No User ID found But you can visit the resturants page");
+          // navigate("/restaurants");
+        }
+        else {
+          alert("User Verified Success!")
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+    setOtp(false);
+    setisDraweropen(false);
+    localStorage.setItem("user_details", JSON.stringify(user_details_array));
+  }
+ 
+  const configureCaptcha_signIn = () => {
+    window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          onSigninSubmit();
+          console.log("Recaptcha verified");
+        },
+        defaultCountry: "IN",
+      }
+    );
+  };
+  const configureCaptcha_login = () => {
     window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
       "sign-in-button",
       {
@@ -172,19 +216,37 @@ function LandingPage() {
     );
   };
 
-  const onLogInSubmit = (e) => {
+  const onSigninSubmit = (e) => {
     e.preventDefault();
-    configureCaptcha();
+    configureCaptcha_signIn();
     const phoneNumber = "+91" + number;
     const appVerifier = window.recaptchaVerifier;
     Firebase.auth()
       .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        console.log(confirmationResult.verificationId)
+        console.log("OTP Sent Successfully !");
+
       })
       .catch((error) => {
-       alert(error.message)
+        alert(error.message);
+      });
+    setOtp(true);
+    setisDraweropen(true);
+  };
+  const onLogInSubmit = (e) => {
+    e.preventDefault();
+    configureCaptcha_login();
+    const phoneNumber = "+91" + number;
+    const appVerifier = window.recaptchaVerifier;
+    Firebase.auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        console.log("OTP Sent Successfully !");
+      })
+      .catch((error) => {
+        alert(error.message);
       });
     setOtp(true);
     setisDraweropen(true);
@@ -333,11 +395,7 @@ function LandingPage() {
                   type="submit"
                   value="CONTINUE"
                   className="login_btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setOtp(true);
-                    setisDraweropen(true);
-                  }}
+                  onClick={onSigninSubmit}
                 />
               </form>
 
@@ -378,8 +436,6 @@ function LandingPage() {
                   name="Number"
                   placeholder="Enter the OTP"
                   className="Number_input"
-                  autoFocus={true}
-                  spellCheck="false"
                   value={otp_valid}
                   onChange={(e) => {
                     setOtp_valid(e.target.value);
@@ -390,7 +446,7 @@ function LandingPage() {
                   type="submit"
                   value="SUBMIT"
                   className="login_btn"
-                  onClick={handleSubmit_Otp}
+                  onClick={login?handleSubmit_Otp_login:handleSubmit_Otp_sigin}
                 />
               </form>
               <div className="foot_text">
