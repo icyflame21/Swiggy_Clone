@@ -46,6 +46,7 @@ export function BasicModal() {
           <button class="go-home" onClick={handleClose}>
             <a>go home</a>
           </button>
+          
         </div>
         <div class="pyro">
           <div class="before"></div>

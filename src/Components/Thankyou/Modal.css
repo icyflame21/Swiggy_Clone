@@ -1,6 +1,8 @@
 .content{
-  height: 100vh;
-  margin: 13% auto;
+  height: fit-content;
+  position:absolute;
+  left: 35%;
+  top: 15%;
   background-repeat: no-repeat;
   background-attachment: fixed;
   transition: all 1.5s ease-in-out;
@@ -341,6 +343,7 @@
 .pyro > .before,
 .pyro > .after {
   position: absolute;
+  top: 0;
   width: 5px;
   height: 5px;
   border-radius: 50%;
