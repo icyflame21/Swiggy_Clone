@@ -90,7 +90,7 @@ function LandingPage() {
         .then((response) => response.json())
         .then((name) => {
           setTimeout(() => {
-            setLocation(`${name.city.name}, West Bengal, ${name.city.country}`);
+            setLocation(`${name.city.name}, ${name.city.country}`);
             setQuery(location);
             setisLoading(false);
           }, 1000);
