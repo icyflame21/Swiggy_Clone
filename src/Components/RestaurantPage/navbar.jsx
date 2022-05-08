@@ -10,62 +10,321 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Drawer, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import Firebase from "../../Firebase";
 
-function Navbar() {
+export function Navbar() {
   const [isDraweropen, setisDraweropen] = useState(false);
   const [user_signin, setUser_signin] = useState(false);
   const [user_details, setUser_details] = useState(null);
   const [login, setLogin] = useState(true);
   const [signIn, setsignIn] = useState(false);
-  const [number, setNumber] = useState(null);
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [number, setNumber] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [len, setLen] = useState(0);
+  const [verificationId, setVerificationId] = useState("");
+  const [otp, setOtp] = useState(false);
+  const [user_details_array, setUserDetails_array] = useState([]);
+  const [otp_valid, setOtp_valid] = useState("");
+
   const location = JSON.parse(localStorage.getItem("Location"));
   let cart = JSON.parse(localStorage.getItem("Cart")) || [];
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user_details"));
-    if (user.name !== "" ) {
+    if (user.name !== "") {
       setUser_details(user);
       setUser_signin(true);
       setsignIn(true);
-    }    
+    }
   }, []);
-
 
   useEffect(() => {
     setLen(cart.length);
   }, [cart]);
 
+  let cart_length = JSON.parse(localStorage.getItem("Cart")) || [];
 
-  
+  useEffect(() => {
+    setOtp_valid(otp_valid)
+  }, [otp_valid])
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    let user = JSON.parse(localStorage.getItem("user_details"));
-    if (user.number ==="") {
-      alert("No user found in Data Base ! Sign in to get Started");
-    }
-    setLogin(false);
-  }
-  function handleSignin(e) {
-    e.preventDefault();
+
+  useEffect(() => {
     let temp = {
       name: name,
       email: email,
       number: number,
     };
-    localStorage.setItem("user_details", JSON.stringify(temp));
-    alert("Account Created successfully");
+    setUserDetails_array(temp);
+  }, [name, email, number]);
+
+  // Firebase OTP Authentication
+  function handleSubmit_Otp_sigin(e) {
+    e.preventDefault();
+    const code = otp_valid;
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        const user = result.user;
+        console.log(JSON.stringify(user));
+        setVerificationId(user.uid);
+        alert("Account created successfully");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    setOtp(false);
     setisDraweropen(false);
+    localStorage.setItem("user_details", JSON.stringify(user_details_array));
     window.location.reload(true);
   }
-  let cart_length = JSON.parse(localStorage.getItem("Cart")) || [];
+
+  function handleSubmit_Otp_login(e) {
+    e.preventDefault();
+    const code = otp_valid;
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        const user = result.user;
+        console.log(JSON.stringify(user));
+        if (verificationId !== user.uid) {
+          alert(
+            "Verification failed ! To Place the Order account must be verified"
+          );
+        } else {
+          alert("User Verified Success!");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    setOtp(false);
+    setisDraweropen(false);
+    window.location.reload(true);
+    localStorage.setItem("user_details", JSON.stringify(user_details_array));
+  }
+
+  const configureCaptcha_signIn = () => {
+    window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          onSigninSubmit();
+        },
+        defaultCountry: "IN",
+      }
+    );
+  };
+  const configureCaptcha_login = () => {
+    window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          onLogInSubmit();
+        },
+        defaultCountry: "IN",
+      }
+    );
+  };
+
+  const onSigninSubmit = (e) => {
+    e.preventDefault();
+    configureCaptcha_signIn();
+    const phoneNumber = "+91" + number;
+    const appVerifier = window.recaptchaVerifier;
+    Firebase.auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        console.log("OTP Sent Successfully !");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    setOtp(true);
+    setisDraweropen(true);
+  };
+  const onLogInSubmit = (e) => {
+    e.preventDefault();
+    configureCaptcha_login();
+    const phoneNumber = "+91" + number;
+    const appVerifier = window.recaptchaVerifier;
+    Firebase.auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        console.log("OTP Sent Successfully !");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    setOtp(true);
+    setisDraweropen(true);
+  };
+
   return (
     <>
-      {signIn ? "" : (
+      <Drawer
+        anchor="right"
+        open={isDraweropen}
+        onClose={() => {
+          setisDraweropen(false);
+        }}
+      >
+        <Box role="presentation" p={4} width="500px">
+          <CloseIcon
+            className="close_icon"
+            onClick={() => {
+              setisDraweropen(false);
+            }}
+            style={{ cursor: "pointer" }}
+          />
+          {login ? (
+            <div className="login_form">
+              <div className="left_div">
+                <h2>Login</h2>
+                <p className="link_register">
+                  or{" "}
+                  <a
+                    onClick={() => setLogin(false)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    create an account
+                  </a>
+                </p>
+              </div>
+              <hr className="hr_line_drawer" />
+              <div className="right_div">
+                <img
+                  src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
+                  alt=""
+                  className="food_wrap"
+                />
+              </div>
+              <form>
+                <div id="sign-in-button"></div>
+                <input
+                  type="number"
+                  name="Number"
+                  placeholder="Phone Number"
+                  className="Number_input"
+                  autoFocus={true}
+                  spellCheck="false"
+                  value={number}
+                  onChange={(e) => {
+                    setNumber(e.target.value);
+                  }}
+                />
+                <br />
+                <input
+                  type="submit"
+                  value="CONTINUE"
+                  className="login_btn"
+                  onClick={onLogInSubmit}
+                />
+              </form>
+              <div className="foot_text">
+                <p>
+                  By clicking on Login, I accept the terms & Conditions &
+                  Privacy Policy
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="login_form">
+              <div className="left_div">
+                <h2>Sign up</h2>
+                <p className="link_register">
+                  or{" "}
+                  <a
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setLogin(true)}
+                  >
+                    login to your account
+                  </a>
+                </p>
+              </div>
+              <hr className="hr_line_drawer" />
+              <div className="right_div">
+                <img
+                  src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
+                  alt=""
+                  className="food_wrap"
+                />
+              </div>
+              <form>
+                <div id="sign-in-button"></div>
+                <input
+                  type="number"
+                  name="Number"
+                  placeholder="Phone Number"
+                  className="Number_input_1"
+                  autoFocus={true}
+                  spellCheck="false"
+                  value={number}
+                  onChange={(e) => {
+                    setNumber(e.target.value);
+                  }}
+                />
+                <br />
+                <input
+                  type="text"
+                  name="user_name"
+                  placeholder="Name"
+                  className="Number_input_1"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+                <br />
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  className="Number_input_1"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <br />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  className="Number_input"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <br />
+
+                <input
+                  type="submit"
+                  value="CONTINUE"
+                  className="login_btn"
+                  onClick={onSigninSubmit}
+                />
+              </form>
+
+              <div className="foot_text">
+                <p>
+                  By clicking on Login, I accept the terms & Conditions &
+                  Privacy Policy
+                </p>
+              </div>
+            </div>
+          )}
+        </Box>
+      </Drawer>
+
+      {otp ? (
         <Drawer
           anchor="right"
           open={isDraweropen}
@@ -81,147 +340,44 @@ function Navbar() {
               }}
               style={{ cursor: "pointer" }}
             />
-            {login ? (
-              <div className="login_form">
-                <div className="left_div">
-                  <h2>Login</h2>
-                  <p className="link_register">
-                    or{" "}
-                    <a
-                      onClick={() => setLogin(false)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      create an account
-                    </a>
-                  </p>
-                </div>
-                <hr className="hr_line_drawer" />
-                <div className="right_div">
-                  <img
-                    src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
-                    alt=""
-                    className="food_wrap"
-                  />
-                </div>
-                <form>
-                  <input
-                    type="number"
-                    name="Number"
-                    placeholder="Phone Number"
-                    className="Number_input"
-                    autoFocus={true}
-                    spellCheck="false"
-                    value={number}
-                    onChange={(e) => {
-                      setNumber(e.target.value);
-                    }}
-                  />
-                  <br />
-                  <input
-                    type="submit"
-                    value="SUBMIT"
-                    className="login_btn"
-                    onClick={handleSubmit}
-                  />
-                </form>
-                <div className="foot_text">
-                  <p>
-                    By clicking on Login, I accept the terms & Conditions &
-                    Privacy Policy
-                  </p>
-                </div>
+            <div className="login_form">
+              <div className="left_div">
+                <h2>Enter OTP</h2>
               </div>
-            ) : (
-              <div className="login_form">
-                <div className="left_div">
-                  <h2>Sign up</h2>
-                  <p className="link_register">
-                    or{" "}
-                    <a
-                      style={{ cursor: "pointer" }}
-                      onClick={() => setLogin(true)}
-                    >
-                      login to your account
-                    </a>
-                  </p>
-                </div>
-                <hr className="hr_line_drawer" />
-                <div className="right_div">
-                  <img
-                    src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
-                    alt=""
-                    className="food_wrap"
-                  />
-                </div>
-                <form>
-                  <input
-                    type="number"
-                    name="Number"
-                    placeholder="Phone Number"
-                    className="Number_input_1"
-                    autoFocus={true}
-                    spellCheck="false"
-                    value={number}
-                    onChange={(e) => {
-                      setNumber(e.target.value);
-                    }}
-                  />
-                  <br />
-                  <input
-                    type="text"
-                    name="user_name"
-                    placeholder="Name"
-                    className="Number_input_1"
-                    value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                  />
-                  <br />
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    className="Number_input_1"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                  />
-                  <br />
-                  <input
-                    type="password"
-                      name="password"
-                    placeholder="Password"
-                    className="Number_input"
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                  />
-                  <br />
-
-                  <input
-                    type="submit"
-                    value="CONTINUE"
-                    className="login_btn"
-                    onClick={handleSignin}
-                  />
-                </form>
-
-                <div className="foot_text">
-                  <p>
-                    By clicking on Login, I accept the terms & Conditions &
-                    Privacy Policy
-                  </p>
-                </div>
+              <form>
+                <input
+                  type="number"
+                  name="Number"
+                  placeholder="Enter the OTP"
+                  className="Number_input"
+                  value={otp_valid}
+                  onChange={(e) => {
+                    setOtp_valid(e.target.value);
+                  }}
+                />
+                <br />
+                <input
+                  type="submit"
+                  value="SUBMIT"
+                  className="login_btn"
+                  onClick={
+                    login ? handleSubmit_Otp_login : handleSubmit_Otp_sigin
+                  }
+                />
+              </form>
+              <div className="foot_text">
+                <p>
+                  By clicking on Login, I accept the terms & Conditions &
+                  Privacy Policy
+                </p>
               </div>
-            )}
+            </div>
           </Box>
         </Drawer>
-      )
-        
-      }
+      ) : (
+        ""
+      )}
+
       <nav className="navbar">
         <img src={Logo} alt="" className="logo" />
         <div className="div1_nav">
@@ -253,15 +409,17 @@ function Navbar() {
           <p
             className="sign_in"
             onClick={() => {
-              setisDraweropen(true);
+              signIn
+                ? setisDraweropen(false)
+                : setisDraweropen(true) && setLogin(true);
             }}
           >
             <img src={User} alt="" className="user_icon" />
-            {user_signin && user_details.name ? user_details.name : "Sign In"}
+            {user_signin ? user_details.name : "Sign In"}
           </p>
         </div>
         <div className="div6_nav">
-          { len!==0? (
+          {len !== 0 ? (
             <Link to="/payment" style={{ textDecoration: "none" }}>
               <p className="cart">
                 <img src={Cart} alt="" className="cart_icon" />
@@ -274,11 +432,11 @@ function Navbar() {
               Cart
             </p>
           )}
-          <span className="cart_num">{ len}</span>
+          <span className="cart_num">{len}</span>
         </div>
       </nav>
     </>
   );
 }
 
-export { Navbar };
+

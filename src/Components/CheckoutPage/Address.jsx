@@ -5,7 +5,8 @@ import Button from "@mui/material/Button";
 import "./Address.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useNavigate } from "react-router-dom";
-import Logo from '../Assets/swiggy.svg'
+import Logo from "../Assets/swiggy.svg";
+import Firebase from "../../Firebase";
 let data = ["1234 5678 1764 5678", "Biswaranjan Subudhi", "10/25", "123"];
 
 function loadScript(src) {
@@ -31,36 +32,21 @@ export const Address = () => {
   const [payment, setPayment] = useState(false);
   const [time, isTime] = useState("");
   const [check_value, setCheck_value] = useState("");
-  let [inp, setInp] = useState(data);
-  const navigate = useNavigate();
-  const [isLogin_user, setIsLogin_user] = useState(false)
+  const [inp, setInp] = useState(data);
+  const [isLogin_user, setIsLogin_user] = useState(false);
   const [login, setLogin] = useState(true);
-  const [number, setNumber] = useState(null)
-  const [name, setName] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
-  const [isDraweropen_login, setisDraweropen_login] = useState(false); 
-  
-  function handleSubmit(e) {
-    e.preventDefault();
-    let user = JSON.parse(localStorage.getItem("user_details"))
-    if (user === null) {
-      alert('No user found in Data Base ! Sign in to get Started')
-    }
-    setLogin(false)
-}
-  function handleSignin(e) {
-    e.preventDefault()
-    let temp = {
-      name:name,
-      email: email,
-      number:number,
-    }
-    localStorage.setItem("user_details", JSON.stringify(temp))
-    alert("Account Created successfully")
-    setisDraweropen(false);
-    window.location.reload(true)
-  }
+  const [number, setNumber] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isDraweropen_login, setisDraweropen_login] = useState(false);
+  const [otp, setOtp] = useState(false);
+  const [user_details_array, setUserDetails_array] = useState([]);
+  const [verificationId, setVerificationId] = useState("");
+  const [otp_valid, setOtp_valid] = useState("");
+
+  const navigate = useNavigate();
+
   const handleClick = async (e) => {
     e.preventDefault();
     const res = await loadScript(
@@ -86,7 +72,7 @@ export const Address = () => {
       order_id: data.id,
       name: "Swiggy",
       description: "Thank you for Ordering",
-      image:"https://images2.imgbox.com/45/f9/i5AetHvK_o.jpg",
+      image: "https://images2.imgbox.com/45/f9/i5AetHvK_o.jpg",
       handler: function (response) {
         alert("Payment request was successfull !!");
       },
@@ -98,22 +84,11 @@ export const Address = () => {
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
-    navigate('/thankyou')
+    navigate("/thankyou");
   };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((success) => {
-      setLocation(success.coords);
-    });
-    const userCheck = JSON.parse(localStorage.getItem('user_details'))
-    if (userCheck.name === null) {
-      setIsLogin_user(true)  
-    }
-  }, []);
-
   const handleSaveAddress = () => {
     localStorage.setItem("Address", JSON.stringify(address));
     if (check) {
@@ -131,13 +106,135 @@ export const Address = () => {
     setPayment(true);
   };
 
-
   const changeHandler = (e) => {
     let newInp = [...inp];
     let { id, value } = e.target;
     newInp[+id] = value;
     setInp(newInp);
   };
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((success) => {
+      setLocation(success.coords);
+    });
+    const userCheck = JSON.parse(localStorage.getItem("user_details"));
+    if (userCheck.name === "") {
+      setIsLogin_user(true);
+    }
+  }, []);
+  useEffect(() => {
+    let temp = {
+      name: name,
+      email: email,
+      number: number,
+    };
+    setUserDetails_array(temp);
+  }, [name, email, number]);
+// Firebase OTP Authentication
+  function handleSubmit_Otp_sigin(e) {
+    e.preventDefault();
+    const code = otp_valid;
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        const user = result.user;
+        setVerificationId(user.uid);
+        alert("Account created successfully");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+    setOtp(false);
+    setisDraweropen_login(false);
+    localStorage.setItem("user_details", JSON.stringify(user_details_array));
+    window.location.reload(true);
+  }
+
+  function handleSubmit_Otp_login(e) {
+    e.preventDefault();
+    const code = otp_valid;
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        const user = result.user;
+        if (verificationId !== user.uid) {
+          alert("Verification failed ! To Place the Order account must be verified");
+        }
+        else {
+          alert("User Verified Success!")
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    setOtp(false);
+    setisDraweropen_login(false);
+    window.location.reload(true);
+    localStorage.setItem("user_details", JSON.stringify(user_details_array));
+  }
+ 
+  const configureCaptcha_signIn = () => {
+    window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          onSigninSubmit();
+        },
+        defaultCountry: "IN",
+      }
+    );
+  };
+  const configureCaptcha_login = () => {
+    window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          onLogInSubmit();
+        },
+        defaultCountry: "IN",
+      }
+    );
+  };
+
+  const onSigninSubmit = (e) => {
+    e.preventDefault();
+    configureCaptcha_signIn();
+    const phoneNumber = "+91" + number;
+    const appVerifier = window.recaptchaVerifier;
+    Firebase.auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        console.log("OTP Sent Successfully !");
+
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    setOtp(true);
+    setisDraweropen_login(true);
+  };
+  const onLogInSubmit = (e) => {
+    e.preventDefault();
+    configureCaptcha_login();
+    const phoneNumber = "+91" + number;
+    const appVerifier = window.recaptchaVerifier;
+    Firebase.auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        console.log("OTP Sent Successfully !");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    setOtp(true);
+    setisDraweropen_login(true);
+  };
+
+
   return (
     <>
       <Drawer
@@ -147,7 +244,7 @@ export const Address = () => {
           setisDraweropen_login(false);
         }}
       >
-        <Box role="presentation" p={4} width="550px">
+        <Box role="presentation" p={4} width="500px">
           <CloseIcon
             className="close_icon"
             onClick={() => {
@@ -178,6 +275,7 @@ export const Address = () => {
                 />
               </div>
               <form>
+                <div id="sign-in-button"></div>
                 <input
                   type="number"
                   name="Number"
@@ -186,10 +284,17 @@ export const Address = () => {
                   autoFocus={true}
                   spellCheck="false"
                   value={number}
-                  onChange={(e)=>{setNumber(e.target.value)}}
+                  onChange={(e) => {
+                    setNumber(e.target.value);
+                  }}
                 />
                 <br />
-                <input type="submit" value="SUBMIT" className="login_btn" onClick={handleSubmit }/>
+                <input
+                  type="submit"
+                  value="CONTINUE"
+                  className="login_btn"
+                  onClick={onLogInSubmit}
+                />
               </form>
               <div className="foot_text">
                 <p>
@@ -221,6 +326,7 @@ export const Address = () => {
                 />
               </div>
               <form>
+                <div id="sign-in-button"></div>
                 <input
                   type="number"
                   name="Number"
@@ -228,8 +334,10 @@ export const Address = () => {
                   className="Number_input_1"
                   autoFocus={true}
                   spellCheck="false"
-                    value={number}
-                    onChange={(e)=>{setNumber(e.target.value)}}
+                  value={number}
+                  onChange={(e) => {
+                    setNumber(e.target.value);
+                  }}
                 />
                 <br />
                 <input
@@ -237,8 +345,10 @@ export const Address = () => {
                   name="user_name"
                   placeholder="Name"
                   className="Number_input_1"
-                    value={name}
-                    onChange={(e)=>{setName(e.target.value)}}
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
                 />
                 <br />
                 <input
@@ -246,8 +356,10 @@ export const Address = () => {
                   name="email"
                   placeholder="Email"
                   className="Number_input_1"
-                    value={email}
-                    onChange={(e)=>{setEmail(e.target.value)}}
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                 />
                 <br />
                 <input
@@ -255,15 +367,21 @@ export const Address = () => {
                   name="password"
                   placeholder="Password"
                   className="Number_input"
-                    value={password}
-                    onChange={(e)=>{setPassword(e.target.value)}}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                 />
                 <br />
-                
-                  <input type="submit" value="CONTINUE" className="login_btn" onClick={handleSignin}/>
-          
+
+                <input
+                  type="submit"
+                  value="CONTINUE"
+                  className="login_btn"
+                  onClick={onSigninSubmit}
+                />
               </form>
-              
+
               <div className="foot_text">
                 <p>
                   By clicking on Login, I accept the terms & Conditions &
@@ -275,119 +393,175 @@ export const Address = () => {
         </Box>
       </Drawer>
 
+      {otp ? (
+        <Drawer
+          anchor="right"
+          open={isDraweropen_login}
+          onClose={() => {
+            setisDraweropen_login(false);
+          }}
+        >
+          <Box role="presentation" p={4} width="500px">
+            <CloseIcon
+              className="close_icon"
+              onClick={() => {
+                setisDraweropen_login(false);
+              }}
+              style={{ cursor: "pointer" }}
+            />
+            <div className="login_form">
+              <div className="left_div">
+                <h2>Enter OTP</h2>
+              </div>
+              <form>
+                <input
+                  type="number"
+                  name="Number"
+                  placeholder="Enter the OTP"
+                  className="Number_input"
+                  value={otp_valid}
+                  onChange={(e) => {
+                    setOtp_valid(e.target.value);
+                  }}
+                />
+                <br />
+                <input
+                  type="submit"
+                  value="SUBMIT"
+                  className="login_btn"
+                  onClick={
+                    login ? handleSubmit_Otp_login : handleSubmit_Otp_sigin
+                  }
+                />
+              </form>
+              <div className="foot_text">
+                <p>
+                  By clicking on Login, I accept the terms & Conditions &
+                  Privacy Policy
+                </p>
+              </div>
+            </div>
+          </Box>
+        </Drawer>
+      ) : (
+        ""
+      )}
 
       <div className="main_div_user">
-          
-         <div className="login_div">
-        Login / Register <br />
-        {isLogin_user ?<Button
-            className="btn_address"
-            variant="contained"
-            onClick={() => {
-              setLogin(true);
-              setisDraweropen_login(true)
-            }}
-          >
-            LOGIN / REGISTER
-          </Button>:""}
-        </div>
-      <Drawer
-        anchor="left"
-        open={isDraweropen}
-        onclose={() => {
-          setisDraweropen(false);
-        }}
-      >
-        <Box role="presentation" p={4} width="400px" className="address_box">
-          <CloseIcon
-            onClick={() => {
-              setisDraweropen(false);
-            }}
-            style={{ cursor: "pointer", position: "absolute", right: "30px" }}
-            className="close_address"
-          />
-          <iframe
-            width="400px"
-            height="400px"
-            src={`https://api.mapbox.com/styles/v1/nifty658/cl2tg7el3002l14pelopffxie.html?title=false&access_token=pk.eyJ1IjoibmlmdHk2NTgiLCJhIjoiY2wydDB2eW8wMDQ2bTNrazQybHdpaGd1MyJ9.Zu_154GZs6sdRHr1Og6V8g&zoomwheel=true#10/${location.latitude}/${location.longitude}`}
-            title="Streets"
-            style={{ border: "none", marginTop: "50px", borderRadius: "7px" }}
-          ></iframe>
-
-          <div className="input_address">
-            <input
-              type="text"
-              className="add_address"
-              value={address}
-              placeholder="Add Address"
-              autoFocus={true}
-              spellCheck="false"
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
-            />
-          </div>
-
-          <div className="div_checkbox_address">
-            <label class="control control-checkbox">
-              <input
-                type="checkbox"
-                id="Home"
-                value="Home"
-                className="check"
-                onChange={(e) => {
-                  setCheck(e.target.checked);
-                  setCheck_value(e.target.value);
-                }}
-              />
-              <span className="check_Box">&nbsp;Home</span>
-              <div class="control_indicator"></div>
-            </label>
-            <label class="control control-checkbox">
-              <input
-                type="checkbox"
-                id="Default"
-                value="Default"
-                className="check"
-                onChange={(e) => {
-                  setCheck(e.target.checked);
-                  setCheck_value(e.target.value);
-                }}
-              />
-              <span className="check_Box">&nbsp;Default</span>
-              <div class="control_indicator"></div>
-            </label>
-            <label class="control control-checkbox">
-              <input
-                type="checkbox"
-                id="Office"
-                value="Office"
-                className="check"
-                onChange={(e) => {
-                  setCheck(e.target.checked);
-                  setCheck_value(e.target.value);
-                }}
-              />
-              <span className="check_Box">&nbsp;Office</span>
-              <div class="control_indicator"></div>
-            </label>
-          </div>
-          <div className="button_save">
-            {" "}
+        <div className="login_div">
+          Login / Register <br />
+          {isLogin_user ? (
             <Button
               className="btn_address"
               variant="contained"
-              onMouseLeave={() => {
+              onClick={() => {
+                setLogin(true);
+                setisDraweropen_login(true);
+              }}
+            >
+              LOGIN / REGISTER
+            </Button>
+          ) : (
+            ""
+          )}
+        </div>
+        <Drawer
+          anchor="left"
+          open={isDraweropen}
+          onclose={() => {
+            setisDraweropen(false);
+          }}
+        >
+          <Box role="presentation" p={4} width="400px" className="address_box">
+            <CloseIcon
+              onClick={() => {
                 setisDraweropen(false);
               }}
-              onClick={handleSaveAddress}
-            >
-              Save Address
-            </Button>
-          </div>
-        </Box>
-      </Drawer>
-      
+              style={{ cursor: "pointer", position: "absolute", right: "30px" }}
+              className="close_address"
+            />
+            <iframe
+              width="500px"
+              height="500px"
+              src={`https://api.mapbox.com/styles/v1/nifty658/cl2tg7el3002l14pelopffxie.html?title=false&access_token=pk.eyJ1IjoibmlmdHk2NTgiLCJhIjoiY2wydDB2eW8wMDQ2bTNrazQybHdpaGd1MyJ9.Zu_154GZs6sdRHr1Og6V8g&zoomwheel=true#10/${location.latitude}/${location.longitude}`}
+              title="Streets"
+              style={{ border: "none", marginTop: "50px", borderRadius: "7px" }}
+            ></iframe>
+
+            <div className="input_address">
+              <input
+                type="text"
+                className="add_address"
+                value={address}
+                placeholder="Add Address"
+                autoFocus={true}
+                spellCheck="false"
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
+              />
+            </div>
+
+            <div className="div_checkbox_address">
+              <label class="control control-checkbox">
+                <input
+                  type="checkbox"
+                  id="Home"
+                  value="Home"
+                  className="check"
+                  onChange={(e) => {
+                    setCheck(e.target.checked);
+                    setCheck_value(e.target.value);
+                  }}
+                />
+                <span className="check_Box">&nbsp;Home</span>
+                <div class="control_indicator"></div>
+              </label>
+              <label class="control control-checkbox">
+                <input
+                  type="checkbox"
+                  id="Default"
+                  value="Default"
+                  className="check"
+                  onChange={(e) => {
+                    setCheck(e.target.checked);
+                    setCheck_value(e.target.value);
+                  }}
+                />
+                <span className="check_Box">&nbsp;Default</span>
+                <div class="control_indicator"></div>
+              </label>
+              <label class="control control-checkbox">
+                <input
+                  type="checkbox"
+                  id="Office"
+                  value="Office"
+                  className="check"
+                  onChange={(e) => {
+                    setCheck(e.target.checked);
+                    setCheck_value(e.target.value);
+                  }}
+                />
+                <span className="check_Box">&nbsp;Office</span>
+                <div class="control_indicator"></div>
+              </label>
+            </div>
+            <div className="button_save">
+              {" "}
+              <Button
+                className="btn_address"
+                variant="contained"
+                onMouseLeave={() => {
+                  setisDraweropen(false);
+                }}
+                onClick={handleSaveAddress}
+              >
+                Save Address
+              </Button>
+            </div>
+          </Box>
+        </Drawer>
+
         <div className="address_div">
           Address <br />
           {address_add ? (
@@ -428,10 +602,7 @@ export const Address = () => {
             <div class="wrapper">
               <div class="checkout_wrapper">
                 <div class="product_info">
-                  <img
-                    src={Logo}
-                    alt="product"
-                  />
+                  <img src={Logo} alt="product" />
                   <div class="content">
                     <h3>
                       Enjoy your <br />

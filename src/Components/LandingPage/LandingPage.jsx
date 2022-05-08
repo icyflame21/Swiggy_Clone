@@ -39,13 +39,13 @@ function LandingPage() {
   const [res, setRes] = useState([]);
   const [login, setLogin] = useState(true);
   const [number, setNumber] = useState("");
-  const [otp_valid, setOtp_valid] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState(false);
   const [user_details_array, setUserDetails_array] = useState([]);
   const [verificationId, setVerificationId] = useState("");
+  const [otp_valid, setOtp_valid] = useState("");
 
   let navigate = useNavigate();
   let API_KEY = "5bdc9bb5e105da7714d3b4fda20a88c6";
@@ -57,9 +57,6 @@ function LandingPage() {
   document.body.addEventListener("click", function (e) {
     if (e.target.className != "suggestion" && e.target.className != "show") {
       var listresult = document.querySelector(".suggestion");
-      // var value = document.querySelector('.show').innerText;
-      // console.log(value)
-      // setQuery(value)
       listresult.style.display = "none";
     }
   });
@@ -80,7 +77,7 @@ function LandingPage() {
         }
       }
       setRes(temp);
-    }, 400);
+    }, 300);
     return () => clearTimeout(id);
   }, [query]);
 
@@ -132,6 +129,7 @@ function LandingPage() {
   }
 
   localStorage.setItem("Location", JSON.stringify(query));
+
   useEffect(() => {
     let temp = {
       name: name,
@@ -153,7 +151,6 @@ function LandingPage() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        console.log(JSON.stringify(user));
         setVerificationId(user.uid);
         alert("Account created successfully");
       })
@@ -172,10 +169,9 @@ function LandingPage() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        console.log(JSON.stringify(user));
         if (verificationId !== user.uid) {
           alert("Verification failed ! No User ID found But you can visit the resturants page");
-          // navigate("/restaurants");
+          navigate("/restaurants");
         }
         else {
           alert("User Verified Success!")
