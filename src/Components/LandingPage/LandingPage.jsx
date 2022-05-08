@@ -7,8 +7,8 @@ import Animation from "./Animation";
 import Footer1 from "./Footer1";
 import Footer2 from "./Footer2";
 import { cities } from "../../data";
-import { Link,useNavigate  } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import Firebase from "../../Firebase";
 let id;
 function Card(props) {
   return (
@@ -38,14 +38,17 @@ function LandingPage() {
   const [location, setLocation] = useState("");
   const [res, setRes] = useState([]);
   const [login, setLogin] = useState(true);
-  const [number, setNumber] = useState(null)
-  const [name, setName] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
+  const [number, setNumber] = useState("");
+  const [otp_valid, setOtp_valid] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState(false);
+  const [user_details_array, setUserDetails_array] = useState([]);
   // const [invalidate, setinValidate] = useState(false)
-  let navigate=useNavigate()
+  let navigate = useNavigate();
   let API_KEY = "5bdc9bb5e105da7714d3b4fda20a88c6";
-  
+
   function check() {
     if (!query) document.querySelector(".trip1").style.display = "block";
   }
@@ -53,6 +56,9 @@ function LandingPage() {
   document.body.addEventListener("click", function (e) {
     if (e.target.className != "suggestion" && e.target.className != "show") {
       var listresult = document.querySelector(".suggestion");
+      // var value = document.querySelector('.show').innerText;
+      // console.log(value)
+      // setQuery(value)
       listresult.style.display = "none";
     }
   });
@@ -123,39 +129,67 @@ function LandingPage() {
       }
     }, 2000);
   }
-  
-  localStorage.setItem("user_details",null)
+
   localStorage.setItem("Location", JSON.stringify(query));
 
-  function handleSubmit(e) {
+  function handleSubmit_Otp(e) {
     e.preventDefault();
-    let user = JSON.parse(localStorage.getItem("user_details"))
-    if (user === null) {
-      alert('No user found in Data Base ! Sign in to get Started')
-    }
-    setLogin(false)
+    const code = otp_valid
+    window.confirmationResult.confirm(code).then((result) => {
+      const user = result.user;
+      console.log(JSON.stringify(user))
+      alert("Account created successfully")
+    }).catch((error) => {
+      alert(error.message)
+    });
+    setOtp(false);
+    setisDraweropen(false);
+    localStorage.setItem("user_details", JSON.stringify(user_details_array));
+    // setLogin(false);
+    // navigate("/restaurants");
   }
   useEffect(() => {
     let temp = {
-      name:name,
+      name: name,
       email: email,
-      number:number,
-    }
-    localStorage.setItem("user_details", JSON.stringify(temp))
-  }, [name, email, password])
-  
-  function handleSignin(e) {
-    e.preventDefault()
-    let user = JSON.parse(localStorage.getItem("user_details"))
-    if (user ===null) {
-      alert("For Placing an order , you have to sign in but you can visit the resturants page")
-    }
-    else {
-      alert("Account Created successfully")
-    }
-    setisDraweropen(false);
-    navigate('/restaurants')
-  }
+      number: number,
+    };
+    setUserDetails_array(temp);
+  }, [name, email, number]);
+
+  // Firebase OTP Authentication
+  const configureCaptcha = () => {
+    window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          onLogInSubmit();
+          console.log("Recaptcha verified");
+        },
+        defaultCountry: "IN",
+      }
+    );
+  };
+
+  const onLogInSubmit = (e) => {
+    e.preventDefault();
+    configureCaptcha();
+    const phoneNumber = "+91" + number;
+    const appVerifier = window.recaptchaVerifier;
+    Firebase.auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        console.log(confirmationResult.verificationId)
+      })
+      .catch((error) => {
+       alert(error.message)
+      });
+    setOtp(true);
+    setisDraweropen(true);
+  };
+
   return (
     <>
       <Drawer
@@ -196,6 +230,7 @@ function LandingPage() {
                 />
               </div>
               <form>
+                <div id="sign-in-button"></div>
                 <input
                   type="number"
                   name="Number"
@@ -204,10 +239,17 @@ function LandingPage() {
                   autoFocus={true}
                   spellCheck="false"
                   value={number}
-                  onChange={(e)=>{setNumber(e.target.value)}}
+                  onChange={(e) => {
+                    setNumber(e.target.value);
+                  }}
                 />
                 <br />
-                <input type="submit" value="SUBMIT" className="login_btn" onClick={handleSubmit }/>
+                <input
+                  type="submit"
+                  value="CONTINUE"
+                  className="login_btn"
+                  onClick={onLogInSubmit}
+                />
               </form>
               <div className="foot_text">
                 <p>
@@ -239,6 +281,7 @@ function LandingPage() {
                 />
               </div>
               <form>
+                <div id="sign-in-button"></div>
                 <input
                   type="number"
                   name="Number"
@@ -246,8 +289,10 @@ function LandingPage() {
                   className="Number_input_1"
                   autoFocus={true}
                   spellCheck="false"
-                    value={number}
-                    onChange={(e)=>{setNumber(e.target.value)}}
+                  value={number}
+                  onChange={(e) => {
+                    setNumber(e.target.value);
+                  }}
                 />
                 <br />
                 <input
@@ -255,8 +300,10 @@ function LandingPage() {
                   name="user_name"
                   placeholder="Name"
                   className="Number_input_1"
-                    value={name}
-                    onChange={(e)=>{setName(e.target.value)}}
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
                 />
                 <br />
                 <input
@@ -264,8 +311,10 @@ function LandingPage() {
                   name="email"
                   placeholder="Email"
                   className="Number_input_1"
-                    value={email}
-                    onChange={(e)=>{setEmail(e.target.value)}}
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                 />
                 <br />
                 <input
@@ -273,15 +322,25 @@ function LandingPage() {
                   name="password"
                   placeholder="Password"
                   className="Number_input"
-                    value={password}
-                    onChange={(e)=>{setPassword(e.target.value)}}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                 />
                 <br />
-                
-                  <input type="submit" value="CONTINUE" className="login_btn" onClick={handleSignin}/>
-          
+
+                <input
+                  type="submit"
+                  value="CONTINUE"
+                  className="login_btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOtp(true);
+                    setisDraweropen(true);
+                  }}
+                />
               </form>
-              
+
               <div className="foot_text">
                 <p>
                   By clicking on Login, I accept the terms & Conditions &
@@ -292,6 +351,60 @@ function LandingPage() {
           )}
         </Box>
       </Drawer>
+
+      {otp ? (
+        <Drawer
+          anchor="right"
+          open={isDraweropen}
+          onClose={() => {
+            setisDraweropen(false);
+          }}
+        >
+          <Box role="presentation" p={4} width="500px">
+            <CloseIcon
+              className="close_icon"
+              onClick={() => {
+                setisDraweropen(false);
+              }}
+              style={{ cursor: "pointer" }}
+            />
+            <div className="login_form">
+              <div className="left_div">
+                <h2>Enter OTP</h2>
+              </div>
+              <form>
+                <input
+                  type="number"
+                  name="Number"
+                  placeholder="Enter the OTP"
+                  className="Number_input"
+                  autoFocus={true}
+                  spellCheck="false"
+                  value={otp_valid}
+                  onChange={(e) => {
+                    setOtp_valid(e.target.value);
+                  }}
+                />
+                <br />
+                <input
+                  type="submit"
+                  value="SUBMIT"
+                  className="login_btn"
+                  onClick={handleSubmit_Otp}
+                />
+              </form>
+              <div className="foot_text">
+                <p>
+                  By clicking on Login, I accept the terms & Conditions &
+                  Privacy Policy
+                </p>
+              </div>
+            </div>
+          </Box>
+        </Drawer>
+      ) : (
+        ""
+      )}
 
       <div className="split">
         <div className="left">
@@ -342,7 +455,7 @@ function LandingPage() {
               <button className="posey" onClick={geoLocation}>
                 <i className="far fa-location" /> Locate Me
               </button>
-              
+
               <button onClick={check} id="changing" value="toogle_food">
                 {isLoading ? <LoadingSpinner /> : "Find Food"}
               </button>

@@ -36,7 +36,7 @@ export const Food_Detail = () => {
   const [Value, isValue] = useState("");
   const [cart_items, setCart_items] = useState(false);
   let selectedFood = JSON.parse(localStorage.getItem("foodId"));
-  const { x, y } = useWindowScroll();
+
   const [scrolled, setScrolled] = useState(0);
 
   const [loading, isLoading] = useState(false);
@@ -63,6 +63,7 @@ export const Food_Detail = () => {
     }
   };
 
+  const { x, y } = useWindowScroll();
   useEffect(() => {
     const height =
       document.documentElement.scrollHeight -

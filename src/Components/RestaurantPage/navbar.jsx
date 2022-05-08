@@ -27,7 +27,7 @@ function Navbar() {
   const navigate =useNavigate()
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user_details"));
-    if (user !== null ) {
+    if (user.name !== "" ) {
       setUser_details(user);
       setUser_signin(true);
       setsignIn(true);
@@ -45,7 +45,7 @@ function Navbar() {
   function handleSubmit(e) {
     e.preventDefault();
     let user = JSON.parse(localStorage.getItem("user_details"));
-    if (user ===null) {
+    if (user.number ==="") {
       alert("No user found in Data Base ! Sign in to get Started");
     }
     setLogin(false);

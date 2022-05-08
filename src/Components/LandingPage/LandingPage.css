@@ -100,10 +100,7 @@ input::-webkit-inner-spin-button {
 input:focus{
     caret-color: #fc8019;
     outline:none;
-    border-top:1px solid #fc8019;
-    border-left:1px solid #fc8019;
-    border-bottom:1px solid #fc8019;
-    border-right:1px solid #fc8019;
+    border:1px solid #fc8019;
 }
 .left{
     padding: 25px 25px 25px 75px;
@@ -262,7 +259,7 @@ footer .icons img:hover{
 }
 .show{
     padding-top: 4px;
-    transform: all .2s ease-in;
+    transition: all .2s ease-in;
     cursor: pointer;
 }
 .show:hover{
