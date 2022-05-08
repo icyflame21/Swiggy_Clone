@@ -9,8 +9,6 @@ import Footer2 from "./Footer2";
 import { cities } from "../../data";
 import { Link, useNavigate } from "react-router-dom";
 import Firebase from "../../Firebase";
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props' 
-import Button from "@mui/material/Button";
 let id;
 function Card(props) {
   return (
@@ -48,7 +46,6 @@ function LandingPage() {
   const [user_details_array, setUserDetails_array] = useState([]);
   const [verificationId, setVerificationId] = useState("");
   const [otp_valid, setOtp_valid] = useState("");
-  const [facebook, setFacebook] = useState(false);
   let navigate = useNavigate();
   let API_KEY = "5bdc9bb5e105da7714d3b4fda20a88c6";
 
@@ -254,9 +251,7 @@ function LandingPage() {
     setisDraweropen(true);
   };
 
-  const responseFacebook = (response) => {
-    localStorage.setItem("Facebook_User_Data", JSON.stringify(response));
-  };
+
 
   return (
     <>
@@ -325,30 +320,6 @@ function LandingPage() {
                   Privacy Policy
                 </p>
               </div>
-
-              <Button
-                variant="contained"
-                onClick={() => {
-                  setFacebook(true);
-                }}
-              >
-                {facebook ? (
-                  fbContent=(
-                  <FacebookLogin
-                    appId="717597839383753"
-                    autoLoad
-                    callback={responseFacebook}
-                    render={(renderProps) => (
-                      <button onClick={renderProps.onClick}>
-                        Login with Facebook
-                      </button>
-                    )}
-                    />
-                  )
-                ) : (
-                  "Login With Facebook"
-                )}
-              </Button>
             </div>
           ) : (
             <div className="login_form">
