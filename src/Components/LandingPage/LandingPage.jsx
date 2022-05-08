@@ -151,6 +151,7 @@ function LandingPage() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
+        console.log(JSON.stringify(user));
         setVerificationId(user.uid);
         alert("Account created successfully");
       })
@@ -169,13 +170,15 @@ function LandingPage() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
+        console.log(JSON.stringify(user));
         if (verificationId !== user.uid) {
           alert(
             "Verification failed ! No User ID found But you can visit the resturants page"
           );
-          navigate("/restaurants");
+          // navigate("/restaurants");
         } else {
           alert("User Verified Success!");
+          navigate("/restaurants");
         }
       })
       .catch((error) => {

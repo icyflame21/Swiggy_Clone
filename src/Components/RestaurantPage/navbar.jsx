@@ -88,7 +88,6 @@ export function Navbar() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        console.log(JSON.stringify(user));
         if (verificationId !== user.uid) {
           alert(
             "Verification failed ! To Place the Order account must be verified"
