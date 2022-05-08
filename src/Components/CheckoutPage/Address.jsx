@@ -104,6 +104,8 @@ export const Address = () => {
       localStorage.setItem("Address_Type", JSON.stringify(check_value));
     }
   }, [address, check_value, check]);
+
+
   const handlePayment = () => {
     let div_1 = document.querySelector("#add_address_user_section");
     let div = document.querySelector("#save_address");
@@ -136,6 +138,7 @@ export const Address = () => {
       setisDraweropen(false);
       setAddress_add_status(true);
     }
+
   }, []);
 
   useEffect(() => {
@@ -579,7 +582,7 @@ export const Address = () => {
 
         <div className="address_div">
           Address <br />
-          {address_add ? (
+          {address_add|| address_add_status? (
             <div className="user_address">
               <h2>{JSON.parse(localStorage.getItem("Address_Type"))}</h2>
               <p>{JSON.parse(localStorage.getItem("Address"))}</p>
@@ -596,7 +599,7 @@ export const Address = () => {
               setisDraweropen(true);
             }}
           >
-            {!address_add ? "Add New Address" : "Edit Address"}
+            {!address_add && !address_add_status? "Add New Address" : "Edit Address"}
           </Button>
           {address_add_status ? (
             <Button
