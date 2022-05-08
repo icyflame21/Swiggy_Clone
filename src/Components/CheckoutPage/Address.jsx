@@ -26,6 +26,7 @@ function loadScript(src) {
 export const Address = () => {
   const [isDraweropen, setisDraweropen] = useState(false);
   const [address_add, setAddress_add] = useState(false);
+  const [address_add_status, setAddress_add_status] = useState(false);
   const [location, setLocation] = useState({});
   const [address, setAddress] = useState("");
   const [check, setCheck] = useState(false);
@@ -86,17 +87,23 @@ export const Address = () => {
     paymentObject.open();
     navigate("/thankyou");
   };
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
   const handleSaveAddress = () => {
+    isTime(JSON.parse(localStorage.getItem("foodId")));
+    setAddress_add(true);
+    setAddress_add_status(true);
+    setisDraweropen(false);
+  };
+
+  useEffect(() => {
+    setAddress(address);
+    setCheck_value(check_value);
+    setCheck(check);
     localStorage.setItem("Address", JSON.stringify(address));
     if (check) {
       localStorage.setItem("Address_Type", JSON.stringify(check_value));
     }
-    isTime(JSON.parse(localStorage.getItem("foodId")));
-    setAddress_add(true);
-  };
+  }, [address, check_value, check]);
   const handlePayment = () => {
     let div_1 = document.querySelector("#add_address_user_section");
     let div = document.querySelector("#save_address");
@@ -117,11 +124,20 @@ export const Address = () => {
     navigator.geolocation.getCurrentPosition((success) => {
       setLocation(success.coords);
     });
-    const userCheck = JSON.parse(localStorage.getItem("user_details"));
+    let userCheck = JSON.parse(localStorage.getItem("user_details"));
     if (userCheck.name === "") {
       setIsLogin_user(true);
     }
+    let user_address_local = JSON.parse(localStorage.getItem("Address"));
+    let user_address_type_local = JSON.parse(localStorage.getItem("Address_Type"));
+    console.log(user_address_local)
+    console.log(user_address_type_local)
+    if (user_address_local !== "" || user_address_type_local !== "") {
+      setisDraweropen(false);
+      setAddress_add_status(true);
+    }
   }, []);
+
   useEffect(() => {
     let temp = {
       name: name,
@@ -130,7 +146,8 @@ export const Address = () => {
     };
     setUserDetails_array(temp);
   }, [name, email, number]);
-// Firebase OTP Authentication
+
+  // Firebase OTP Authentication
   function handleSubmit_Otp_sigin(e) {
     e.preventDefault();
     const code = otp_valid;
@@ -158,10 +175,11 @@ export const Address = () => {
       .then((result) => {
         const user = result.user;
         if (verificationId !== user.uid) {
-          alert("Verification failed ! To Place the Order account must be verified");
-        }
-        else {
-          alert("User Verified Success!")
+          alert(
+            "Verification failed ! To Place the Order account must be verified"
+          );
+        } else {
+          alert("User Verified Success!");
         }
       })
       .catch((error) => {
@@ -172,7 +190,7 @@ export const Address = () => {
     window.location.reload(true);
     localStorage.setItem("user_details", JSON.stringify(user_details_array));
   }
- 
+
   const configureCaptcha_signIn = () => {
     window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
       "sign-in-button",
@@ -185,6 +203,7 @@ export const Address = () => {
       }
     );
   };
+
   const configureCaptcha_login = () => {
     window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
       "sign-in-button",
@@ -208,7 +227,6 @@ export const Address = () => {
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
         console.log("OTP Sent Successfully !");
-
       })
       .catch((error) => {
         console.log(error.message);
@@ -216,6 +234,7 @@ export const Address = () => {
     setOtp(true);
     setisDraweropen_login(true);
   };
+
   const onLogInSubmit = (e) => {
     e.preventDefault();
     configureCaptcha_login();
@@ -233,7 +252,6 @@ export const Address = () => {
     setOtp(true);
     setisDraweropen_login(true);
   };
-
 
   return (
     <>
@@ -448,9 +466,9 @@ export const Address = () => {
       )}
 
       <div className="main_div_user">
-        <div className="login_div">
-          Login / Register <br />
-          {isLogin_user ? (
+        {isLogin_user ? (
+          <div className="login_div">
+            Login / Register <br />
             <Button
               className="btn_address"
               variant="contained"
@@ -461,10 +479,11 @@ export const Address = () => {
             >
               LOGIN / REGISTER
             </Button>
-          ) : (
-            ""
-          )}
-        </div>
+          </div>
+        ) : (
+          ""
+        )}
+
         <Drawer
           anchor="left"
           open={isDraweropen}
@@ -481,8 +500,8 @@ export const Address = () => {
               className="close_address"
             />
             <iframe
-              width="500px"
-              height="500px"
+              width="400px"
+              height="400px"
               src={`https://api.mapbox.com/styles/v1/nifty658/cl2tg7el3002l14pelopffxie.html?title=false&access_token=pk.eyJ1IjoibmlmdHk2NTgiLCJhIjoiY2wydDB2eW8wMDQ2bTNrazQybHdpaGd1MyJ9.Zu_154GZs6sdRHr1Og6V8g&zoomwheel=true#10/${location.latitude}/${location.longitude}`}
               title="Streets"
               style={{ border: "none", marginTop: "50px", borderRadius: "7px" }}
@@ -492,9 +511,8 @@ export const Address = () => {
               <input
                 type="text"
                 className="add_address"
-                value={address}
                 placeholder="Add Address"
-                autoFocus={true}
+                value={address}
                 spellCheck="false"
                 onChange={(e) => {
                   setAddress(e.target.value);
@@ -551,9 +569,6 @@ export const Address = () => {
               <Button
                 className="btn_address"
                 variant="contained"
-                onMouseLeave={() => {
-                  setisDraweropen(false);
-                }}
                 onClick={handleSaveAddress}
               >
                 Save Address
@@ -583,7 +598,7 @@ export const Address = () => {
           >
             {!address_add ? "Add New Address" : "Edit Address"}
           </Button>
-          {address_add ? (
+          {address_add_status ? (
             <Button
               className="btn_address"
               id="save_address"

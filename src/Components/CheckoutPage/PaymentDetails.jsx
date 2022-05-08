@@ -31,6 +31,7 @@ export const PaymentDetails = () => {
     total_amount = (+total_amount - (+total_amount * (amt / 100))).toFixed(2)
     isdiscountAmt(+total_amount)
     isCouponApplied(true)
+    setisDraweropen(false);
   }
   
   // function handleCartNum_1() {
@@ -78,9 +79,6 @@ export const PaymentDetails = () => {
             <Button
               className="btn_address"
               variant="contained"
-              onMouseLeave={() => {
-                setisDraweropen(false);
-              }}
               onClick={() => { handleChange(discount_1) }}
             >
               APPLY
@@ -94,9 +92,6 @@ export const PaymentDetails = () => {
             <Button
               className="btn_address"
               variant="contained"
-              onMouseLeave={() => {
-                setisDraweropen(false);
-              }}
               onClick={() => { handleChange(discount_2) }}
             >
               APPLY
@@ -110,9 +105,6 @@ export const PaymentDetails = () => {
             <Button
               className="btn_address"
               variant="contained"
-              onMouseLeave={() => {
-                setisDraweropen(false);
-              }}
               onClick={() => { handleChange(discount_3) }}
             >
               APPLY

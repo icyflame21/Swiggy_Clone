@@ -20,5 +20,5 @@
     border: 3px solid #ffffff;
   }
   body{
-    overflow-x: hidden;
+    overflow-x: hidden!important;
   }
