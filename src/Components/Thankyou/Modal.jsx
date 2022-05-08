@@ -48,11 +48,11 @@ export function BasicModal() {
           </button>
           
         </div>
-        <div class="pyro">
+      </div>
+      <div class="pyro">
           <div class="before"></div>
           <div class="after"></div>
         </div>
       </div>
-    </div>
   );
 }

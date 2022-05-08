@@ -47,7 +47,7 @@
   cursor: pointer;
   border-radius: 30px;
   text-transform: capitalize;
-  box-shadow: 0 10px 16px 1px rgb(251, 174, 187);
+  box-shadow: 0 7px 8px 1px rgb(251, 174, 187);
 }
 .go-home a {
   text-decoration: none;
@@ -343,7 +343,7 @@
 .pyro > .before,
 .pyro > .after {
   position: absolute;
-  top: 0;
+  top: 50px;
   width: 5px;
   height: 5px;
   border-radius: 50%;
