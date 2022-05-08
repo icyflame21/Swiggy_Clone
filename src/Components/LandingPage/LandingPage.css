@@ -123,7 +123,7 @@ position: relative;
 .posey{
         position: absolute;
         top:358px;
-        left:400px;
+        left:385px;
         background-color: transparent;
         padding:20px 10px;
         font-weight: lighter;
@@ -339,4 +339,12 @@ width: 380px;
 font-weight: 400;
 color: black;
 font-size: small;
+}
+.icon_1{
+    padding: 10px;
+    color: #fff;
+    background-color: blue;
+    border: none;
+    font-weight: 600;
+    border-radius: 5px;
 }
