@@ -132,13 +132,11 @@ export const Address = () => {
     }
     let user_address_local = JSON.parse(localStorage.getItem("Address"));
     let user_address_type_local = JSON.parse(localStorage.getItem("Address_Type"));
-    console.log(user_address_local)
-    console.log(user_address_type_local)
+    isTime(JSON.parse(localStorage.getItem("foodId")));
     if (user_address_local !== "" || user_address_type_local !== "") {
       setisDraweropen(false);
       setAddress_add_status(true);
     }
-
   }, []);
 
   useEffect(() => {
@@ -162,7 +160,7 @@ export const Address = () => {
         alert("Account created successfully");
       })
       .catch((error) => {
-        alert(error.message);
+        console.log(error.message);
       });
     setOtp(false);
     setisDraweropen_login(false);

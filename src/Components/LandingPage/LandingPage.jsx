@@ -140,10 +140,10 @@ function LandingPage() {
   }, [name, email, number]);
 
   useEffect(() => {
-  setOtp_valid(otp_valid)
-},[otp_valid])
+    setOtp_valid(otp_valid);
+  }, [otp_valid]);
 
- // Firebase OTP Authentication
+  // Firebase OTP Authentication
   function handleSubmit_Otp_sigin(e) {
     e.preventDefault();
     const code = otp_valid;
@@ -155,7 +155,7 @@ function LandingPage() {
         alert("Account created successfully");
       })
       .catch((error) => {
-        alert(error.message);
+        console.log(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
@@ -170,21 +170,22 @@ function LandingPage() {
       .then((result) => {
         const user = result.user;
         if (verificationId !== user.uid) {
-          alert("Verification failed ! No User ID found But you can visit the resturants page");
+          alert(
+            "Verification failed ! No User ID found But you can visit the resturants page"
+          );
           navigate("/restaurants");
-        }
-        else {
-          alert("User Verified Success!")
+        } else {
+          alert("User Verified Success!");
         }
       })
       .catch((error) => {
-        alert(error.message);
+        console.log(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
     localStorage.setItem("user_details", JSON.stringify(user_details_array));
   }
- 
+
   const configureCaptcha_signIn = () => {
     window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
       "sign-in-button",
@@ -222,10 +223,9 @@ function LandingPage() {
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
         console.log("OTP Sent Successfully !");
-
       })
       .catch((error) => {
-        alert(error.message);
+        console.log(error.message);
       });
     setOtp(true);
     setisDraweropen(true);
@@ -242,7 +242,7 @@ function LandingPage() {
         console.log("OTP Sent Successfully !");
       })
       .catch((error) => {
-        alert(error.message);
+        console.log(error.message);
       });
     setOtp(true);
     setisDraweropen(true);
@@ -442,7 +442,9 @@ function LandingPage() {
                   type="submit"
                   value="SUBMIT"
                   className="login_btn"
-                  onClick={login?handleSubmit_Otp_login:handleSubmit_Otp_sigin}
+                  onClick={
+                    login ? handleSubmit_Otp_login : handleSubmit_Otp_sigin
+                  }
                 />
               </form>
               <div className="foot_text">

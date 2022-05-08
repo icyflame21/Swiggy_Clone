@@ -21,4 +21,5 @@
   }
   body{
     overflow-x: hidden!important;
+    height: fit-content!important;
   }
