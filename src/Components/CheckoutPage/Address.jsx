@@ -163,6 +163,7 @@ export const Address = () => {
       .then((result) => {
         const user = result.user;
         setVerificationId(user.uid);
+        localStorage.setItem("verificationId", JSON.stringify(user.uid));
         alert("Account created successfully");
       })
       .catch((error) => {
@@ -173,12 +174,7 @@ export const Address = () => {
     localStorage.setItem("user_details", JSON.stringify(user_details_array));
     window.location.reload(true);
   }
-
-  useEffect(() => {
-    setVerificationId(verificationId);
-    localStorage.setItem("verificationId", JSON.stringify(verificationId));
-  }, [verificationId]);
-
+  
   function handleSubmit_Otp_login(e) {
     e.preventDefault();
     const code = otp_valid;
@@ -239,10 +235,10 @@ export const Address = () => {
       .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        console.log("OTP Sent Successfully !");
+        alert("OTP Sent Successfully !");
       })
       .catch((error) => {
-        console.log(error.message);
+        alert(error.message);
       });
     setOtp(true);
     setisDraweropen_login(true);

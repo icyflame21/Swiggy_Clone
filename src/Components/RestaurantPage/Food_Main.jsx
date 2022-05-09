@@ -44,15 +44,12 @@ const settings = {
 function Food_Main() {
   const navigate = useNavigate();
   // Preloader Fake Promise
-  const [loading, isLoading] = useState(false);
-  useEffect(() => {
-    isLoading(true);
-    fakePromise(3000).then(() => isLoading(false));
-  }, []);
+  const [loading, isLoading] = useState(true);
 
-  function fakePromise(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  useEffect(() => {
+    setTimeout(() =>{isLoading(false)},3000)
+    
+  }, []);
 
   const handleClick = (id) => {
     localStorage.setItem("foodId", JSON.stringify(foodItems[+id]));
@@ -83,7 +80,7 @@ function Food_Main() {
         btn.classList.add("active_link");
       else btn.classList.remove("active_link");
     });
-    let newArr = [...data];
+    let newArr = [...foodItems];
     if (e.target.innerHTML === "Delivery Time") {
       newArr.sort((a, b) => a.average_time - b.average_time);
     } else if (e.target.innerHTML === "Cost: Low To High") {
@@ -119,15 +116,15 @@ function Food_Main() {
     });
     let array = [],
       resturantId = [];
-    for (var i = 0; i < foodItems.length; i++) {
-      let cuisines = foodItems[i].cuisines;
+    for (var i = 0; i < data.length; i++) {
+      let cuisines = data[i].cuisines;
       for (var j = 0; j < cuisines.length; j++) {
         if (
           result.includes(cuisines[j].toLowerCase().trim()) &&
-          !resturantId.includes(foodItems[i].id)
+          !resturantId.includes(data[i].id)
         ) {
-          array.push(foodItems[i]);
-          resturantId.push(foodItems[i].id);
+          array.push(data[i]);
+          resturantId.push(data[i].id);
         }
       }
     }

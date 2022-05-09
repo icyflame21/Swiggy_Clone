@@ -31,7 +31,7 @@ function Card(props) {
   );
 }
 
-function LandingPage() {
+export function LandingPage() {
   const [isDraweropen, setisDraweropen] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [query, setQuery] = useState("");
@@ -152,6 +152,7 @@ function LandingPage() {
         const user = result.user;
         console.log(JSON.stringify(user));
         setVerificationId(user.uid);
+        localStorage.setItem("verificationId", JSON.stringify(user.uid));
         alert("Account created successfully Login Now !");
         // navigate("/restaurants");
       })
@@ -230,7 +231,7 @@ function LandingPage() {
       .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        console.log("OTP Sent Successfully !");
+        alert("OTP Sent Successfully !");
       })
       .catch((error) => {
         console.log(error.message);
@@ -248,7 +249,7 @@ function LandingPage() {
       .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        console.log("OTP Sent Successfully !");
+        alert("OTP Sent Successfully !");
       })
       .catch((error) => {
         console.log(error.message);
@@ -692,4 +693,3 @@ function LandingPage() {
   );
 }
 
-export { LandingPage };

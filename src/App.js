@@ -7,6 +7,12 @@ import { Food_Detail } from "./Components/RestaurantPage/Food_Detail";
 import { PaymentDetails } from "./Components/CheckoutPage/PaymentDetails";
 import {ThankYou} from "./Components/Thankyou/Thankyou";
 function App() {
+  if (!localStorage.getItem("Cart")) {
+    localStorage.setItem("Cart", JSON.stringify([]))
+  }
+  if (!localStorage.getItem("user_details")) {
+    localStorage.setItem("user_details", JSON.stringify({}))
+  }
   return (
     <>
       <Routes>

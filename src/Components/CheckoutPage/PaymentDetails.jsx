@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Drawer, Box } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -12,45 +12,45 @@ import Coupoun_2 from "../Assets/coupon_2.jpg";
 import Coupoun_3 from "../Assets/coupon_3.jpg";
 export const PaymentDetails = () => {
   const [isDraweropen, setisDraweropen] = useState(false);
-  const [couponApplied, isCouponApplied] = useState(false)
-  const [discountAmt, isdiscountAmt] = useState(0)
-  const [discount_1, isDiscount_1] = useState(30)
-  const [discount_2, isDiscount_2] = useState(20)
-  const [discount_3, isDiscount_3] = useState(50)
-  const [state, setState] = useState([])
-  let total_amount 
+  const [couponApplied, isCouponApplied] = useState(false);
+  const [discountAmt, isdiscountAmt] = useState(0);
+  const [discount_1, isDiscount_1] = useState(30);
+  const [discount_2, isDiscount_2] = useState(20);
+  const [discount_3, isDiscount_3] = useState(50);
+  const [state, setState] = useState([]);
+
+  let total_amount;
   useEffect(() => {
-    let cart = JSON.parse(localStorage.getItem("Cart"))||[]
+    let cart = JSON.parse(localStorage.getItem("Cart")) || [];
     setState(cart);
-    total_amount=state.map((e) => (e = e.price)).reduce((a, b) => a + b, 0) 
+    total_amount = state.map((e) => (e = e.price)).reduce((a, b) => a + b, 0);
   }, []);
 
- 
   const handleChange = (amt) => {
-    total_amount = state.map((e) => (e = e.price)).reduce((a, b) => a + b, 0)
-    total_amount = (+total_amount - (+total_amount * (amt / 100))).toFixed(2)
-    isdiscountAmt(+total_amount)
-    isCouponApplied(true)
+    total_amount = state.map((e) => (e = e.price)).reduce((a, b) => a + b, 0);
+    total_amount = (+total_amount - +total_amount * (amt / 100)).toFixed(2);
+    isdiscountAmt(+total_amount);
+    isCouponApplied(true);
     setisDraweropen(false);
+  };
+
+  const qHandler = (e) => {
+    let id=(e.target.parentElement.id)
+      let index=-1
+      for (let i = 0; i < state.length; i++) {
+        if (state[i].id == id) {
+          index=i
+        }
+      }
+    let temp = [...state]
+    console.log(temp)
+      if (e.target.innerHTML === "+") temp[index].q++
+      else if (temp[index].q !== 1) temp[index].q--
+      else temp.splice(index,1)
+      setState(temp)
+      localStorage.setItem("Cart", JSON.stringify(temp));
   }
   
-  // function handleCartNum_1() {
-  //   iscartAmt(cartAmt + 1)
-  //   // setState(state.price*cartAmt)
-  // }
-  // function handleCartNum_2() {
-  //   iscartAmt(cartAmt - 1)
-  //   if (cartAmt === 0) {
-  //     let div = document.querySelector('.items_div')
-  //     div.style.display = 'none'
-  //     localStorage.removeItem('Cart')
-  //   }
-  //   // setState(Math.floor(state.price/cartAmt))
-  // }
-  const handleCartNum = (num,id) => {
-  // state.map((e)=>e.id===id?)  
-  }
-
 
   return (
     <>
@@ -79,7 +79,9 @@ export const PaymentDetails = () => {
             <Button
               className="btn_address"
               variant="contained"
-              onClick={() => { handleChange(discount_1) }}
+              onClick={() => {
+                handleChange(discount_1);
+              }}
             >
               APPLY
             </Button>
@@ -92,7 +94,9 @@ export const PaymentDetails = () => {
             <Button
               className="btn_address"
               variant="contained"
-              onClick={() => { handleChange(discount_2) }}
+              onClick={() => {
+                handleChange(discount_2);
+              }}
             >
               APPLY
             </Button>
@@ -105,7 +109,9 @@ export const PaymentDetails = () => {
             <Button
               className="btn_address"
               variant="contained"
-              onClick={() => { handleChange(discount_3) }}
+              onClick={() => {
+                handleChange(discount_3);
+              }}
             >
               APPLY
             </Button>
@@ -128,16 +134,20 @@ export const PaymentDetails = () => {
           <div className="items_div_parent">
             {state
               ? state.map((e) => (
-                  <div className="items_div">
+                  <div className="items_div" id={e.id}>
                     {e.veg ? (
                       <img src={Veg} alt="" className="logo_veg_nonVeg" />
                     ) : (
                       <img src={NonVegan} alt="" className="logo_veg_nonVeg" />
                     )}
                     <p className="product">{e.name}</p>
-                    <button className="decrease" onClick={()=>handleCartNum(-1,e.id)}>-</button>
-                  <p className="value">1</p>
-                    <button className="increase" onClick={()=>handleCartNum(1,e.id)}>+</button>
+                    <button className="decrease" onClick={qHandler}>
+                      -
+                    </button>
+                    <p className="value">{e.q}</p>
+                    <button className="increase" onClick={qHandler}>
+                      +
+                    </button>
                     <p className="price">&#8377;{e.price}</p>
                   </div>
                 ))
@@ -154,7 +164,16 @@ export const PaymentDetails = () => {
           <p className="billdetails">Bill Details</p>
           <div className="itemdetails">
             <p className="bill_details_user">Item Total</p>
-            <p className="amount"> &#8377;{couponApplied?discountAmt :state.map((e) => (e = e.price)).reduce((a, b) => a + b, 0).toFixed(2)}</p>
+            <p className="amount">
+              {" "}
+              &#8377;
+              {couponApplied
+                ? discountAmt
+                : state
+                    .map((e) => (e = e.price * e.q))
+                    .reduce((a, b) => a + b, 0)
+                    .toFixed(2)}
+            </p>
           </div>
           <div className="itemdetails">
             <p className="bill_details_user">Delivery Fee | 4.6kms</p>
@@ -173,7 +192,12 @@ export const PaymentDetails = () => {
             <span className="amount_to_paid">
               {" "}
               &#8377;{" "}
-              {couponApplied?discountAmt :state.map((e) => (e = e.price)).reduce((a, b) => a + b, 0).toFixed(2)}
+              {couponApplied
+                ? discountAmt
+                : state
+                    .map((e) => (e = e.price*e.q))
+                    .reduce((a, b) => a + b, 0)
+                    .toFixed(2)}
             </span>
           </div>
         </div>
