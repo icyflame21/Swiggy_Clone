@@ -2,7 +2,7 @@
 
 Swiggy is an Indian online food ordering and delivery platform. Founded in July 2014, Swiggy is based in Bangalore, and operates in 500 Indian cities, as of September 2021. 
 
-Solo construct week Project executed in 7 days.
+**Solo construct week Project executed in 7 days.**
 
 
 ![Logo](https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Swiggy_logo.svg/1200px-Swiggy_logo.svg.png)
