@@ -150,11 +150,9 @@ export function LandingPage() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        console.log(JSON.stringify(user));
         setVerificationId(user.uid);
         localStorage.setItem("verificationId", JSON.stringify(user.uid));
         alert("Account created successfully Login Now !");
-        // navigate("/restaurants");
       })
       .catch((error) => {
         console.log(error.message);
@@ -175,7 +173,6 @@ export function LandingPage() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        console.log(JSON.stringify(user));
         let id = JSON.parse(localStorage.getItem("verificationId"));
         if (id !== user.uid) {
           alert(
