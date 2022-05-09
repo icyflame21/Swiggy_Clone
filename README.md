@@ -80,19 +80,19 @@ else the user first have to logged in then it payment can be done.
 
 **Landing Page**
 
-![Logo](https://thumbs2.imgbox.com/d6/35/dapHztFi_t.jpg)
+![Logo](https://images2.imgbox.com/d6/35/dapHztFi_o.jpg)
 
 **Register / Log In Drawer controlled via Conditional Rendering**
 
-![Logo](https://thumbs2.imgbox.com/d3/7e/IRjy3CQ5_t.jpg)
+![Logo](https://images2.imgbox.com/d3/7e/IRjy3CQ5_o.jpg)
 
 **Restaurants Page**
 
-![Logo](https://thumbs2.imgbox.com/89/31/jigAIxM6_t.jpg)
+![Logo](https://images2.imgbox.com/89/31/jigAIxM6_o.jpg)
 
 **Multi Filter Section Drawer**
 
-![Logo](https://thumbs2.imgbox.com/7f/9f/mz0doOdW_t.jpg)
+![Logo](https://images2.imgbox.com/7f/9f/mz0doOdW_o.jpg)
 
 **Food Details Page**
 
