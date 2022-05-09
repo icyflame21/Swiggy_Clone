@@ -55,25 +55,16 @@ download the .zip file.  Extract the contents of the zip file, then open your te
 
 ## Features ✨
 
-- In Landing Page user can fetch its current location and search bar is enabled with debouncing effect to show city names according to query.
-- Login / Register Page is enabled with conditional rendering , OTP authentication is implemented via Firebase. If user is not authenticated still the user can visit the restaurants page.
-- All pages are been conditionally rendered and all its states are  been managed through local Storage and Redux. 
-- If user gets logged in then the Drawer won't open and if the cart value is zero , it can't move to the payments page.
-- In restaurants page , all data are been manually created , no API integration or third-party web scrapper for this is been used.
+- In Landing Page user can fetch its current location and search bar is enabled with debouncing effect.
+- Login / Register Page is enabled with conditional rendering , OTP authentication is implemented via Firebase.
 - User can sort according to its demand like according to cost, rating etc, and also select the food items from multiple filter section. 
-- In Food details page , user can select food items from different categories , can also search different food items and can also sort them via VEG and NON-VEG.
-- Cart summary page is conditionally controlled using stateHooks 
-- Whole Payment Page is conditionally controlled using stateHooks and its data is been managed using LocalStorage,  if user is already Logged in , then it can directly add address , and place its payment,
-else the user first have to logged in then it payment can be done. 
 - Address Drawer show current location of the user in a customized map implemented using React-Map-Gl.
-- For Payment , Razorpay integration gateway is been used.
+- For Payment , Razorpay gateway is been used.
 
 ## Responsibilities 💪
 
 - Creating Pixel Perfect pure css Animations without using css library, and pixel perfect layouts for every page.
-- Creation of Manual Data for restaurants , cities .
-- The pages are designed in such way that if the user is not logged in then he/she can create a account at every page visit but for food-payment the user have to  get logged in. 
-- All the functionality which are been implemented are in working conditions. 
+- All pages are conditionally controlled using State Hooks, Local Storage.
 - Optimization of all page layouts with its raw css files and its libraries, for the user to have a smoother UI.
 
 ## Snap Shots 📷
