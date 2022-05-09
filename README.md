@@ -117,7 +117,7 @@ else the user first have to logged in then it payment can be done.
 * To have interactive and customised maps along with searching ability  
     https://github.com/visgl/react-map-Gl
 
-# Security Policy
+# Security Policy 🛡️
 
 ## Supported Versions
 
