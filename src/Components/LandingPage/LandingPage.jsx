@@ -174,7 +174,7 @@ function LandingPage() {
           alert(
             "Verification failed ! No User ID found But you can visit the resturants page"
           );
-          // navigate("/restaurants");
+          navigate("/restaurants");
         } else {
           alert("User Verified Success!");
           navigate("/restaurants");
