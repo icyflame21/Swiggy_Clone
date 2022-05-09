@@ -45,6 +45,7 @@ export const Address = () => {
   const [user_details_array, setUserDetails_array] = useState([]);
   const [verificationId, setVerificationId] = useState("");
   const [otp_valid, setOtp_valid] = useState("");
+  const [user_verified, setUser_verified] = useState(false);
 
   const navigate = useNavigate();
 
@@ -105,7 +106,6 @@ export const Address = () => {
     }
   }, [address, check_value, check]);
 
-
   const handlePayment = () => {
     let div_1 = document.querySelector("#add_address_user_section");
     let div = document.querySelector("#save_address");
@@ -131,11 +131,17 @@ export const Address = () => {
       setIsLogin_user(true);
     }
     let user_address_local = JSON.parse(localStorage.getItem("Address"));
-    let user_address_type_local = JSON.parse(localStorage.getItem("Address_Type"));
+    let user_address_type_local = JSON.parse(
+      localStorage.getItem("Address_Type")
+    );
     isTime(JSON.parse(localStorage.getItem("foodId")));
     if (user_address_local !== "" || user_address_type_local !== "") {
       setisDraweropen(false);
       setAddress_add_status(true);
+    }
+    let user_details = JSON.parse(localStorage.getItem("user_details"));
+    if (user_details.name === "") {
+      setUser_verified(true);
     }
   }, []);
 
@@ -577,41 +583,47 @@ export const Address = () => {
             </div>
           </Box>
         </Drawer>
-
-        <div className="address_div">
-          Address <br />
-          {address_add|| address_add_status? (
-            <div className="user_address">
-              <h2>{JSON.parse(localStorage.getItem("Address_Type"))}</h2>
-              <p>{JSON.parse(localStorage.getItem("Address"))}</p>
-              <p style={{ fontWeight: "600" }}> {time.average_time} MINS</p>
-            </div>
-          ) : (
-            ""
-          )}
-          <Button
-            id="add_address_user_section"
-            className="btn_address"
-            variant="contained"
-            onClick={() => {
-              setisDraweropen(true);
-            }}
-          >
-            {!address_add && !address_add_status? "Add New Address" : "Edit Address"}
-          </Button>
-          {address_add_status ? (
+        {user_verified ? (
+          ""
+        ) : (
+          <div className="address_div">
+            Address <br />
+            {address_add || address_add_status ? (
+              <div className="user_address">
+                <h2>{JSON.parse(localStorage.getItem("Address_Type"))}</h2>
+                <p>{JSON.parse(localStorage.getItem("Address"))}</p>
+                <p style={{ fontWeight: "600" }}> {time.average_time} MINS</p>
+              </div>
+            ) : (
+              ""
+            )}
             <Button
+              id="add_address_user_section"
               className="btn_address"
-              id="save_address"
               variant="contained"
-              onClick={handlePayment}
+              onClick={() => {
+                setisDraweropen(true);
+              }}
             >
-              Save
+              {!address_add && !address_add_status
+                ? "Add New Address"
+                : "Edit Address"}
             </Button>
-          ) : (
-            ""
-          )}
-        </div>
+            {address_add_status ? (
+              <Button
+                className="btn_address"
+                id="save_address"
+                variant="contained"
+                onClick={handlePayment}
+              >
+                Save
+              </Button>
+            ) : (
+              ""
+            )}
+          </div>
+        )}
+
         <div className="payment_div">
           Payment <br />
           {payment ? (
