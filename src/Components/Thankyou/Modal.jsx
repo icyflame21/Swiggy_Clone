@@ -3,17 +3,6 @@ import Logo from "../Assets/swiggy.svg";
 import { useNavigate } from "react-router-dom";
 import "./Modal.css";
 import { v4 as uuidv1 } from 'uuid';
-const style = {
-  position: "absolute",
-  top: "53%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "1px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 export function BasicModal() {
   const v1options = {
