@@ -57,8 +57,6 @@ download the .zip file.  Extract the contents of the zip file, then open your te
 
 - In Landing Page user can fetch its current location and search bar is enabled with debouncing effect.
 - Login / Register Page is enabled with conditional rendering , OTP authentication is implemented via Firebase.
-- All pages are been conditionally rendered and all its states are  been managed through local Storage and Redux. 
-- In restaurants page , all data are been manually created , no API integration or third-party web scrapper for this is been used.
 - User can sort according to its demand like according to cost, rating etc, and also select the food items from multiple filter section. 
 - Address Drawer show current location of the user in a customized map implemented using React-Map-Gl.
 - For Payment , Razorpay gateway is been used.
