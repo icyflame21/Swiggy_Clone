@@ -70,8 +70,8 @@ else the user first have to logged in then it payment can be done.
 
 ## Responsibilities 💪
 
-- Creating Pixel Perfect pure css Animations without using css library, and pixel perfect layouts for evey page.
-- Creation of Mannual Data for restaurants , cities .
+- Creating Pixel Perfect pure css Animations without using css library, and pixel perfect layouts for every page.
+- Creation of Manual Data for restaurants , cities .
 - The pages are designed in such way that if the user is not logged in then he/she can create a account at every page visit but for food-payment the user have to  get logged in. 
 - All the functionality which are been implemented are in working conditions. 
 - Optimization of all page layouts with its raw css files and its libraries, for the user to have a smoother UI.
