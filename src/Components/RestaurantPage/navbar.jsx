@@ -73,7 +73,7 @@ export function Navbar() {
         alert("Account created successfully");
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
@@ -98,7 +98,7 @@ export function Navbar() {
         }
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
@@ -143,7 +143,7 @@ export function Navbar() {
         alert("OTP Sent Successfully !");
       })
       .catch((error) => {
-        alert(error.message);
+        console.error(error.message);
       });
     setOtp(true);
     setisDraweropen(true);
@@ -157,10 +157,10 @@ export function Navbar() {
       .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        console.log("OTP Sent Successfully !");
+        alert("OTP Sent Successfully !");
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(true);
     setisDraweropen(true);

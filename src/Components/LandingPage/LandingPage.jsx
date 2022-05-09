@@ -155,16 +155,12 @@ export function LandingPage() {
         alert("Account created successfully Login Now !");
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
     localStorage.setItem("user_details", JSON.stringify(user_details_array));
   }
-  useEffect(() => {
-    setVerificationId(verificationId);
-    localStorage.setItem("verificationId", JSON.stringify(verificationId));
-  }, [verificationId]);
 
   function handleSubmit_Otp_login(e) {
     e.preventDefault();
@@ -185,7 +181,7 @@ export function LandingPage() {
         }
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
@@ -231,7 +227,7 @@ export function LandingPage() {
         alert("OTP Sent Successfully !");
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(true);
     setisDraweropen(true);
@@ -249,7 +245,7 @@ export function LandingPage() {
         alert("OTP Sent Successfully !");
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(true);
     setisDraweropen(true);

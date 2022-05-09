@@ -167,7 +167,7 @@ export const Address = () => {
         alert("Account created successfully");
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(false);
     setisDraweropen_login(false);
@@ -192,7 +192,7 @@ export const Address = () => {
         }
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(false);
     setisDraweropen_login(false);
@@ -238,7 +238,7 @@ export const Address = () => {
         alert("OTP Sent Successfully !");
       })
       .catch((error) => {
-        alert(error.message);
+        console.error(error.message);
       });
     setOtp(true);
     setisDraweropen_login(true);
@@ -253,10 +253,10 @@ export const Address = () => {
       .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        console.log("OTP Sent Successfully !");
+        alert("OTP Sent Successfully !");
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     setOtp(true);
     setisDraweropen_login(true);
