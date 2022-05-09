@@ -47,8 +47,9 @@ function Food_Main() {
   const [loading, isLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() =>{isLoading(false)},3000)
-    
+    setTimeout(() => {
+      isLoading(false);
+    }, 3000);
   }, []);
 
   const handleClick = (id) => {
