@@ -60,8 +60,6 @@ download the .zip file.  Extract the contents of the zip file, then open your te
 - All pages are been conditionally rendered and all its states are  been managed through local Storage and Redux. 
 - In restaurants page , all data are been manually created , no API integration or third-party web scrapper for this is been used.
 - User can sort according to its demand like according to cost, rating etc, and also select the food items from multiple filter section. 
-- Data is been managed using LocalStorage,  if user is already Logged in , then it can directly add address , and place its payment,
-else the user first have to logged in then it payment can be done. 
 - Address Drawer show current location of the user in a customized map implemented using React-Map-Gl.
 - For Payment , Razorpay gateway is been used.
 
