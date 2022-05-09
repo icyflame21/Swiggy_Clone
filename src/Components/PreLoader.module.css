@@ -47,8 +47,4 @@ body {
   letter-spacing: 1px;
   animation: text 3s ease-in-out infinite;
 }
-@keyframes text {
-  50% {
-    color: black;
-  }
-}
+
