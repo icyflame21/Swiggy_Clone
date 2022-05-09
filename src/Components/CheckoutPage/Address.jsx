@@ -174,6 +174,11 @@ export const Address = () => {
     window.location.reload(true);
   }
 
+  useEffect(() => {
+    setVerificationId(verificationId);
+    localStorage.setItem("verificationId", JSON.stringify(verificationId));
+  }, [verificationId]);
+
   function handleSubmit_Otp_login(e) {
     e.preventDefault();
     const code = otp_valid;
@@ -181,7 +186,8 @@ export const Address = () => {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        if (verificationId !== user.uid) {
+        let id = JSON.parse(localStorage.getItem("verificationId"));
+        if (id !== user.uid) {
           alert(
             "Verification failed ! To Place the Order account must be verified"
           );

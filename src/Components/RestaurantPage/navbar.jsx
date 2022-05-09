@@ -47,9 +47,8 @@ export function Navbar() {
   let cart_length = JSON.parse(localStorage.getItem("Cart")) || [];
 
   useEffect(() => {
-    setOtp_valid(otp_valid)
-  }, [otp_valid])
-
+    setOtp_valid(otp_valid);
+  }, [otp_valid]);
 
   useEffect(() => {
     let temp = {
@@ -80,6 +79,10 @@ export function Navbar() {
     localStorage.setItem("user_details", JSON.stringify(user_details_array));
     window.location.reload(true);
   }
+  useEffect(() => {
+    setVerificationId(verificationId);
+    localStorage.setItem("verificationId", JSON.stringify(verificationId));
+  }, [verificationId]);
 
   function handleSubmit_Otp_login(e) {
     e.preventDefault();
@@ -88,7 +91,8 @@ export function Navbar() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        if (verificationId !== user.uid) {
+        let id = JSON.parse(localStorage.getItem("verificationId"));
+        if (id !== user.uid) {
           alert(
             "Verification failed ! To Place the Order account must be verified"
           );
@@ -437,5 +441,3 @@ export function Navbar() {
     </>
   );
 }
-
-

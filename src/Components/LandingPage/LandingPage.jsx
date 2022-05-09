@@ -152,7 +152,8 @@ function LandingPage() {
         const user = result.user;
         console.log(JSON.stringify(user));
         setVerificationId(user.uid);
-        alert("Account created successfully");
+        alert("Account created successfully Login Now !");
+        // navigate("/restaurants");
       })
       .catch((error) => {
         console.log(error.message);
@@ -161,6 +162,10 @@ function LandingPage() {
     setisDraweropen(false);
     localStorage.setItem("user_details", JSON.stringify(user_details_array));
   }
+  useEffect(() => {
+    setVerificationId(verificationId);
+    localStorage.setItem("verificationId", JSON.stringify(verificationId));
+  }, [verificationId]);
 
   function handleSubmit_Otp_login(e) {
     e.preventDefault();
@@ -170,7 +175,8 @@ function LandingPage() {
       .then((result) => {
         const user = result.user;
         console.log(JSON.stringify(user));
-        if (verificationId !== user.uid) {
+        let id = JSON.parse(localStorage.getItem("verificationId"));
+        if (id !== user.uid) {
           alert(
             "Verification failed ! No User ID found But you can visit the resturants page"
           );
@@ -250,8 +256,6 @@ function LandingPage() {
     setOtp(true);
     setisDraweropen(true);
   };
-
-
 
   return (
     <>
