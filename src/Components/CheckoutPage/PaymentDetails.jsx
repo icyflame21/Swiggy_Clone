@@ -23,11 +23,10 @@ export const PaymentDetails = () => {
   useEffect(() => {
     let cart = JSON.parse(localStorage.getItem("Cart")) || [];
     setState(cart);
-    total_amount = state.map((e) => (e = e.price)).reduce((a, b) => a + b, 0);
   }, []);
 
   const handleChange = (amt) => {
-    total_amount = state.map((e) => (e = e.price)).reduce((a, b) => a + b, 0);
+    total_amount = state.map((e) => (e = e.price*e.q)).reduce((a, b) => a + b, 0);
     total_amount = (+total_amount - +total_amount * (amt / 100)).toFixed(2);
     isdiscountAmt(+total_amount);
     isCouponApplied(true);
