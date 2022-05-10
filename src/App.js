@@ -11,7 +11,10 @@ function App() {
     localStorage.setItem("Cart", JSON.stringify([]))
   }
   if (!localStorage.getItem("user_details")) {
-    localStorage.setItem("user_details", JSON.stringify({}))
+    localStorage.setItem("user_details", JSON.stringify({"name": "", "email": "", "number": ""}))
+  }
+  if (!localStorage.getItem("verificationId")) {
+    localStorage.setItem("verificationId", JSON.stringify({}))
   }
   return (
     <>
