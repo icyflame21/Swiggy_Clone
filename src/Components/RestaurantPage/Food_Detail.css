@@ -257,16 +257,12 @@
   padding: 0 25px 15px 25px;
 }
 .items_div_parent{
-  
   width: 350px;
   max-height: 200px;
+  padding:5px;
   overflow-y: auto;
-  padding: 5px;
-  position: relative;
 }
-.items_div_parent::-webkit-scrollbar {
-  width: 0;
-}
+
 .header{
   font-size: xx-large;
   font-weight: 600;
