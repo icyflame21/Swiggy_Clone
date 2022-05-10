@@ -133,14 +133,14 @@
   border-bottom-right-radius: 20px;
 }
 
-.checkout_wrapper .product_info .content{
+.checkout_wrapper .product_info .content_info{
   text-align: center;
   margin-top: 25px;
   color: #fff;
   text-transform: capitalize;
 }
 
-.checkout_wrapper .product_info .content h3{
+.checkout_wrapper .product_info .content_info h3{
   font-size: 18px;
   line-height: 22px;
   letter-spacing: 3px;

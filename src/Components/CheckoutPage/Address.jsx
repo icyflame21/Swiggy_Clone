@@ -633,7 +633,7 @@ export const Address = () => {
               <div class="checkout_wrapper">
                 <div class="product_info">
                   <img src={Logo} alt="product" />
-                  <div class="content">
+                  <div class="content_info">
                     <h3>
                       Enjoy your <br />
                       &nbsp;&nbsp;Food
