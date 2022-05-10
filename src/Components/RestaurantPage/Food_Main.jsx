@@ -52,8 +52,9 @@ function Food_Main() {
     }, 3000);
   }, []);
 
+  
   const handleClick = (id) => {
-    localStorage.setItem("foodId", JSON.stringify(foodItems[+id]));
+    localStorage.setItem("foodId", JSON.stringify(data[+id]));
     navigate(`/food/${id}`);
   };
 

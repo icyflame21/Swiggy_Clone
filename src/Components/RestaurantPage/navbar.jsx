@@ -25,7 +25,6 @@ export function Navbar() {
   const [len, setLen] = useState(0);
   const [verificationId, setVerificationId] = useState("");
   const [otp, setOtp] = useState(false);
-  const [user_details_array, setUserDetails_array] = useState([]);
   const [otp_valid, setOtp_valid] = useState("");
 
   const location = JSON.parse(localStorage.getItem("Location"));
@@ -44,19 +43,20 @@ export function Navbar() {
     setLen(cart.length);
   }, [cart]);
 
-  let cart_length = JSON.parse(localStorage.getItem("Cart")) || [];
-
   useEffect(() => {
     setOtp_valid(otp_valid);
   }, [otp_valid]);
 
   useEffect(() => {
-    let temp = {
-      name: name,
-      email: email,
-      number: number,
-    };
-    setUserDetails_array(temp);
+    let user=JSON.parse(localStorage.getItem("user_details"))
+    if (user.name == "" || user.email == "" || user.number == "") {
+      let temp = {
+        name: name,
+        email: email,
+        number: number,
+      };
+     localStorage.setItem("user_details",JSON.stringify(temp));
+    }
   }, [name, email, number]);
 
   // Firebase OTP Authentication
@@ -77,7 +77,6 @@ export function Navbar() {
       });
     setOtp(false);
     setisDraweropen(false);
-    localStorage.setItem("user_details", JSON.stringify(user_details_array));
     window.location.reload(true);
   }
 
@@ -103,7 +102,6 @@ export function Navbar() {
     setOtp(false);
     setisDraweropen(false);
     window.location.reload(true);
-    localStorage.setItem("user_details", JSON.stringify(user_details_array));
   }
 
   const configureCaptcha_signIn = () => {

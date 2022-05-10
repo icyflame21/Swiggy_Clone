@@ -36,7 +36,6 @@ export const Food_Detail = () => {
   const [scrolled, setScrolled] = useState(0);
   const [loading, isLoading] = useState(false);
 
-  let selectedFood = JSON.parse(localStorage.getItem("foodId"));
 
   useEffect(() => {
     isLoading(true);
@@ -70,6 +69,8 @@ export const Food_Detail = () => {
   }, [y]);
 
   useEffect(() => {
+    let selectedFood = JSON.parse(localStorage.getItem("foodId"));
+    console.log(selectedFood);
     setData(selectedFood);
     setShowData(selectedFood.items);
     let cart_value = JSON.parse(localStorage.getItem("Cart"));

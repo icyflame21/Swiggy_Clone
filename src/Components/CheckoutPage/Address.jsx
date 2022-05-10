@@ -42,7 +42,6 @@ export const Address = () => {
   const [password, setPassword] = useState("");
   const [isDraweropen_login, setisDraweropen_login] = useState(false);
   const [otp, setOtp] = useState(false);
-  const [user_details_array, setUserDetails_array] = useState([]);
   const [verificationId, setVerificationId] = useState("");
   const [otp_valid, setOtp_valid] = useState("");
   const [user_verified, setUser_verified] = useState(false);
@@ -146,12 +145,15 @@ export const Address = () => {
   }, []);
 
   useEffect(() => {
-    let temp = {
-      name: name,
-      email: email,
-      number: number,
-    };
-    setUserDetails_array(temp);
+    let user=JSON.parse(localStorage.getItem("user_details"))
+    if (user.name == "" || user.email == "" || user.number == "") {
+      let temp = {
+        name: name,
+        email: email,
+        number: number,
+      };
+      localStorage.setItem("user_details", JSON.stringify(temp));
+    }
   }, [name, email, number]);
 
   // Firebase OTP Authentication
@@ -171,7 +173,6 @@ export const Address = () => {
       });
     setOtp(false);
     setisDraweropen_login(false);
-    localStorage.setItem("user_details", JSON.stringify(user_details_array));
     window.location.reload(true);
   }
   
@@ -197,7 +198,6 @@ export const Address = () => {
     setOtp(false);
     setisDraweropen_login(false);
     window.location.reload(true);
-    localStorage.setItem("user_details", JSON.stringify(user_details_array));
   }
 
   const configureCaptcha_signIn = () => {

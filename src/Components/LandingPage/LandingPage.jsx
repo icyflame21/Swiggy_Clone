@@ -43,7 +43,6 @@ export function LandingPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState(false);
-  const [user_details_array, setUserDetails_array] = useState([]);
   const [verificationId, setVerificationId] = useState("");
   const [otp_valid, setOtp_valid] = useState("");
   let navigate = useNavigate();
@@ -52,13 +51,6 @@ export function LandingPage() {
   function check() {
     if (!query) document.querySelector(".trip1").style.display = "block";
   }
-
-  document.body.addEventListener("click", function (e) {
-    if (e.target.className != "suggestion" && e.target.className != "show") {
-      var listresult = document.querySelector(".suggestion");
-      listresult.style.display = "none";
-    }
-  });
 
   useEffect(() => {
     if (!query) return;
@@ -130,12 +122,16 @@ export function LandingPage() {
   localStorage.setItem("Location", JSON.stringify(query));
 
   useEffect(() => {
-    let temp = {
-      name: name,
-      email: email,
-      number: number,
-    };
-    setUserDetails_array(temp);
+    let user=JSON.parse(localStorage.getItem("user_details"))
+    if (user.name == "" || user.email == "" || user.number == "") {
+      let temp = {
+        name: name,
+        email: email,
+        number: number,
+      };
+      localStorage.setItem("user_details", JSON.stringify(temp));
+    }
+   
   }, [name, email, number]);
 
   useEffect(() => {
@@ -159,7 +155,6 @@ export function LandingPage() {
       });
     setOtp(false);
     setisDraweropen(false);
-    localStorage.setItem("user_details", JSON.stringify(user_details_array));
   }
 
   function handleSubmit_Otp_login(e) {
@@ -185,7 +180,6 @@ export function LandingPage() {
       });
     setOtp(false);
     setisDraweropen(false);
-    localStorage.setItem("user_details", JSON.stringify(user_details_array));
   }
 
   const configureCaptcha_signIn = () => {
@@ -685,4 +679,3 @@ export function LandingPage() {
     </>
   );
 }
-
