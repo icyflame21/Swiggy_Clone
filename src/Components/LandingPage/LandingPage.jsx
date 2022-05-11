@@ -122,8 +122,9 @@ export function LandingPage() {
   localStorage.setItem("Location", JSON.stringify(query));
 
   useEffect(() => {
-    let user=JSON.parse(localStorage.getItem("user_details"))
-    if (user.name == "" || user.email == "" || user.number == "") {
+    let user = JSON.parse(localStorage.getItem("user_details"))
+    let id= JSON.parse(localStorage.getItem("verificationId"))
+    if (user.name == "" || user.email == "" || user.number == "" || id=="") {
       let temp = {
         name: name,
         email: email,

@@ -14,7 +14,7 @@ function App() {
     localStorage.setItem("user_details", JSON.stringify({"name": "", "email": "", "number": ""}))
   }
   if (!localStorage.getItem("verificationId")) {
-    localStorage.setItem("verificationId", JSON.stringify({}))
+    localStorage.setItem("verificationId", JSON.stringify({"verificationId":""}))
   }
   return (
     <>
