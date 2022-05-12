@@ -87,7 +87,7 @@
   top: 11px;
 }
 .container_navbar {
-  max-width: 1300px;
+  max-width: max-content;
   margin: auto;
   border-bottom: 1.5px solid lightgray;
   margin-top: 15px;
@@ -95,7 +95,7 @@
 .nav_food {
   display: flex;
   align-items: center;
-  gap: 400px;
+  gap: 500px;
 }
 .action_buttons {
   display: flex;
