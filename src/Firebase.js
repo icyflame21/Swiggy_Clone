@@ -1,16 +1,18 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore';
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAqlZDRhrDUGEhr36YgnTAkbm50XL5yZ8E",
-  authDomain: "swiggy-b87f6.firebaseapp.com",
-  projectId: "swiggy-b87f6",
-  storageBucket: "swiggy-b87f6.appspot.com",
-  messagingSenderId: "502614518036",
-  appId: "1:502614518036:web:8afeacda6f1584b52ffa01"
-};
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID
+}
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
