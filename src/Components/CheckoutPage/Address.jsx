@@ -191,6 +191,7 @@ export const Address = () => {
           );
         } else {
           alert("User Verified Success!");
+          window.location.reload(true);
         }
       })
       .catch((error) => {
@@ -198,7 +199,7 @@ export const Address = () => {
       });
     setOtp(false);
     setisDraweropen_login(false);
-    window.location.reload(true);
+    
   }
 
   const configureCaptcha_signIn = () => {

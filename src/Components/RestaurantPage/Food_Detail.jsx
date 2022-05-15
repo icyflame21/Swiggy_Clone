@@ -36,7 +36,6 @@ export const Food_Detail = () => {
   const [scrolled, setScrolled] = useState(0);
   const [loading, isLoading] = useState(false);
 
-
   useEffect(() => {
     isLoading(true);
     fakePromise(3000).then(() => isLoading(false));
@@ -70,11 +69,10 @@ export const Food_Detail = () => {
 
   useEffect(() => {
     let selectedFood = JSON.parse(localStorage.getItem("foodId"));
-    console.log(selectedFood);
     setData(selectedFood);
     setShowData(selectedFood.items);
     let cart_value = JSON.parse(localStorage.getItem("Cart"));
-   
+
     setCart([...cart_value]);
   }, []);
 
@@ -86,7 +84,7 @@ export const Food_Detail = () => {
     // cart_selected.push(data);
     // setCart([...cart, ...cart_selected]);
     setOpen(true);
-    let isFound=false
+    let isFound = false;
     for (let i = 0; i < array.length; i++) {
       if (array[i].id == data.id) {
         isFound = true;
@@ -125,20 +123,20 @@ export const Food_Detail = () => {
   };
 
   const qHandler = (e) => {
-  let id=(e.target.parentElement.id)
-    let index=-1
+    let id = e.target.parentElement.id;
+    let index = -1;
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].id == id) {
-        index=i
+        index = i;
       }
     }
-    let temp = [...cart]
-    if (e.target.innerHTML === "+") temp[index].q++
-    else if (temp[index].q !== 1) temp[index].q--
-    else temp.splice(index,1)
-    setCart(temp)
+    let temp = [...cart];
+    if (e.target.innerHTML === "+") temp[index].q++;
+    else if (temp[index].q !== 1) temp[index].q--;
+    else temp.splice(index, 1);
+    setCart(temp);
     localStorage.setItem("Cart", JSON.stringify(temp));
-}
+  };
 
   return loading ? (
     <PreLoader />
@@ -277,7 +275,7 @@ export const Food_Detail = () => {
             <div className="items_div_parent">
               {cart
                 ? cart.map((e) => (
-                  <div className="items_div" id={ e.id}>
+                    <div className="items_div" id={e.id}>
                       {e.veg ? (
                         <img src={Veg} alt="" className="logo_veg_nonVeg" />
                       ) : (
@@ -288,10 +286,16 @@ export const Food_Detail = () => {
                         />
                       )}
                       <p className="product">{e.name}</p>
-                    <button className="decrease" onClick={ qHandler}>-</button>
-                    <p className="value">{e.q}</p>
-                    <button className="increase" onClick={ qHandler}>+</button>
-                      <p className="price">&#8377;{(e.price*e.q).toFixed(2)}</p>
+                      <button className="decrease" onClick={qHandler}>
+                        -
+                      </button>
+                      <p className="value">{e.q}</p>
+                      <button className="increase" onClick={qHandler}>
+                        +
+                      </button>
+                      <p className="price">
+                        &#8377;{(e.price * e.q).toFixed(2)}
+                      </p>
                     </div>
                   ))
                 : ""}
@@ -306,7 +310,7 @@ export const Food_Detail = () => {
               <div className="total_price_1">
                 &#8377;
                 {cart
-                  .map((e) => (e = e.price*e.q))
+                  .map((e) => (e = e.price * e.q))
                   .reduce((a, b) => a + b, 0)
                   .toFixed(2)}
               </div>
