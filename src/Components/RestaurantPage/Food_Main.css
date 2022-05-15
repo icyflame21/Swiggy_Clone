@@ -89,12 +89,17 @@
 .container_navbar {
   max-width: max-content;
   margin: auto;
+  transition: all 0.5s ease-in-out;
+  position:sticky;
+  top: 10px;
+  z-index:100;
+  background-color:#ffffff;
   border-bottom: 1.5px solid lightgray;
-  margin-top: 15px;
 }
 .nav_food {
   display: flex;
   align-items: center;
+  justify-content: space-around;
   gap: 470px;
 }
 .action_buttons {
