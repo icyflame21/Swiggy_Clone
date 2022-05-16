@@ -14,7 +14,8 @@
 /build
 
 # misc
-src/restaurantData.js 
+
+src\restaurantData.js 
 src/data.js 
 src/Citiesdata.js
 .env
