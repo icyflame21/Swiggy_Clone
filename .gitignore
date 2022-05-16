@@ -14,12 +14,12 @@
 /build
 
 # misc
-~/.restaurantData.js
-~/.data.js
-~/.Citiesdata.js
+restaurantData.js 
+data.js 
+Citiesdata.js
 .env
-.DS_Store
 .env.local
+.DS_Store
 .env.development.local
 .env.test.local
 .env.production.local
