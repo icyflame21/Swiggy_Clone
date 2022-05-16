@@ -14,9 +14,9 @@
 /build
 
 # misc
-restaurantData.js 
-data.js 
-Citiesdata.js
+src/restaurantData.js 
+src/data.js 
+src/Citiesdata.js
 .env
 .env.local
 .DS_Store
