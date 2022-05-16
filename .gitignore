@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+
+
 # testing
 /coverage
 
@@ -12,6 +14,9 @@
 /build
 
 # misc
+~/.restaurantData.js
+~/.data.js
+~/.Citiesdata.js
 .env
 .DS_Store
 .env.local
