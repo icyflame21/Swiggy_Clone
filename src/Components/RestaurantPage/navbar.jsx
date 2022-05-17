@@ -68,17 +68,17 @@ export function Navbar() {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        console.log(JSON.stringify(user));
         setVerificationId(user.uid);
         localStorage.setItem("verificationId", JSON.stringify(user.uid));
         alert("Account created successfully");
+        window.location.reload(true);
       })
       .catch((error) => {
         console.error(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
-    window.location.reload(true);
+
   }
 
   function handleSubmit_Otp_login(e) {
@@ -102,7 +102,6 @@ export function Navbar() {
       });
     setOtp(false);
     setisDraweropen(false);
-    window.location.reload(true);
   }
 
   const configureCaptcha_signIn = () => {

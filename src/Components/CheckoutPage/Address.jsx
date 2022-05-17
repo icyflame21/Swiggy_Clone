@@ -168,13 +168,13 @@ export const Address = () => {
         setVerificationId(user.uid);
         localStorage.setItem("verificationId", JSON.stringify(user.uid));
         alert("Account created successfully");
+        window.location.reload(true);
       })
       .catch((error) => {
         console.error(error.message);
       });
     setOtp(false);
     setisDraweropen_login(false);
-    window.location.reload(true);
   }
 
   function handleSubmit_Otp_login(e) {

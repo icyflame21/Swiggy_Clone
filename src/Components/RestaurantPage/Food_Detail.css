@@ -77,8 +77,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
-  bottom: 10px;
   height: fit-content;
   border-bottom: 1.5px solid lightgray;
   padding-bottom: 40px;
@@ -87,8 +85,10 @@
 .food_products {
   max-width: fit-content;
   margin: auto;
+  border-left: 1px solid lightgray;
+  margin-top: 55px;
+  padding-left: 50px;
   text-align: left;
-  padding-top: 25px;
 }
 .veg_logo img {
   width: 24px;
@@ -142,15 +142,14 @@
 .side_section {
   position: absolute;
   top: 410px;
-  left: 200px;
+  left: 233px;
   margin: 0;
   text-align: left;
   width: 230px;
   word-wrap: break-word;
   letter-spacing: .8px;
   line-height: 1.5rem;
-  border-right:1px solid lightgray;
-  height: 100vh;
+
 }
 .side_section_filters {
   margin-top: -8px;
