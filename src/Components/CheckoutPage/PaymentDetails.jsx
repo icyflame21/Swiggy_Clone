@@ -42,7 +42,6 @@ export const PaymentDetails = () => {
         }
       }
     let temp = [...state]
-    console.log(temp)
       if (e.target.innerHTML === "+") temp[index].q++
       else if (temp[index].q !== 1) temp[index].q--
       else temp.splice(index,1)
