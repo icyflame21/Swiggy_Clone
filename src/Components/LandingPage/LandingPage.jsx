@@ -7,7 +7,7 @@ import Animation from "./Animation";
 import Footer1 from "./Footer1";
 import Footer2 from "./Footer2";
 import { cities } from "../../data";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Firebase from "../../Firebase";
 let id;
 function Card(props) {
@@ -122,9 +122,14 @@ export function LandingPage() {
   localStorage.setItem("Location", JSON.stringify(query));
 
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("user_details"))
-    let id= JSON.parse(localStorage.getItem("verificationId"))
-    if (user.name == "" || user.email == "" || user.number == "" || id.verificationId=="") {
+    let id = JSON.parse(localStorage.getItem("verificationId"));
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (
+      user.name == "" ||
+      user.email == "" ||
+      user.number == "" ||
+      id.verificationId == ""
+    ) {
       let temp = {
         name: name,
         email: email,
@@ -132,7 +137,6 @@ export function LandingPage() {
       };
       localStorage.setItem("user_details", JSON.stringify(temp));
     }
-   
   }, [name, email, number]);
 
   useEffect(() => {
@@ -149,10 +153,10 @@ export function LandingPage() {
         const user = result.user;
         setVerificationId(user.uid);
         localStorage.setItem("verificationId", JSON.stringify(user.uid));
-        alert("Account created successfully Login Now !");
+        alert('Account created successfully Login Now !')
       })
       .catch((error) => {
-        console.error(error.message);
+        alert(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
@@ -168,7 +172,7 @@ export function LandingPage() {
         let id = JSON.parse(localStorage.getItem("verificationId"));
         if (id !== user.uid) {
           alert(
-            "Verification failed ! No User ID found But you can visit the resturants page"
+            "Verification failed ! \n No User ID found But you can visit the resturants page"
           );
           navigate("/restaurants");
         } else {
@@ -177,7 +181,7 @@ export function LandingPage() {
         }
       })
       .catch((error) => {
-        console.error(error.message);
+        alert(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
@@ -188,9 +192,9 @@ export function LandingPage() {
       "sign-in-button",
       {
         size: "invisible",
-        callback: (response) => {
+        callback: () => {
           onSigninSubmit();
-          console.log("Recaptcha verified");
+          alert("Recaptcha verified");
         },
         defaultCountry: "IN",
       }
@@ -203,7 +207,7 @@ export function LandingPage() {
         size: "invisible",
         callback: (response) => {
           onLogInSubmit();
-          console.log("Recaptcha verified");
+          alert("Recaptcha verified");
         },
         defaultCountry: "IN",
       }
@@ -212,38 +216,46 @@ export function LandingPage() {
 
   const onSigninSubmit = (e) => {
     e.preventDefault();
-    configureCaptcha_signIn();
-    const phoneNumber = "+91" + number;
-    const appVerifier = window.recaptchaVerifier;
-    Firebase.auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        alert("OTP Sent Successfully !");
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-    setOtp(true);
-    setisDraweropen(true);
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (user.name !== "" || user.email !== "" || user.number !== "") {
+      configureCaptcha_signIn();
+      const phoneNumber = "+91" + number;
+      const appVerifier = window.recaptchaVerifier;
+      Firebase.auth()
+        .signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP Sent Successfully !");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+
+      setOtp(true);
+      setisDraweropen(true);
+    }
   };
 
   const onLogInSubmit = (e) => {
     e.preventDefault();
-    configureCaptcha_login();
-    const phoneNumber = "+91" + number;
-    const appVerifier = window.recaptchaVerifier;
-    Firebase.auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        alert("OTP Sent Successfully !");
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-    setOtp(true);
-    setisDraweropen(true);
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (user.number !== "") {
+      configureCaptcha_login();
+      const phoneNumber = "+91" + number;
+      const appVerifier = window.recaptchaVerifier;
+      Firebase.auth()
+        .signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP Sent Successfully !");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+
+      setOtp(true);
+      setisDraweropen(true);
+    }
   };
 
   return (
@@ -293,7 +305,7 @@ export function LandingPage() {
                   placeholder="Phone Number"
                   className="Number_input"
                   autoFocus={true}
-                  spellCheck="false"
+                  spellCheck={false}
                   value={number}
                   onChange={(e) => {
                     setNumber(e.target.value);
@@ -344,7 +356,7 @@ export function LandingPage() {
                   placeholder="Phone Number"
                   className="Number_input_1"
                   autoFocus={true}
-                  spellCheck="false"
+                  spellCheck={false}
                   value={number}
                   onChange={(e) => {
                     setNumber(e.target.value);
@@ -428,6 +440,7 @@ export function LandingPage() {
                 <input
                   type="number"
                   name="Number"
+                  autoFocus={true}
                   placeholder="Enter the OTP"
                   className="Number_input"
                   value={otp_valid}
@@ -534,7 +547,8 @@ export function LandingPage() {
                 className="show"
               >
                 <p className="city-name show city">
-                  <i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;&nbsp; {i}
+                  <i className="fas fa-map-marker-alt"></i>&nbsp;&nbsp;&nbsp;{" "}
+                  {i}
                 </p>
               </div>
             ))}
@@ -622,14 +636,14 @@ export function LandingPage() {
         <div className="do2">
           <div>
             <img
-              class="set"
+              className="set"
               src="https://web.archive.org/web/20210903175342im_/https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_768,h_978/pixel_wbdy4n"
               alt=""
             />
           </div>
           <div>
             <img
-              class="set1"
+              className="set1"
               src="https://web.archive.org/web/20210903175343im_/https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_768,h_978/iPhone_wgconp_j0d1fn"
               alt=""
             />

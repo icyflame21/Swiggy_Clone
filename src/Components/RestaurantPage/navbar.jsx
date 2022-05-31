@@ -74,7 +74,7 @@ export function Navbar() {
         window.location.reload(true);
       })
       .catch((error) => {
-        console.error(error.message);
+        alert(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
@@ -98,7 +98,7 @@ export function Navbar() {
         }
       })
       .catch((error) => {
-        console.error(error.message);
+        alert(error.message);
       });
     setOtp(false);
     setisDraweropen(false);
@@ -109,8 +109,9 @@ export function Navbar() {
       "sign-in-button",
       {
         size: "invisible",
-        callback: (response) => {
+        callback: () => {
           onSigninSubmit();
+          alert("Recaptcha verified");
         },
         defaultCountry: "IN",
       }
@@ -121,8 +122,9 @@ export function Navbar() {
       "sign-in-button",
       {
         size: "invisible",
-        callback: (response) => {
+        callback: () => {
           onLogInSubmit();
+          alert("Recaptcha verified");
         },
         defaultCountry: "IN",
       }
@@ -131,37 +133,43 @@ export function Navbar() {
 
   const onSigninSubmit = (e) => {
     e.preventDefault();
-    configureCaptcha_signIn();
-    const phoneNumber = "+91" + number;
-    const appVerifier = window.recaptchaVerifier;
-    Firebase.auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        alert("OTP Sent Successfully !");
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-    setOtp(true);
-    setisDraweropen(true);
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (user.name !== "" || user.email !== "" || user.number !== "") {
+      configureCaptcha_signIn();
+      const phoneNumber = "+91" + number;
+      const appVerifier = window.recaptchaVerifier;
+      Firebase.auth()
+        .signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP Sent Successfully !");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+      setOtp(true);
+      setisDraweropen(true);
+    }
   };
   const onLogInSubmit = (e) => {
     e.preventDefault();
-    configureCaptcha_login();
-    const phoneNumber = "+91" + number;
-    const appVerifier = window.recaptchaVerifier;
-    Firebase.auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        alert("OTP Sent Successfully !");
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-    setOtp(true);
-    setisDraweropen(true);
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (user.number !== "") {
+      configureCaptcha_login();
+      const phoneNumber = "+91" + number;
+      const appVerifier = window.recaptchaVerifier;
+      Firebase.auth()
+        .signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP Sent Successfully !");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+      setOtp(true);
+      setisDraweropen(true);
+    }
   };
 
   return (

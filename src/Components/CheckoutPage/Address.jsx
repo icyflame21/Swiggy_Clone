@@ -147,7 +147,12 @@ export const Address = () => {
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user_details"));
     let id = JSON.parse(localStorage.getItem("verificationId"));
-    if (user.name == "" || user.email == "" || user.number == "" || id.verificationId == "") {
+    if (
+      user.name == "" ||
+      user.email == "" ||
+      user.number == "" ||
+      id.verificationId == ""
+    ) {
       let temp = {
         name: name,
         email: email,
@@ -171,7 +176,7 @@ export const Address = () => {
         window.location.reload(true);
       })
       .catch((error) => {
-        console.error(error.message);
+        alert(error.message);
       });
     setOtp(false);
     setisDraweropen_login(false);
@@ -195,11 +200,10 @@ export const Address = () => {
         }
       })
       .catch((error) => {
-        console.error(error.message);
+        alert(error.message);
       });
     setOtp(false);
     setisDraweropen_login(false);
-    
   }
 
   const configureCaptcha_signIn = () => {
@@ -207,8 +211,10 @@ export const Address = () => {
       "sign-in-button",
       {
         size: "invisible",
-        callback: (response) => {
+        callback: () => {
           onSigninSubmit();
+          alert("Recaptcha verified");
+
         },
         defaultCountry: "IN",
       }
@@ -220,8 +226,10 @@ export const Address = () => {
       "sign-in-button",
       {
         size: "invisible",
-        callback: (response) => {
+        callback: () => {
           onLogInSubmit();
+          alert("Recaptcha verified");
+
         },
         defaultCountry: "IN",
       }
@@ -230,38 +238,44 @@ export const Address = () => {
 
   const onSigninSubmit = (e) => {
     e.preventDefault();
-    configureCaptcha_signIn();
-    const phoneNumber = "+91" + number;
-    const appVerifier = window.recaptchaVerifier;
-    Firebase.auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        alert("OTP Sent Successfully !");
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-    setOtp(true);
-    setisDraweropen_login(true);
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (user.name !== "" || user.email !== "" || user.number !== "") {
+      configureCaptcha_signIn();
+      const phoneNumber = "+91" + number;
+      const appVerifier = window.recaptchaVerifier;
+      Firebase.auth()
+        .signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP Sent Successfully !");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+      setOtp(true);
+      setisDraweropen_login(true);
+    }
   };
 
   const onLogInSubmit = (e) => {
     e.preventDefault();
-    configureCaptcha_login();
-    const phoneNumber = "+91" + number;
-    const appVerifier = window.recaptchaVerifier;
-    Firebase.auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        alert("OTP Sent Successfully !");
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-    setOtp(true);
-    setisDraweropen_login(true);
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (user.number !== "") {
+      configureCaptcha_login();
+      const phoneNumber = "+91" + number;
+      const appVerifier = window.recaptchaVerifier;
+      Firebase.auth()
+        .signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP Sent Successfully !");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+      setOtp(true);
+      setisDraweropen_login(true);
+    }
   };
 
   return (
