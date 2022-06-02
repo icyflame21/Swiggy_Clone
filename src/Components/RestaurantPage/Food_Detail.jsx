@@ -86,7 +86,7 @@ export const Food_Detail = () => {
     setOpen(true);
     let isFound = false;
     for (let i = 0; i < array.length; i++) {
-      if (array[i].id == data.id) {
+      if (array[i].id === data.id) {
         isFound = true;
       }
     }
@@ -115,7 +115,7 @@ export const Food_Detail = () => {
 
     let fil = e.target.innerText.toLowerCase();
     let newarr = data.items.filter(
-      (item) => item.category.toLowerCase() == fil
+      (item) => item.category.toLowerCase() === fil
     );
     setShowData([...newarr]);
     isValue(e.target.innerText);
@@ -126,7 +126,7 @@ export const Food_Detail = () => {
     let id = e.target.parentElement.id;
     let index = -1;
     for (let i = 0; i < cart.length; i++) {
-      if (cart[i].id == id) {
+      if (cart[i].id === id) {
         index = i;
       }
     }
