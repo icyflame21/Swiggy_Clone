@@ -35,7 +35,6 @@ export function LandingPage() {
   const [isDraweropen, setisDraweropen] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const [location, setLocation] = useState("");
   const [res, setRes] = useState([]);
   const [login, setLogin] = useState(true);
   const [number, setNumber] = useState("");
@@ -49,7 +48,18 @@ export function LandingPage() {
   let API_KEY = "5bdc9bb5e105da7714d3b4fda20a88c6";
 
   function check() {
-    if (!query) document.querySelector(".trip1").style.display = "block";
+    let user = JSON.parse(localStorage.getItem("user_details"));
+    if (!query) {
+      document.querySelector(".trip1").style.display = "block";
+    } else if (user.name == "" || user.email == "" || user.number == "") {
+      alert(
+        "You can visit the restaurants page\nYou have to login to place orders"
+      );
+      navigate("/restaurants");
+    } else {
+      alert("Welcome to restaurant page");
+      navigate("/restaurants");
+    }
   }
 
   useEffect(() => {
@@ -82,8 +92,8 @@ export function LandingPage() {
         .then((response) => response.json())
         .then((name) => {
           setTimeout(() => {
-            setLocation(`${name.city.name}, ${name.city.country}`);
-            setQuery(location);
+            let fetch = `${name.city.name}, ${name.city.country}`;
+            setQuery(fetch);
             setisLoading(false);
           }, 1000);
         })
@@ -153,7 +163,7 @@ export function LandingPage() {
         const user = result.user;
         setVerificationId(user.uid);
         localStorage.setItem("verificationId", JSON.stringify(user.uid));
-        alert('Account created successfully Login Now !')
+        alert("Account created successfully Login Now !");
       })
       .catch((error) => {
         alert(error.message);
@@ -205,7 +215,7 @@ export function LandingPage() {
       "sign-in-button",
       {
         size: "invisible",
-        callback: (response) => {
+        callback: () => {
           onLogInSubmit();
           alert("Recaptcha verified");
         },
@@ -512,7 +522,7 @@ export function LandingPage() {
                 type="text"
                 placeholder="Enter your delivery location"
                 autoFocus={true}
-                spellCheck="false"
+                spellCheck={false}
                 onChange={(e) => setQuery(e.target.value)}
                 value={isLoading ? "Fetching your current location..." : query}
               />
@@ -546,7 +556,12 @@ export function LandingPage() {
                 }}
                 className="show"
               >
-                <p className="city-name show city">
+                <p
+                  className="city-name show city"
+                  onClick={() => {
+                    setQuery(i);
+                  }}
+                >
                   <i className="fas fa-map-marker-alt"></i>&nbsp;&nbsp;&nbsp;{" "}
                   {i}
                 </p>
