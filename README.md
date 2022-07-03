@@ -69,10 +69,6 @@ download the .zip file. Extract the contents of the zip file, then open your ter
 
 ![Logo](https://images2.imgbox.com/d3/7e/IRjy3CQ5_o.jpg)
 
-**Restaurants Page**
-
-![Logo](https://images2.imgbox.com/89/31/jigAIxM6_o.jpg)
-
 **Multi Filter Section Drawer**
 
 ![Logo](https://images2.imgbox.com/7f/9f/mz0doOdW_o.jpg)
